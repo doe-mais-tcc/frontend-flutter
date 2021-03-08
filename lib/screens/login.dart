@@ -26,10 +26,12 @@ class Login extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SvgPicture.asset(
-                  'assets/logo.svg',
+                  'assets/images/logo.svg',
+                  width: 60,
                   semanticsLabel: 'Logo Doe mais',
                 ),
-                Text('Bem Vindo(a)'),
+                Text('Bem Vindo(a)',
+                    style: Theme.of(context).textTheme.headline1),
                 Form(
                   key: _formKey,
                   child: Column(

@@ -52,11 +52,13 @@ class _SignUpState extends State<SignUp> {
             padding: EdgeInsets.symmetric(vertical: 100, horizontal: 40),
             children: [
               SvgPicture.asset(
-                'assets/logo.svg',
+                'assets/images/logo.svg',
+                width: 60,
                 semanticsLabel: 'Logo Doe mais',
               ),
               Text('*obrigatório'),
-              Text('Dados pessoais'),
+              Text('Dados pessoais',
+                  style: Theme.of(context).textTheme.headline1),
               Form(
                 key: _formKey,
                 child: Column(
@@ -89,6 +91,9 @@ class _SignUpState extends State<SignUp> {
                     //       InputDecoration(labelText: 'Insira seu nascimento*'),
                     //   validator: (data) => data.isEmpty ? 'Obrigatório' : null,
                     // ),
+                    Text('*obrigatório'),
+                    Text('Dados de acesso*',
+                        style: Theme.of(context).textTheme.headline1),
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
