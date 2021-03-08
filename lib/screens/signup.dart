@@ -1,5 +1,6 @@
 import 'package:doe_mais/components/checkbox_form_field.dart';
 import 'package:doe_mais/components/custom_elevated_button.dart';
+import 'package:doe_mais/components/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -11,23 +12,21 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _bloodController = TextEditingController();
   final _cityController = TextEditingController();
   final _emailController = TextEditingController();
   final _pwd1Controller = TextEditingController();
   final _pwd2Controller = TextEditingController();
   DateTime _birthDate;
-  bool termsCheckbox = false;
+  bool _termsCheckbox = false;
+  int _selectedBlood = 0;
 
+  final _bloodValues = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
   List<DropdownMenuItem> _bloodDropdownItems() {
-    const values = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
-    return values
-        .map(
-          (e) => DropdownMenuItem(
-            child: Text('$e'),
-            value: '$e',
-          ),
-        )
+    return _bloodValues
+        .map((e) => DropdownMenuItem(
+              child: Text('$e'),
+              value: '$e',
+            ))
         .toList();
   }
 
@@ -40,6 +39,17 @@ class _SignUpState extends State<SignUp> {
     if (!_formKey.currentState.validate()) return;
     if (_pwd1Controller.text != _pwd2Controller.text) return;
     //TO-DO: enviar dados para o banco
+  }
+
+  void _openModal() {
+    showDialog(
+      context: context,
+      builder: (context) => Modal(
+        title: 'Termos de Uso',
+        content: 'lorem ipsum',
+        submitLabel: 'Aceitar',
+      ),
+    );
   }
 
   @override
@@ -74,7 +84,7 @@ class _SignUpState extends State<SignUp> {
                       items: _bloodDropdownItems(),
                       decoration:
                           InputDecoration(labelText: 'Insira seu sangue*'),
-                      onChanged: (value) => _bloodController.text = value,
+                      onChanged: (value) => _selectedBlood = value,
                       validator: _validateField,
                     ),
                     TextFormField(
@@ -116,9 +126,16 @@ class _SignUpState extends State<SignUp> {
                       validator: _validateField,
                     ),
                     CheckboxFormField(
-                      title: Text('Aceito os termos e condições'),
-                      initialValue: termsCheckbox,
-                      onSaved: (value) => setState(() => termsCheckbox = value),
+                      title: TextButton(
+                        child: Text(
+                          'Li e aceito os termos e condições de uso',
+                          textAlign: TextAlign.left,
+                        ),
+                        onPressed: _openModal,
+                      ),
+                      initialValue: _termsCheckbox,
+                      onSaved: (value) =>
+                          setState(() => _termsCheckbox = value),
                       validator: (value) => !value ? 'Obrigatório' : null,
                     ),
                     CustomElevatedButton(
