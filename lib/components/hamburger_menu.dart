@@ -1,9 +1,11 @@
+import 'package:doe_mais/components/hamburger_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HamburgerMenu extends StatelessWidget {
   final Function(int) callback;
-  HamburgerMenu({this.callback});
+  final int currentIndex;
+  HamburgerMenu({this.callback, this.currentIndex});
 
   final items = ['Inicio', 'Perfil', 'Tire suas Dúvidas', 'Campanhas'];
 
@@ -40,13 +42,13 @@ class HamburgerMenu extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemCount: items.length,
-              itemBuilder: (context, index) => TextButton(
-                child: Text(items[index]),
-                onPressed: () {
-                  callback(index);
-                  Navigator.of(context).pop();
-                },
-              ),
+              itemBuilder: (context, index) {
+                return HamburgerButton(
+                  label: items[index],
+                  onPressed: () => callback(index),
+                  isActive: currentIndex == index,
+                );
+              },
             ),
           ),
         ],

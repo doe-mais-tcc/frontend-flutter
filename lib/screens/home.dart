@@ -26,7 +26,11 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(title: SvgPicture.asset('assets/images/logo.svg')),
       drawer: HamburgerMenu(
-        callback: (index) => setState(() => currentPage = index),
+        currentIndex: currentPage,
+        callback: (index) {
+          setState(() => currentPage = index);
+          Navigator.of(context).pop();
+        },
       ),
       body: pages[currentPage],
     );

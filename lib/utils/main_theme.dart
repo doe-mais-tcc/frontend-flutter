@@ -9,12 +9,14 @@ ThemeData mainTheme() {
   const minText = Color(0xFF383838);
   const disabledText = Color(0xFF707070);
   const buttonText = Colors.white;
+  const hoverColor = Color(0xFFF1F1F1);
 
   return ThemeData(
     primaryColor: primary,
     accentColor: accent,
     canvasColor: canvas,
     buttonColor: primary,
+    hoverColor: hoverColor,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(primary: primary),
     ),
