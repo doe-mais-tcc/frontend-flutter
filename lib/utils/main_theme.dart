@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 ThemeData mainTheme() {
+  const primary = Color(0xFFD11204);
   const accent = Color(0xFFD11204);
-  const darkAccent = Color(0xFFA60000);
   const canvas = Color(0xFFF5F5F5);
   const normalText = Colors.black;
   const minText = Color(0xFF383838);
@@ -10,11 +10,12 @@ ThemeData mainTheme() {
   const buttonText = Colors.white;
 
   return ThemeData(
+    primaryColor: primary,
     accentColor: accent,
     canvasColor: canvas,
-    buttonColor: accent,
+    buttonColor: primary,
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(primary: accent),
+      style: ElevatedButton.styleFrom(primary: primary),
     ),
     fontFamily: 'Roboto',
     textTheme: TextTheme(
@@ -37,7 +38,6 @@ ThemeData mainTheme() {
       bodyText1: TextStyle(
         color: normalText,
         fontSize: 16,
-        letterSpacing: 24,
       ),
       bodyText2: TextStyle(
         color: minText,
@@ -53,6 +53,15 @@ ThemeData mainTheme() {
         fontSize: 14,
         fontWeight: FontWeight.w200,
       ),
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      iconTheme: IconThemeData(color: normalText),
+    ),
+    cardTheme: CardTheme(
+      elevation: 5,
+      shadowColor: Colors.black26,
     ),
   );
 }
