@@ -1,16 +1,19 @@
 import 'package:doe_mais/components/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ConfirmationCard extends StatelessWidget {
   final String title;
   final String description;
   final String confirmMessage;
   final Function onConfirm;
+  final Widget icon;
   ConfirmationCard({
     @required this.title,
     @required this.description,
     @required this.confirmMessage,
     @required this.onConfirm,
+    @required this.icon,
   });
 
   @override
@@ -27,7 +30,17 @@ class ConfirmationCard extends StatelessWidget {
               style: Theme.of(context).textTheme.headline2,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 70),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SvgPicture.asset('assets/images/icon_background.svg',
+                      width: 120),
+                  SizedBox(child: icon, width: 70),
+                ],
+              ),
+            ),
             Text(
               description,
               style: Theme.of(context).textTheme.bodyText2,
