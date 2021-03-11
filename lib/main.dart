@@ -1,3 +1,4 @@
+import 'package:doe_mais/screens/home.dart';
 import 'package:doe_mais/screens/login.dart';
 import 'package:doe_mais/screens/signup.dart';
 import 'package:doe_mais/utils/main_theme.dart';
@@ -12,10 +13,11 @@ class DoeMais extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: mainTheme(),
-      initialRoute: '/',
+      initialRoute: '/home',
       routes: {
         '/': (context) => Login(),
         '/signup': (context) => SignUp(),
+        '/home': (context) => Home(),
       },
     );
   }

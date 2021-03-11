@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HamburgerMenu extends StatelessWidget {
+  final Function(int) callback;
+  HamburgerMenu({this.callback});
+
+  final items = ['Inicio', 'Perfil', 'Tire suas Dúvidas', 'Campanhas'];
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
+      child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 20),
+            padding: const EdgeInsets.only(left: 20, bottom: 20, top: 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -32,21 +37,17 @@ class HamburgerMenu extends StatelessWidget {
               ],
             ),
           ),
-          TextButton(
-            child: Text('Inicio'),
-            onPressed: () {},
-          ),
-          TextButton(
-            child: Text('Perfil'),
-            onPressed: () {},
-          ),
-          TextButton(
-            child: Text('Tire Dúvidas'),
-            onPressed: () {},
-          ),
-          TextButton(
-            child: Text('Campanhas'),
-            onPressed: () {},
+          Expanded(
+            child: ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) => TextButton(
+                child: Text(items[index]),
+                onPressed: () {
+                  callback(index);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
           ),
         ],
       ),
