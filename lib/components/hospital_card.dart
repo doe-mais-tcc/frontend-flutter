@@ -8,7 +8,7 @@ class HospitalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      margin: const EdgeInsets.symmetric(vertical: 15),
       child: Column(
         children: [
           ClipRRect(

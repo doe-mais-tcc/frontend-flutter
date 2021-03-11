@@ -5,6 +5,7 @@ ThemeData mainTheme() {
   const accent = Color(0xFFD11204);
   const canvas = Color(0xFFF5F5F5);
   const normalText = Colors.black;
+  const secondText = Color(0xFF707070);
   const minText = Color(0xFF383838);
   const disabledText = Color(0xFF707070);
   const buttonText = Colors.white;
@@ -40,7 +41,7 @@ ThemeData mainTheme() {
         fontSize: 16,
       ),
       bodyText2: TextStyle(
-        color: minText,
+        color: secondText,
         fontSize: 16,
       ),
       button: TextStyle(
@@ -62,6 +63,7 @@ ThemeData mainTheme() {
     cardTheme: CardTheme(
       elevation: 5,
       shadowColor: Colors.black26,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     ),
   );
 }
