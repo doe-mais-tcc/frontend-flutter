@@ -2,32 +2,32 @@ import 'package:intl/intl.dart';
 
 class UserModel {
   int id;
-  String nome;
+  String name;
   String email;
-  String senha;
-  String cidade;
-  String sangue;
-  DateTime nascimento;
+  String password;
+  String city;
+  String blood;
+  DateTime birthDate;
 
   UserModel({
     this.id,
-    this.nome,
+    this.name,
     this.email,
-    this.senha,
-    this.cidade,
-    this.sangue,
-    this.nascimento,
+    this.password,
+    this.city,
+    this.blood,
+    this.birthDate,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
-      nome: json['nome'],
+      name: json['nome'],
       email: json['email'],
-      senha: json['senha'],
-      cidade: json['cidade'],
-      sangue: json['sangue'],
-      nascimento: DateFormat('dd-MM-yyyy').parse(json['nascimento']),
+      password: json['senha'],
+      city: json['cidade'],
+      blood: json['sangue'],
+      birthDate: DateFormat('dd-MM-yyyy').parse(json['nascimento']),
     );
   }
 }

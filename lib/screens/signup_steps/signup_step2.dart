@@ -18,7 +18,7 @@ class SignupStep2 extends StatefulWidget implements FormStep {
   dynamic returnData() {
     return UserModel(
       email: _emailController.text,
-      senha: _pwd1Controller.text,
+      password: _pwd1Controller.text,
     );
   }
 

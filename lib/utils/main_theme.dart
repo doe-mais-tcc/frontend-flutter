@@ -67,7 +67,10 @@ ThemeData mainTheme() {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(primary: primary),
+      style: ElevatedButton.styleFrom(
+        primary: primary,
+        elevation: 0,
+      ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(

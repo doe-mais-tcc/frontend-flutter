@@ -23,7 +23,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   cupertino_icons: ^1.0.2
+  datetime_picker_formfield: ^2.0.0
   flutter_svg: ^0.19.3
   http: ^0.13.0
   intl: ^0.17.0

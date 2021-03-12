@@ -1,12 +1,17 @@
 import 'package:doe_mais/components/form_step.dart';
 import 'package:doe_mais/models/userModel.dart';
+import 'package:doe_mais/utils/data_holder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:intl/intl.dart';
 
 class SignupStep1 extends StatelessWidget implements FormStep {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _cityController = TextEditingController();
   final _bloodController = TextEditingController();
+  final _birthDate = DataHolder<DateTime>();
 
   bool validate() {
     return _formKey.currentState.validate();
@@ -14,9 +19,10 @@ class SignupStep1 extends StatelessWidget implements FormStep {
 
   dynamic returnData() {
     return UserModel(
-      nome: _nameController.text,
-      cidade: _cityController.text,
-      sangue: _bloodController.text,
+      name: _nameController.text,
+      city: _cityController.text,
+      blood: _bloodController.text,
+      birthDate: _birthDate.data,
     );
   }
 
@@ -37,8 +43,7 @@ class SignupStep1 extends StatelessWidget implements FormStep {
 
   @override
   Widget build(BuildContext context) {
-    if (_bloodController.text.isEmpty) 
-      _bloodController.text = _bloodValues[0];
+    if (_bloodController.text.isEmpty) _bloodController.text = _bloodValues[0];
 
     return Form(
       key: _formKey,
@@ -66,13 +71,21 @@ class SignupStep1 extends StatelessWidget implements FormStep {
             decoration: InputDecoration(labelText: 'Insira sua cidade*'),
             validator: _validateField,
           ),
-          // TextFormField(
-          //   controller: _birthDateController,
-          //   keyboardType: TextInputType.datetime,
-          //   decoration:
-          //       InputDecoration(labelText: 'Insira seu nascimento*'),
-          //   validator: (data) => data.isEmpty ? 'Obrigatório' : null,
-          // ),
+          DateTimeField(
+            format: DateFormat('dd-MM-yyyy'),
+            decoration: InputDecoration(labelText: 'Insira seu nascimento*'),
+            initialValue: _birthDate.data,
+            onShowPicker: (BuildContext context, DateTime currentValue) {
+              DateTime now = DateTime.now();
+              return showDatePicker(
+                context: context,
+                initialDate: currentValue ?? now,
+                firstDate: DateTime(now.year - 100),
+                lastDate: DateTime.now(),
+              ).then((date) => _birthDate.data = date);
+            },
+            validator: _validateField,
+          ),
         ],
       ),
     );
