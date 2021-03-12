@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
-  final Icon icon;
+  final Icon leftIcon;
+  final Icon rightIcon;
   final String label;
   final Function onPressed;
-  CustomElevatedButton({this.icon, this.label, this.onPressed});
+  CustomElevatedButton({
+    this.leftIcon,
+    this.rightIcon,
+    this.label,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      width: double.infinity,
       child: ElevatedButton(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            icon != null ? icon : Container(),
+            leftIcon ?? Container(),
             Text('$label'.toUpperCase()),
+            rightIcon ?? Container(),
           ],
         ),
         onPressed: onPressed,

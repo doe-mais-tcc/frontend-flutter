@@ -7,7 +7,7 @@ ThemeData mainTheme() {
   const normalText = Colors.black;
   const secondText = Color(0xFF707070);
   const minText = Color(0xFF383838);
-  const disabledText = Color(0xFF707070);
+  const disabled = Color(0xFF707070);
   const buttonText = Colors.white;
   const hoverColor = Color(0xFFF1F1F1);
 
@@ -17,6 +17,7 @@ ThemeData mainTheme() {
     canvasColor: canvas,
     buttonColor: primary,
     hoverColor: hoverColor,
+    disabledColor: disabled,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(primary: primary),
     ),
@@ -32,6 +33,7 @@ ThemeData mainTheme() {
         fontFamily: 'Montserrat',
         color: normalText,
         fontSize: 20,
+        fontWeight: FontWeight.bold,
       ),
       headline3: TextStyle(
         fontFamily: 'Montserrat',
@@ -52,7 +54,7 @@ ThemeData mainTheme() {
         fontWeight: FontWeight.w400,
       ),
       overline: TextStyle(
-        color: disabledText,
+        color: disabled,
         fontSize: 14,
         fontWeight: FontWeight.w200,
       ),
