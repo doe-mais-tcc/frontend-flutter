@@ -22,9 +22,9 @@ class DoeMais extends StatelessWidget {
         const Locale('pt', 'BR'),
       ],
       theme: mainTheme(),
-      initialRoute: '/home',
+      initialRoute: '/login',
       routes: {
-        '/': (context) => Login(),
+        '/login': (context) => Login(),
         '/signup': (context) => SignUp(),
         '/home': (context) => Home(),
       },

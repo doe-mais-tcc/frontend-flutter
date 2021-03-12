@@ -3,7 +3,6 @@ import 'package:doe_mais/screens/pages/campaigns.dart';
 import 'package:doe_mais/screens/pages/dashboard.dart';
 import 'package:doe_mais/screens/pages/faq.dart';
 import 'package:doe_mais/screens/pages/profile.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

@@ -8,10 +8,10 @@ class Login extends StatelessWidget {
   final _emailController = TextEditingController();
   final _pwdController = TextEditingController();
 
-  void validateForm() {
-    if (!_formKey.currentState.validate()) return;
-
+  void validateForm(BuildContext context) {
+    //if (!_formKey.currentState.validate()) return;
     //TO-DO: enviar login para o banco
+    Navigator.of(context).pushReplacementNamed('/home');
   }
 
   @override
@@ -66,7 +66,7 @@ class Login extends StatelessWidget {
                 SizedBox(height: 20),
                 CustomElevatedButton(
                   label: 'Entrar',
-                  onPressed: validateForm,
+                  onPressed: () => validateForm(context),
                 ),
               ],
             ),
