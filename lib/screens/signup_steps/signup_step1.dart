@@ -37,6 +37,9 @@ class SignupStep1 extends StatelessWidget implements FormStep {
 
   @override
   Widget build(BuildContext context) {
+    if (_bloodController.text.isEmpty) 
+      _bloodController.text = _bloodValues[0];
+
     return Form(
       key: _formKey,
       child: Column(
@@ -53,6 +56,7 @@ class SignupStep1 extends StatelessWidget implements FormStep {
           DropdownButtonFormField(
             items: _bloodDropdownItems(),
             decoration: InputDecoration(labelText: 'Insira seu sangue*'),
+            value: _bloodController.text,
             onChanged: (value) => _bloodController.text = value,
             validator: _validateField,
           ),
