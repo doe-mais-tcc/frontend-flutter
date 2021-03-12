@@ -18,7 +18,7 @@ class SignUp extends StatelessWidget {
         child: Container(
           constraints: BoxConstraints(maxWidth: 600),
           child: ListView(
-            padding: EdgeInsets.symmetric(vertical: 100, horizontal: 40),
+            padding: EdgeInsets.symmetric(vertical: 80, horizontal: 40),
             children: [
               SvgPicture.asset(
                 'assets/images/logo.svg',

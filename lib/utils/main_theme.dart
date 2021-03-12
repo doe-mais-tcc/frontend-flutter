@@ -18,9 +18,6 @@ ThemeData mainTheme() {
     buttonColor: primary,
     hoverColor: hoverColor,
     disabledColor: disabled,
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(primary: primary),
-    ),
     fontFamily: 'Roboto',
     textTheme: TextTheme(
       headline1: TextStyle(
@@ -68,6 +65,15 @@ ThemeData mainTheme() {
       elevation: 5,
       shadowColor: Colors.black26,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(primary: primary),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        primary: primary,
+        side: BorderSide(color: primary),
+      ),
     ),
   );
 }

@@ -1,4 +1,5 @@
 import 'package:doe_mais/components/custom_elevated_button.dart';
+import 'package:doe_mais/components/custom_outlined_button.dart';
 import 'package:doe_mais/components/form_step.dart';
 import 'package:doe_mais/utils/themed_steps_indicator.dart';
 import 'package:flutter/material.dart';
@@ -34,12 +35,12 @@ class _FormStepperState extends State<FormStepper> {
           children: [
             Expanded(
               child: currentStep > 0
-                  ? CustomElevatedButton(
+                  ? CustomOutlinedButton(
                       label: 'Anterior',
                       leftIcon: Icon(Icons.chevron_left_outlined),
                       onPressed: () => setState(() => currentStep--),
                     )
-                  : CustomElevatedButton(
+                  : CustomOutlinedButton(
                       label: 'Cancelar',
                       onPressed: () => Navigator.of(context).pop(),
                     ),
