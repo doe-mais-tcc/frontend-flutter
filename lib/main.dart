@@ -1,5 +1,8 @@
+import 'package:doe_mais/screens/campaigns.dart';
+import 'package:doe_mais/screens/faq.dart';
 import 'package:doe_mais/screens/home.dart';
 import 'package:doe_mais/screens/login.dart';
+import 'package:doe_mais/screens/profile.dart';
 import 'package:doe_mais/screens/signup.dart';
 import 'package:doe_mais/utils/main_theme.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +30,9 @@ class DoeMais extends StatelessWidget {
         '/login': (context) => Login(),
         '/signup': (context) => SignUp(),
         '/home': (context) => Home(),
+        '/perfil': (context) => Profile(),
+        '/duvidas': (context) => FAQ(),
+        '/campanhas': (context) => Campaigns(),
       },
     );
   }

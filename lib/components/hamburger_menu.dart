@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HamburgerMenu extends StatelessWidget {
-  final Function(int) callback;
   final int currentIndex;
-  HamburgerMenu({this.callback, this.currentIndex});
+  HamburgerMenu({this.currentIndex});
 
   final items = ['Inicio', 'Perfil', 'Tire suas Dúvidas', 'Campanhas'];
+  final routeNames = ['/home', '/perfil', '/duvidas', '/campanhas'];
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,8 @@ class HamburgerMenu extends StatelessWidget {
               itemBuilder: (context, index) {
                 return HamburgerButton(
                   label: items[index],
-                  onPressed: () => callback(index),
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(routeNames[index]),
                   isActive: currentIndex == index,
                 );
               },
