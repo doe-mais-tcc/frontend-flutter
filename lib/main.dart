@@ -1,4 +1,3 @@
-import 'package:doe_mais/screens/app_frame.dart';
 import 'package:doe_mais/screens/campaigns.dart';
 import 'package:doe_mais/screens/faq.dart';
 import 'package:doe_mais/screens/home.dart';
@@ -30,22 +29,10 @@ class DoeMais extends StatelessWidget {
       routes: {
         '/login': (context) => Login(),
         '/signup': (context) => SignUp(),
-        '/home': (context) {
-          AppFrame.widget = Home();
-          return AppFrame();
-        },
-        '/perfil': (context) {
-          AppFrame.widget = Profile();
-          return AppFrame();
-        },
-        '/duvidas': (context) {
-          AppFrame.widget = FAQ();
-          return AppFrame();
-        },
-        '/campanhas': (context) {
-          AppFrame.widget = Campaigns();
-          return AppFrame();
-        },
+        '/home': (context) => Home(),
+        '/perfil': (context) => Profile(),
+        '/duvidas': (context) => FAQ(),
+        '/campanhas': (context) => Campaigns(),
       },
     );
   }

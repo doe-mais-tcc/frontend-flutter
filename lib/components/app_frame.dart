@@ -1,10 +1,12 @@
-import 'package:doe_mais/components/hamburger_button.dart';
 import 'package:doe_mais/components/hamburger_menu.dart';
+import 'package:doe_mais/components/horizontal_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AppFrame extends StatefulWidget {
-  static Widget widget;
+  final Widget child;
+  final int menuIndex;
+  AppFrame({this.child, this.menuIndex});
 
   @override
   _AppFrameState createState() => _AppFrameState();
@@ -16,15 +18,19 @@ class _AppFrameState extends State<AppFrame> {
     return LayoutBuilder(
       builder: (context, constrains) {
         if (constrains.maxWidth > 700)
-          return BroadLayout();
+          return BroadLayout(widget.child, widget.menuIndex);
         else
-          return NarrowLayout();
+          return NarrowLayout(widget.child, widget.menuIndex);
       },
     );
   }
 }
 
 class BroadLayout extends StatelessWidget {
+  final Widget screen;
+  final int currentIndex;
+  BroadLayout(this.screen, this.currentIndex);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,38 +38,26 @@ class BroadLayout extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
             child: Row(
               children: [
-                SvgPicture.asset(
-                  'assets/images/logo.svg',
-                  width: 100,
+                Expanded(
+                  child: SvgPicture.asset(
+                    'assets/images/logo.svg',
+                    width: 100,
+                    alignment: Alignment.centerLeft,
+                  ),
                 ),
-                Spacer(),
-                HamburgerButton(
-                  label: 'Inicio',
-                  onPressed: () {},
-                ),
-                HamburgerButton(
-                  label: 'Perfil',
-                  onPressed: () {},
-                ),
-                HamburgerButton(
-                  label: 'Dúvidas',
-                  onPressed: () {},
-                ),
-                HamburgerButton(
-                  label: 'Campanhas',
-                  onPressed: () {},
-                ),
+                HorizontalMenu(currentIndex: currentIndex),
               ],
             ),
           ),
           Expanded(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
-            child: AppFrame.widget,
-          )),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 80),
+              child: screen,
+            ),
+          ),
         ],
       ),
     );
@@ -71,16 +65,20 @@ class BroadLayout extends StatelessWidget {
 }
 
 class NarrowLayout extends StatelessWidget {
+  final Widget screen;
+  final int currentIndex;
+  NarrowLayout(this.screen, this.currentIndex);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: SvgPicture.asset('assets/images/logo.svg'),
       ),
-      drawer: HamburgerMenu(currentIndex: 0),
+      drawer: HamburgerMenu(currentIndex: currentIndex),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: AppFrame.widget,
+        child: screen,
       ),
     );
   }

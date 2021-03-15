@@ -1,13 +1,11 @@
-import 'package:doe_mais/components/hamburger_button.dart';
+import 'package:doe_mais/components/menu_button.dart';
+import 'package:doe_mais/utils/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HamburgerMenu extends StatelessWidget {
   final int currentIndex;
   HamburgerMenu({this.currentIndex});
-
-  final items = ['Inicio', 'Perfil', 'Tire suas Dúvidas', 'Campanhas'];
-  final routeNames = ['/home', '/perfil', '/duvidas', '/campanhas'];
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +39,12 @@ class HamburgerMenu extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: items.length,
+              itemCount: Navigation.routes.length,
               itemBuilder: (context, index) {
-                return HamburgerButton(
-                  label: items[index],
+                return MenuButton(
+                  label: Navigation.titles[index],
                   onPressed: () =>
-                      Navigator.of(context).pushNamed(routeNames[index]),
+                      Navigator.of(context).pushNamed(Navigation.routes[index]),
                   isActive: currentIndex == index,
                 );
               },
