@@ -33,7 +33,7 @@ class SignUp extends StatelessWidget {
               SizedBox(height: 20),
               FormStepper(
                 steps: steps,
-                onSubmit: (users) => Navigator.of(context).pushNamed('/'),
+                onSubmit: (users) => Navigator.of(context).pushNamed('/login'),
               ),
             ],
           ),

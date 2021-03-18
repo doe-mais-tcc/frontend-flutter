@@ -70,7 +70,12 @@ class _SignupStep2State extends State<SignupStep2> {
             controller: widget._pwd2Controller,
             obscureText: true,
             decoration: InputDecoration(labelText: 'Repita sua senha*'),
-            validator: _validateField,
+            validator: (data) {
+              if (data == null || data.toString().isEmpty) return 'Obrigatório';
+              if (widget._pwd1Controller.text != data)
+                return 'Digite a mesma senha';
+              return null;
+            },
           ),
           CheckboxFormField(
             title: TextButton(
