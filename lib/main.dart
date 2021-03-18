@@ -1,4 +1,5 @@
 import 'package:doe_mais/screens/campaigns.dart';
+import 'package:doe_mais/screens/donation_info.dart';
 import 'package:doe_mais/screens/faq.dart';
 import 'package:doe_mais/screens/home.dart';
 import 'package:doe_mais/screens/login.dart';
@@ -33,6 +34,7 @@ class DoeMais extends StatelessWidget {
         '/perfil': (context) => Profile(),
         '/duvidas': (context) => FAQ(),
         '/campanhas': (context) => Campaigns(),
+        '/perfil/requisitos-doacao': (context) => DonationInfo(),
       },
     );
   }

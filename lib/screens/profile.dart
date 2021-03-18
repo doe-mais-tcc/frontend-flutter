@@ -23,7 +23,8 @@ class Profile extends StatelessWidget {
                 'Entenda as recomendações necessárias para doar sangue',
             confirmMessage: 'Começar o teste',
             icon: SvgPicture.asset('assets/images/icon_test.svg'),
-            onConfirm: () {},
+            onConfirm: () =>
+                Navigator.of(context).pushNamed('/perfil/requisitos-doacao'),
           ),
           ConfirmationCard(
             title: 'Agendamento de doação',
