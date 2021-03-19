@@ -43,7 +43,8 @@ class Home extends StatelessWidget {
               ],
             ),
           ),
-          Row(
+          Wrap(
+            spacing: 10,
             children: [
               Text(
                 'Hemocentros próximos',
@@ -55,7 +56,31 @@ class Home extends StatelessWidget {
               ),
             ],
           ),
-          HospitalCard(hospital),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              int columns;
+              if (constraints.maxWidth > 1000)
+                columns = 3;
+              else if (constraints.maxWidth > 600)
+                columns = 2;
+              else
+                columns = 1;
+
+              return GridView.count(
+                shrinkWrap: true,
+                crossAxisCount: columns,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                children: [
+                  HospitalCard(hospital),
+                  HospitalCard(hospital),
+                  HospitalCard(hospital),
+                  HospitalCard(hospital),
+                  HospitalCard(hospital),
+                ],
+              );
+            },
+          ),
         ],
       ),
     );

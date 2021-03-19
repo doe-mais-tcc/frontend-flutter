@@ -16,8 +16,8 @@ class _AppFrameState extends State<AppFrame> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (context, constrains) {
-        if (constrains.maxWidth > 700)
+      builder: (context, constraints) {
+        if (constraints.maxWidth > 700)
           return BroadLayout(widget.child, widget.menuIndex);
         else
           return NarrowLayout(widget.child, widget.menuIndex);
