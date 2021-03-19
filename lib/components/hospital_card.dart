@@ -12,14 +12,14 @@ class HospitalCard extends StatelessWidget {
       child: Column(
         children: [
           Flexible(
-            flex: 1,
+            flex: 3,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: Container(color: Colors.grey),
             ),
           ),
           Flexible(
-            flex: 1,
+            flex: 2,
             child: Container(
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 25),
               child: Column(
