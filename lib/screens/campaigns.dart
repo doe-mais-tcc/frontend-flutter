@@ -6,7 +6,7 @@ class Campaigns extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppFrame(
       menuIndex: 3,
-      child: ListView(
+      child: Column(
         children: [
           Text('Campanhas', style: Theme.of(context).textTheme.headline1),
         ],

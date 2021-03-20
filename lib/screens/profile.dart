@@ -13,7 +13,8 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppFrame(
       menuIndex: 1,
-      child: ListView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text('Este é seu perfil!',
               style: Theme.of(context).textTheme.headline1),

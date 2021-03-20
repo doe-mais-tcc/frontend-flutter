@@ -6,7 +6,7 @@ class FAQ extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppFrame(
       menuIndex: 2,
-      child: ListView(
+      child: Column(
         children: [
           Text('Tire suas Dúvidas!',
               style: Theme.of(context).textTheme.headline1),

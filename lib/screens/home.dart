@@ -11,7 +11,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppFrame(
       menuIndex: 0,
-      child: ListView(
+      child: Column(
         children: [
           Text('Bem Vindo!', style: Theme.of(context).textTheme.headline1),
           Container(

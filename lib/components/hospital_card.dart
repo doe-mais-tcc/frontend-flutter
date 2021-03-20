@@ -10,12 +10,16 @@ class HospitalCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 15),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(
             flex: 3,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Container(color: Colors.grey),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: 150),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Container(color: Colors.grey),
+              ),
             ),
           ),
           Flexible(

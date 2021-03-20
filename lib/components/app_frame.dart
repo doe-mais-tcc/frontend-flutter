@@ -34,8 +34,7 @@ class BroadLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
+      body: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
@@ -52,11 +51,9 @@ class BroadLayout extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 80),
-              child: screen,
-            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 80),
+            child: screen,
           ),
         ],
       ),
@@ -76,9 +73,14 @@ class NarrowLayout extends StatelessWidget {
         title: SvgPicture.asset('assets/images/logo.svg'),
       ),
       drawer: HamburgerMenu(currentIndex: currentIndex),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: screen,
+      body: ListView(
+        shrinkWrap: true,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: screen,
+          ),
+        ],
       ),
     );
   }
