@@ -1,13 +1,13 @@
 import 'package:doe_mais/components/confirmation_card.dart';
-import 'package:doe_mais/components/hospital_card.dart';
-import 'package:doe_mais/models/hospital.dart';
+import 'package:doe_mais/components/hemocentro_card.dart';
+import 'package:doe_mais/models/hemocentro.dart';
 import 'package:doe_mais/components/app_frame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Profile extends StatelessWidget {
-  final Hospital hospital = Hospital(
-      name: 'Hemocentro', location: 'Endereço', phone: '(13) 99999-9999');
+  final Hemocentro hemocentro =
+      Hemocentro(nome: 'Hemocentro', rua: 'Endereço', bairro: 'Bairro');
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class Profile extends StatelessWidget {
             'Todos os Hemocentros na região',
             style: Theme.of(context).textTheme.headline2,
           ),
-          HospitalCard(hospital),
+          HemocentroCard(hemocentro),
         ],
       ),
     );

@@ -1,9 +1,9 @@
-import 'package:doe_mais/models/hospital.dart';
+import 'package:doe_mais/models/hemocentro.dart';
 import 'package:flutter/material.dart';
 
-class HospitalCard extends StatelessWidget {
-  final Hospital hospital;
-  HospitalCard(this.hospital);
+class HemocentroCard extends StatelessWidget {
+  final Hemocentro hemocentro;
+  HemocentroCard(this.hemocentro);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class HospitalCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    hospital.name,
+                    hemocentro.nome,
                     style: Theme.of(context).textTheme.headline3,
                   ),
                   Row(
@@ -38,7 +38,7 @@ class HospitalCard extends StatelessWidget {
                       Icon(Icons.location_on),
                       SizedBox(width: 8),
                       Text(
-                        hospital.location,
+                        hemocentro.rua,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ],
@@ -48,7 +48,7 @@ class HospitalCard extends StatelessWidget {
                       Icon(Icons.phone),
                       SizedBox(width: 8),
                       Text(
-                        hospital.phone,
+                        hemocentro.bairro,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ],

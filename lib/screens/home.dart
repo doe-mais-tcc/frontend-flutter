@@ -1,11 +1,11 @@
-import 'package:doe_mais/components/hospital_card.dart';
-import 'package:doe_mais/models/hospital.dart';
+import 'package:doe_mais/components/hemocentro_card.dart';
+import 'package:doe_mais/models/hemocentro.dart';
 import 'package:doe_mais/components/app_frame.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
-  final Hospital hospital = Hospital(
-      name: 'Hemocentro', location: 'Endereço', phone: '(13) 99999-9999');
+  final Hemocentro hemocentro =
+      Hemocentro(nome: 'Hemocentro', rua: 'Endereço', bairro: 'Bairro');
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +72,11 @@ class Home extends StatelessWidget {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
                 children: [
-                  HospitalCard(hospital),
-                  HospitalCard(hospital),
-                  HospitalCard(hospital),
-                  HospitalCard(hospital),
-                  HospitalCard(hospital),
+                  HemocentroCard(hemocentro),
+                  HemocentroCard(hemocentro),
+                  HemocentroCard(hemocentro),
+                  HemocentroCard(hemocentro),
+                  HemocentroCard(hemocentro),
                 ],
               );
             },

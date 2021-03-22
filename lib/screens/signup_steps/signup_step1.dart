@@ -1,5 +1,5 @@
 import 'package:doe_mais/components/form_step.dart';
-import 'package:doe_mais/models/userModel.dart';
+import 'package:doe_mais/models/user.dart';
 import 'package:doe_mais/utils/data_holder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,11 +18,11 @@ class SignupStep1 extends StatelessWidget implements FormStep {
   }
 
   dynamic returnData() {
-    return UserModel(
-      name: _nameController.text,
-      city: _cityController.text,
-      blood: _bloodController.text,
-      birthDate: _birthDate.data,
+    return User(
+      nome: _nameController.text,
+      cidade: _cityController.text,
+      sangue: _bloodController.text,
+      nascimento: _birthDate.data,
     );
   }
 

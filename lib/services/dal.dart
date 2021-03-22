@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:doe_mais/models/userModel.dart';
+import 'package:doe_mais/models/user.dart';
 import 'package:http/http.dart' as http;
 
 class DAL {
-  Future<List<UserModel>> fetchUsers() {
+  Future<List<User>> fetchUsers() {
     return http
         .get(Uri.http('54.207.234.58:8080', '/v1/api/user'))
         .then((response) {
@@ -12,7 +12,7 @@ class DAL {
     });
   }
 
-  Future<dynamic> postUser(UserModel user) {
+  Future<dynamic> postUser(User user) {
     http
         .post(Uri.http('54.207.234.58:8080', '/v1/api/user'),
             body: jsonEncode(user))
@@ -22,9 +22,9 @@ class DAL {
     });
   }
 
-  List<UserModel> toList(String response) {
+  List<User> toList(String response) {
     return (jsonDecode(response) as List)
-        .map<UserModel>((e) => UserModel.fromJson(e))
+        .map<User>((e) => User.fromJson(e))
         .toList();
   }
 }
