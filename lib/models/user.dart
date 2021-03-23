@@ -23,23 +23,21 @@ class User {
     this.ultimaDoacao,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'],
-      nome: json['nome'],
-      email: json['email'],
-      senha: json['senha'],
-      cidade: json['cidade'],
-      sangue: json['sangue'],
-      nascimento: json['nascimento'] != null
-          ? DateFormat('dd-MM-yyyy').parse(json['nascimento'])
-          : null,
-      qtdDoacao: json['quantidade_doacao'],
-      ultimaDoacao: json['ultima_doacao'] != null
-          ? DateFormat('dd-MM-yyyy').parse(json['ultima_doacao'])
-          : null,
-    );
-  }
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json['id'],
+        nome: json['nome'],
+        email: json['email'],
+        senha: json['senha'],
+        cidade: json['cidade'],
+        sangue: json['sangue'],
+        nascimento: json['nascimento'] != null
+            ? DateFormat('dd-MM-yyyy').parse(json['nascimento'])
+            : null,
+        qtdDoacao: json['quantidade_doacao'],
+        ultimaDoacao: json['ultima_doacao'] != null
+            ? DateFormat('dd-MM-yyyy').parse(json['ultima_doacao'])
+            : null,
+      );
 
   Map<String, dynamic> toJson() => {
         'id': this.id,
