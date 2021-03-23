@@ -1,7 +1,4 @@
-import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/components/custom_elevated_button.dart';
-import 'package:doe_mais/models/user.dart';
-import 'package:doe_mais/services/dal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,22 +8,10 @@ class Login extends StatelessWidget {
   final _emailController = TextEditingController();
   final _pwdController = TextEditingController();
 
-  void validateForm(BuildContext context) {
+  void validateForm() {
     if (!_formKey.currentState.validate()) return;
 
-    User user = User(
-      email: _emailController.text,
-      senha: _pwdController.text,
-    );
-    DAL.database
-        .checkUser(user)
-        .then(
-          (result) => result
-              ? Navigator.of(context).pushReplacementNamed('/home')
-              : alertBottomSheet(context: context, message: 'Senha incorreta'),
-        )
-        .onError((error, stackTrace) => alertBottomSheet(
-            context: context, message: 'Não foi possível realizar o login'));
+    //TO-DO: enviar login para o banco
   }
 
   @override
@@ -81,7 +66,7 @@ class Login extends StatelessWidget {
                 SizedBox(height: 20),
                 CustomElevatedButton(
                   label: 'Entrar',
-                  onPressed: () => validateForm(context),
+                  onPressed: validateForm,
                 ),
               ],
             ),
