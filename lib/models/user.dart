@@ -31,9 +31,25 @@ class User {
       senha: json['senha'],
       cidade: json['cidade'],
       sangue: json['sangue'],
-      nascimento: DateFormat('dd-MM-yyyy').parse(json['nascimento']),
+      nascimento: json['nascimento'] != null
+          ? DateFormat('dd-MM-yyyy').parse(json['nascimento'])
+          : null,
       qtdDoacao: json['quantidade_doacao'],
-      ultimaDoacao: DateFormat('dd-MM-yyyy').parse(json['ultima_doacao']),
+      ultimaDoacao: json['ultima_doacao'] != null
+          ? DateFormat('dd-MM-yyyy').parse(json['ultima_doacao'])
+          : null,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': this.id,
+        'nome': this.nome,
+        'email': this.email,
+        'senha': this.senha,
+        'cidade': this.cidade,
+        'sangue': this.sangue,
+        'nascimento': this.nascimento,
+        'quantidade_doacao': this.qtdDoacao,
+        'ultima_doacao': this.ultimaDoacao,
+      };
 }
