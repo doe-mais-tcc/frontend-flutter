@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CustomElevatedButton extends StatelessWidget {
+class CustomOutlinedButton extends StatelessWidget {
   final Icon leftIcon;
   final Icon rightIcon;
   final String label;
   final Function onPressed;
-  CustomElevatedButton({
+  CustomOutlinedButton({
     this.leftIcon,
     this.rightIcon,
     this.label,
@@ -16,7 +16,7 @@ class CustomElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      child: ElevatedButton(
+      child: OutlinedButton(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -1,0 +1,41 @@
+[    
+    {
+        "title": "Intervalo entre uma doação e outra",
+        "items": [
+            "Homens: 2 meses (máximo de 4 doações no período de 1 ano)",
+            "Mulheres: 3 meses (máximo de 3 doações no período de 1 ano)"
+        ]
+    },
+    {
+        "title": "Critérios para doação",
+        "items": [
+            "Ter idade entre 16 e 69 anos, desde que a primeira doação tenha sido feita até 60 anos (menores de 18 anos devem possuir consentimento formal do responsável legal)",
+            "Pesar no mínimo 50 kg",
+            "Estar alimentado. Não ingerir alimentos gordurosos antes da doação",
+            "Ter dormido pelo menos 6 horas nas últimas 24 horas",
+            "Apresentar documento de identificação com foto emitido por órgão oficial (Carteira de Identidade, Carteira Nacional de Habilitação, Carteira de Trabalho, Passaporte, Registro Nacional de Estrangeiro, Certificado de Reservista e Carteira Profissional emitida por classe), serão aceitos documentos digitais com foto"
+        ]
+    },
+    {
+        "title": "Impedimentos temporários",
+        "items": [
+            "Gripe, resfriado e febre: aguardar 7 dias após o desaparecimento dos sintomas",
+            "Infecção pelo novo coronavírus (COVID-19): aguardar 30 dias após a completa recuperação",
+            "Período gestacional",
+            "Período pós-gravidez: 90 dias para parto normal e 180 dias para cesariana",
+            "Amamentação: até 12 meses após o parto",
+            "Ingestão de bebida alcoólica (aguardar 12 horas após o consumo)",
+            "Exames/procedimentos com utilização de endoscópio nos últimos 6 meses",
+            "Vacina da febre amarela ou sarampo: aguardar 4 semanas após a vacinação",
+            "Tratamento dentário cirúrgico (como extração, tratamento de canal): 7 dias após o procedimento e/ou suspensão dos medicamentos"
+        ]
+    },
+    {
+        "title": "Impedimentos definitivos",
+        "items": [
+            "Ter passado por um quadro de hepatite após os 11 anos de idade",
+            "Evidência clínica ou laboratorial das seguintes doenças transmissíveis pelo sangue: hepatites B e C, Aids (vírus HIV), doenças associadas aos vírus HTLV 1 e 2 e doença de Chagas",
+            "Uso de drogas ilícitas injetáveis"
+        ]
+    }
+]
