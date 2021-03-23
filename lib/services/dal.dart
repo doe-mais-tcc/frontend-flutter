@@ -13,7 +13,7 @@ class DAL {
     return _database;
   }
 
-  Future<List<User>> fetchUsers() async {
+  Future<List<User>> fetchUsers() {
     return http.get(Uri.http(url, 'v1/api/user')).then(
       (response) {
         if (response.statusCode != 200)
@@ -22,14 +22,11 @@ class DAL {
           return _toList(response.body);
       },
     ).onError(
-      (error, stackTrace) {
-        print(error);
-        return null;
-      },
+      (error, stackTrace) => null,
     );
   }
 
-  Future<dynamic> postUser(User user) async {
+  Future<dynamic> postUser(User user) {
     return http.post(
       Uri.http(url, 'v1/api/user'),
       body: jsonEncode(user.toJson()),
@@ -45,26 +42,21 @@ class DAL {
           return true;
       },
     ).onError(
-      (error, stackTrace) {
-        print(error);
-        return null;
-      },
+      (error, stackTrace) => null,
     );
   }
 
-  Future<bool> checkUser(User user) async {
-    return http.get(Uri.http(url, 'v1/api/user')).then(
+  Future<bool> checkUser(User user) {
+    return http.get(Uri.http(url, 'v1/api/user/email/${user.email}')).then(
       (response) {
         if (response.statusCode != 200) throw Exception(response.statusCode);
+        if (response.body.length == 0) throw Exception('No such user');
 
         User responseUser = User.fromJson(jsonDecode(response.body));
         return responseUser.senha == _base64Encode(user.senha);
       },
     ).onError(
-      (error, stackTrace) {
-        print(error);
-        return null;
-      },
+      (error, stackTrace) => throw Exception(error),
     );
   }
 
