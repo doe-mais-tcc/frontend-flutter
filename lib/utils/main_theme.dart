@@ -18,6 +18,7 @@ ThemeData mainTheme() {
     buttonColor: primary,
     hoverColor: hoverColor,
     disabledColor: disabled,
+    errorColor: primary,
     fontFamily: 'Roboto',
     textTheme: TextTheme(
       headline1: TextStyle(

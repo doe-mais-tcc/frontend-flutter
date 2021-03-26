@@ -13,4 +13,9 @@ class CustomTheme {
         fontSize: 16,
         fontWeight: FontWeight.bold,
       );
+
+  static TextStyle errorText(BuildContext context) => TextStyle(
+        color: Theme.of(context).errorColor,
+        fontSize: 14,
+      );
 }

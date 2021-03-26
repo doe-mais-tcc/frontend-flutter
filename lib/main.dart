@@ -1,3 +1,4 @@
+import 'package:doe_mais/screens/campaign_form.dart';
 import 'package:doe_mais/screens/campaigns.dart';
 import 'package:doe_mais/screens/donation_info.dart';
 import 'package:doe_mais/screens/faq.dart';
@@ -35,6 +36,7 @@ class DoeMais extends StatelessWidget {
         '/duvidas': (context) => FAQ(),
         '/campanhas': (context) => Campaigns(),
         '/perfil/requisitos-doacao': (context) => DonationInfo(),
+        '/campanhas/criar': (context) => CampaignForm(),
       },
     );
   }
