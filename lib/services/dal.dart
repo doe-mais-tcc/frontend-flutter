@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class DAL {
+  // String de teste para web
   static const String connectionString = 'localhost:8080';
+  // String de teste para mobile
+  // static const String connectionString = '10.0.2.2:8080';
 
   static Future<http.Response> get(String url) =>
       http.get(Uri.http(connectionString, url));

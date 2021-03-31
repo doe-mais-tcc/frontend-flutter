@@ -12,7 +12,7 @@ class UserDao {
           return _toList(response.body);
       },
     ).onError(
-      (error, stackTrace) => null,
+      (error, stackTrace) => throw Exception(error),
     );
   }
 
@@ -30,20 +30,34 @@ class UserDao {
           return true;
       },
     ).onError(
-      (error, stackTrace) => null,
+      (error, stackTrace) => throw Exception(error),
     );
   }
 
-  static Future<bool> checkUser(User user) {
+  static Future<User> checkUser(User user) {
     return DAL.get('v1/api/user/email/${user.email}').then(
       (response) {
         if (response.statusCode != 200) throw Exception(response.statusCode);
         if (response.body.length == 0) throw Exception('No such user');
 
         User responseUser = User.fromJson(jsonDecode(response.body));
-        return responseUser.senha == DAL.encode(user.senha);
+        if (responseUser.senha == DAL.encode(user.senha))
+          return responseUser;
+        else
+          return null;
       },
     ).onError(
+      (error, stackTrace) => throw Exception(error),
+    );
+  }
+
+  static Future<User> getUser(String id) {
+    return DAL.get('v1/api/user/$id').then((response) {
+      if (response.statusCode != 200) throw Exception(response.statusCode);
+      if (response.body.length == 0) throw Exception('No such user');
+
+      return User.fromJson(jsonDecode(response.body));
+    }).onError(
       (error, stackTrace) => throw Exception(error),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:doe_mais/components/hamburger_menu.dart';
 import 'package:doe_mais/components/horizontal_menu.dart';
+import 'package:doe_mais/components/user_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -48,6 +49,7 @@ class BroadLayout extends StatelessWidget {
                   ),
                 ),
                 HorizontalMenu(currentIndex: currentIndex),
+                UserTile(),
               ],
             ),
           ),

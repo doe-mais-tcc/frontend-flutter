@@ -7,11 +7,13 @@ import 'package:doe_mais/screens/login.dart';
 import 'package:doe_mais/screens/profile.dart';
 import 'package:doe_mais/screens/signup.dart';
 import 'package:doe_mais/utils/main_theme.dart';
+import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(DoeMais());
+  SessionManager.returnSession();
 }
 
 class DoeMais extends StatelessWidget {
@@ -27,7 +29,9 @@ class DoeMais extends StatelessWidget {
         const Locale('pt', 'BR'),
       ],
       theme: mainTheme(),
-      initialRoute: '/login',
+      initialRoute: '/home',
+      onUnknownRoute: (routeSettings) =>
+          MaterialPageRoute(builder: (context) => Home()),
       routes: {
         '/login': (context) => Login(),
         '/signup': (context) => SignUp(),

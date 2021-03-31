@@ -1,4 +1,5 @@
 import 'package:doe_mais/components/menu_button.dart';
+import 'package:doe_mais/components/user_tile.dart';
 import 'package:doe_mais/utils/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -33,6 +34,10 @@ class HamburgerMenu extends StatelessWidget {
                 Text(
                   'Menu',
                   style: Theme.of(context).textTheme.headline1,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: UserTile(),
                 ),
               ],
             ),
