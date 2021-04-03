@@ -4,6 +4,9 @@ import 'package:doe_mais/components/custom_button_bar.dart';
 import 'package:doe_mais/components/custom_elevated_button.dart';
 import 'package:doe_mais/components/custom_outlined_button.dart';
 import 'package:doe_mais/components/form_frame.dart';
+import 'package:doe_mais/models/campanha.dart';
+import 'package:doe_mais/services/campanha_dao.dart';
+import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class CampaignForm extends StatefulWidget {
@@ -31,6 +34,26 @@ class _CampaignFormState extends State<CampaignForm> {
   String validateField(dynamic data) {
     if (data == null || data.toString().isEmpty) return 'Obrigatório';
     return null;
+  }
+
+  void validateForm(BuildContext context) {
+    if (!_formKey.currentState.validate()) return;
+    CampanhaDao.postCampanha(
+      Campanha(
+        nome: _nameController.text,
+        cidade: _localController.text,
+        descricao: _descriptionController.text,
+      ),
+    )
+        .then(
+          (value) => Navigator.of(context).pop(),
+        )
+        .onError(
+          (error, stackTrace) => alertBottomSheet(
+            context: context,
+            message: 'Não foi possível criar a campanha',
+          ),
+        );
   }
 
   @override
@@ -96,11 +119,11 @@ class _CampaignFormState extends State<CampaignForm> {
                   buttons: [
                     CustomOutlinedButton(
                       label: 'Cancelar',
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).pop(),
                     ),
                     CustomElevatedButton(
                       label: 'Criar Campanha',
-                      onPressed: () {},
+                      onPressed: () => validateForm(context),
                     ),
                   ],
                 ),

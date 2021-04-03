@@ -1,5 +1,6 @@
 import 'package:doe_mais/components/custom_outlined_button.dart';
 import 'package:doe_mais/models/campanha.dart';
+import 'package:doe_mais/utils/sharer.dart';
 import 'package:flutter/material.dart';
 
 class CampanhaCard extends StatelessWidget {
