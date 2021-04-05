@@ -36,11 +36,13 @@ class DoeMais extends StatelessWidget {
         '/login': (context) => Login(),
         '/signup': (context) => SignUp(),
         '/home': (context) => Home(),
-        '/perfil': (context) => Profile(),
+        '/perfil': (context) =>
+            SessionManager.currentUser == null ? Login() : Profile(),
         '/duvidas': (context) => FAQ(),
         '/campanhas': (context) => Campaigns(),
-        '/perfil/requisitos-doacao': (context) => DonationInfo(),
-        '/campanhas/criar': (context) => CampaignForm(),
+        '/requisitos-doacao': (context) => DonationInfo(),
+        '/campanhas/criar': (context) =>
+            SessionManager.currentUser == null ? Login() : CampaignForm(),
       },
     );
   }
