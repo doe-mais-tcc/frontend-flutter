@@ -1,26 +1,34 @@
 import 'package:doe_mais/models/user.dart';
 import 'package:doe_mais/services/user_dao.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart' as kIsWeb;
 
 class SessionManager {
+  static const String _keyName = 'user_id';
   static User currentUser;
 
   static void saveSession(User user) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('user_id', user.id);
     currentUser = user;
+    if (kIsWeb.kIsWeb) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setInt(_keyName, user.id);
+    }
   }
 
   static Future<dynamic> getSession() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int id = prefs.getInt('user_id');
-    return id;
+    if (kIsWeb.kIsWeb) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      int id = prefs.getInt(_keyName);
+      return id;
+    }
   }
 
   static void endSession() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('user_id');
-    currentUser = null;
+    if (kIsWeb.kIsWeb) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove(_keyName);
+      currentUser = null;
+    }
   }
 
   static void returnSession() async {
