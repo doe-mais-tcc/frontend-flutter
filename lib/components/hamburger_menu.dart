@@ -2,11 +2,11 @@ import 'package:doe_mais/components/menu_button.dart';
 import 'package:doe_mais/components/user_tile.dart';
 import 'package:doe_mais/utils/navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class HamburgerMenu extends StatelessWidget {
   final int currentIndex;
-  HamburgerMenu({this.currentIndex});
+  final Function onUserExit;
+  HamburgerMenu({this.currentIndex, this.onUserExit});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,9 @@ class HamburgerMenu extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SvgPicture.asset(
-                      'assets/images/logo.svg',
-                      height: 18,
+                    Image.asset(
+                      'assets/images/logo.png',
+                      height: 70,
                     ),
                     IconButton(
                       icon: Icon(Icons.close),
@@ -37,7 +37,12 @@ class HamburgerMenu extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
-                  child: UserTile(),
+                  child: UserTile(
+                    onConfirm: () {
+                      Navigator.pop(context);
+                      onUserExit();
+                    },
+                  ),
                 ),
               ],
             ),
