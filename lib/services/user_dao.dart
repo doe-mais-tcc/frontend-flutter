@@ -9,7 +9,7 @@ class UserDao {
         if (response.statusCode != 200)
           throw Exception(response.statusCode);
         else
-          return _toList(response.body);
+          return _toList(utf8.decode(response.bodyBytes));
       },
     ).onError(
       (error, stackTrace) => throw Exception(error),
@@ -40,7 +40,8 @@ class UserDao {
         if (response.statusCode != 200) throw Exception(response.statusCode);
         if (response.body.length == 0) throw Exception('No such user');
 
-        User responseUser = User.fromJson(jsonDecode(response.body));
+        User responseUser =
+            User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
         if (responseUser.senha == DAL.encode(user.senha))
           return responseUser;
         else
@@ -56,7 +57,7 @@ class UserDao {
       if (response.statusCode != 200) throw Exception(response.statusCode);
       if (response.body.length == 0) throw Exception('No such user');
 
-      return User.fromJson(jsonDecode(response.body));
+      return User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     }).onError(
       (error, stackTrace) => throw Exception(error),
     );

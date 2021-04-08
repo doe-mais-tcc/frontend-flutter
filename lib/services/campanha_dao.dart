@@ -9,7 +9,7 @@ class CampanhaDao {
         if (response.statusCode != 200)
           throw Exception(response.statusCode);
         else
-          return _toList(response.body);
+          return _toList(utf8.decode(response.bodyBytes));
       },
     ).onError(
       (error, stackTrace) => null,
