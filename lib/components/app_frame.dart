@@ -41,7 +41,7 @@ class BroadLayout extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 200),
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
             child: Row(
               children: [
                 Image.asset(

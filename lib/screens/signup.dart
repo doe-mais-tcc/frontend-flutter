@@ -1,4 +1,5 @@
 import 'package:doe_mais/components/app_frame.dart';
+import 'package:doe_mais/components/custom_back_button.dart';
 import 'package:doe_mais/components/form_step.dart';
 import 'package:doe_mais/components/form_stepper.dart';
 import 'package:doe_mais/models/user.dart';
@@ -17,34 +18,48 @@ class SignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppFrame(
-      child: Column(
-        children: [
-          Text(
-            'Cadastro de usuário',
-            style: Theme.of(context).textTheme.headline1,
-          ),
-          SizedBox(height: 20),
-          ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 500),
-            child: FormStepper(
-              steps: steps,
-              onSubmit: (data) {
-                var user = User.fromJson(data);
-                UserDao.postUser(user).then((value) {
-                  SessionManager.saveSession(user);
-                  Navigator.of(context).pushNamed('/home');
-                }).onError(
-                  (error, stackTrace) {
-                    alertBottomSheet(
-                        context: context,
-                        message: 'Não foi possível concluir o cadastro');
-                  },
-                );
-              },
+    return Scaffold(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Image.asset(
+                'assets/images/logo.png',
+                height: 80,
+              ),
             ),
-          ),
-        ],
+            Align(
+              alignment: Alignment.centerLeft,
+              child: CustomBackButton(),
+            ),
+            Text(
+              'Cadastro de usuário',
+              style: Theme.of(context).textTheme.headline1,
+            ),
+            SizedBox(height: 20),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 500),
+              child: FormStepper(
+                steps: steps,
+                onSubmit: (data) {
+                  var user = User.fromJson(data);
+                  UserDao.postUser(user).then((value) {
+                    SessionManager.saveSession(user);
+                    Navigator.of(context).pushNamed('/home');
+                  }).onError(
+                    (error, stackTrace) {
+                      alertBottomSheet(
+                          context: context,
+                          message: 'Não foi possível concluir o cadastro');
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -25,6 +25,7 @@ ThemeData mainTheme() {
     hoverColor: hoverColor,
     disabledColor: disabled,
     errorColor: primary,
+    indicatorColor: minText,
     fontFamily: 'Roboto',
     textTheme: TextTheme(
       headline1: TextStyle(
