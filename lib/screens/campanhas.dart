@@ -6,7 +6,7 @@ import 'package:doe_mais/services/campanha_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
 
-class Campaigns extends StatelessWidget {
+class Campanhas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppFrame(

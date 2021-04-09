@@ -29,34 +29,44 @@ class CampanhaCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${campanha.nome}',
-                  style: Theme.of(context).textTheme.headline3,
+                  '${campanha.nomeInternado}',
+                  style: Theme.of(context).textTheme.headline2,
                 ),
+                SizedBox(height: 15),
                 Row(
                   children: [
                     Icon(Icons.location_on),
                     SizedBox(width: 8),
-                    Text(
-                      '${campanha.cidade}',
-                      style: Theme.of(context).textTheme.bodyText1,
+                    Flexible(
+                      child: Text(
+                        '${campanha.hemocentro.endereco}',
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
                     ),
                   ],
                 ),
+                SizedBox(height: 20),
                 Row(
                   children: [
                     Icon(Icons.invert_colors),
                     SizedBox(width: 8),
-                    Text(
-                      'Tipo preferencial: ${campanha.idHemocentro ?? 'Qualquer'}',
-                      style: Theme.of(context).textTheme.bodyText1,
+                    Flexible(
+                      child: Text(
+                        'Tipo sanguíneo: ${campanha.tipoSanguineo}',
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
-                CustomOutlinedButton(
-                  label: 'Compartilhe no Facebook',
-                  onPressed: () {},
-                ),
+                campanha.compartilhavel
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: CustomOutlinedButton(
+                          label: 'Compartilhe no Facebook',
+                          onPressed: () {},
+                        ),
+                      )
+                    : Container(),
               ],
             ),
           ),

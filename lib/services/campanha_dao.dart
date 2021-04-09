@@ -17,10 +17,12 @@ class CampanhaDao {
   }
 
   static Future<dynamic> postCampanha(Campanha campanha) {
+    var map = campanha.toJson();
+    map.remove('id');
     return DAL
         .post(
       'v1/api/campanha',
-      body: jsonEncode(campanha.toJson()),
+      body: jsonEncode(map),
     )
         .then(
       (response) {
