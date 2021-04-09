@@ -13,11 +13,11 @@ class Profile extends StatelessWidget {
           Text('Este é seu perfil!',
               style: Theme.of(context).textTheme.headline1),
           ConfirmationCard(
-            title: 'Teste de aptidão para doação de sangue',
+            title: 'Requisitos para a doação de sangue',
             description:
                 'Entenda as recomendações necessárias para doar sangue',
-            confirmMessage: 'Começar o teste',
-            icon: Image.asset('assets/images/icon_test.svg'),
+            confirmMessage: 'Ver requisitos',
+            icon: Image.asset('assets/images/icon_test.png'),
             onConfirm: () =>
                 Navigator.of(context).pushNamed('/perfil/requisitos-doacao'),
           ),
@@ -25,7 +25,7 @@ class Profile extends StatelessWidget {
             title: 'Agendamento de doação',
             description: 'Você não tem nenhuma doação marcada. Marque uma!',
             confirmMessage: 'Marcar doação',
-            icon: Image.asset('assets/images/icon_calendar.svg'),
+            icon: Image.asset('assets/images/icon_calendar.png'),
             onConfirm: () {},
           ),
           Text(
