@@ -35,6 +35,16 @@ class HemocentroDao {
     );
   }
 
+  static Future<List<String>> getCidades() async {
+    var hemocentros = await getHemocentros();
+    List<String> cidades = [];
+    for (int i = 0; i < hemocentros.length; i++) {
+      if (!cidades.contains(hemocentros[i].cidade))
+        cidades.add(hemocentros[i].cidade);
+    }
+    return cidades;
+  }
+
   static List<Hemocentro> _toList(String response) {
     return (jsonDecode(response) as List)
         .map<Hemocentro>((e) => Hemocentro.fromJson(e))

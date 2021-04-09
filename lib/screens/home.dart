@@ -1,12 +1,11 @@
-import 'package:doe_mais/components/hospital_card.dart';
-import 'package:doe_mais/models/hospital.dart';
+import 'package:doe_mais/components/hemocentro_card.dart';
 import 'package:doe_mais/components/app_frame.dart';
+import 'package:doe_mais/models/hemocentro.dart';
+import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:flutter/material.dart';
+import 'package:responsively/responsively.dart';
 
 class Home extends StatelessWidget {
-  final Hospital hospital = Hospital(
-      name: 'Hemocentro', location: 'Endereço', phone: '(13) 99999-9999');
-
   @override
   Widget build(BuildContext context) {
     return AppFrame(
@@ -22,6 +21,7 @@ class Home extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 10),
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
             height: 400,
+            width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -56,28 +56,28 @@ class Home extends StatelessWidget {
               ),
             ],
           ),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              int columns;
-              if (constraints.maxWidth > 1000)
-                columns = 3;
-              else if (constraints.maxWidth > 600)
-                columns = 2;
-              else
-                columns = 1;
-
-              return GridView.count(
-                shrinkWrap: true,
-                crossAxisCount: columns,
+          FutureBuilder<List<Hemocentro>>(
+            future: HemocentroDao.getHemocentros(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.done)
+                return Center(child: CircularProgressIndicator());
+              if (!snapshot.hasData)
+                return Text('Não foi possível carregar Hemocentros');
+              return ResponsiveRow(
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                children: [
-                  HospitalCard(hospital),
-                  HospitalCard(hospital),
-                  HospitalCard(hospital),
-                  HospitalCard(hospital),
-                  HospitalCard(hospital),
-                ],
+                children: snapshot.data
+                    .map(
+                      (e) => ResponsiveColumn(
+                        width: ColumnWidth(
+                          smDown: 12,
+                          md: 6,
+                          lgUp: 4,
+                        ),
+                        child: HemocentroCard(e),
+                      ),
+                    )
+                    .toList(),
               );
             },
           ),
