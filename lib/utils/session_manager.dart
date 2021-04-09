@@ -9,14 +9,14 @@ class SessionManager {
 
   static void saveSession(User user) async {
     currentUser = user;
-    if (kIsWeb.kIsWeb) {
+    if (!kIsWeb.kIsWeb) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setInt(_keyName, user.id);
     }
   }
 
   static Future<dynamic> getSession() async {
-    if (kIsWeb.kIsWeb) {
+    if (!kIsWeb.kIsWeb) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       int id = prefs.getInt(_keyName);
       return id;
@@ -24,11 +24,11 @@ class SessionManager {
   }
 
   static void endSession() async {
-    if (kIsWeb.kIsWeb) {
+    if (!kIsWeb.kIsWeb) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.remove(_keyName);
-      currentUser = null;
     }
+    currentUser = null;
   }
 
   static void returnSession() async {

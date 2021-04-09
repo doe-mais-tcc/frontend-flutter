@@ -2,6 +2,7 @@ import 'package:doe_mais/components/hamburger_menu.dart';
 import 'package:doe_mais/components/horizontal_menu.dart';
 import 'package:doe_mais/components/user_tile.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
+import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 
 class AppFrame extends StatefulWidget {
@@ -19,7 +20,7 @@ class _AppFrameState extends State<AppFrame> {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 700)
-          return BroadLayout(widget.child, widget.menuIndex);
+          return BroadLayout(widget.child, widget.menuIndex, this);
         else
           return NarrowLayout(widget.child, widget.menuIndex);
       },
@@ -30,7 +31,8 @@ class _AppFrameState extends State<AppFrame> {
 class BroadLayout extends StatelessWidget {
   final Widget screen;
   final int currentIndex;
-  BroadLayout(this.screen, this.currentIndex);
+  final State state;
+  BroadLayout(this.screen, this.currentIndex, this.state);
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +52,17 @@ class BroadLayout extends StatelessWidget {
                 Spacer(),
                 HorizontalMenu(currentIndex: currentIndex),
                 UserTile(
-                  onConfirm: () => messageBottomSheet(
-                    context: context,
-                    message: 'Usuário desconectado',
-                    timeLimit: 3,
-                  ),
+                  onConfirm: () {
+                    // ignore: invalid_use_of_protected_member
+                    state.setState(() {
+                      SessionManager.endSession();
+                    });
+                    messageBottomSheet(
+                      context: context,
+                      message: 'Usuário desconectado',
+                      timeLimit: 3,
+                    );
+                  },
                 ),
               ],
             ),
@@ -85,11 +93,14 @@ class NarrowLayout extends StatelessWidget {
       ),
       drawer: HamburgerMenu(
         currentIndex: currentIndex,
-        onUserExit: () => messageBottomSheet(
-          context: context,
-          message: 'Usuário desconectado',
-          timeLimit: 3,
-        ),
+        onUserExit: () {
+          SessionManager.endSession();
+          messageBottomSheet(
+            context: context,
+            message: 'Usuário desconectado',
+            timeLimit: 3,
+          );
+        },
       ),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 200),

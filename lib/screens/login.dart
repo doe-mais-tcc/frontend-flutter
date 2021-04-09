@@ -5,7 +5,6 @@ import 'package:doe_mais/services/user_dao.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -34,7 +33,11 @@ class _LoginState extends State<Login> {
             SessionManager.currentUser = result;
           Navigator.of(context).pushReplacementNamed('/home');
         } else
-          alertBottomSheet(context: context, message: 'Senha incorreta');
+          alertBottomSheet(
+            context: context,
+            message: 'Senha incorreta',
+            timeLimit: 5,
+          );
       },
     ).onError((error, stackTrace) {
       alertBottomSheet(
@@ -53,10 +56,9 @@ class _LoginState extends State<Login> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SvgPicture.asset(
-                  'assets/images/logo.svg',
+                Image.asset(
+                  'assets/images/logo.png',
                   width: 60,
-                  semanticsLabel: 'Logo Doe mais',
                 ),
                 Text('Bem Vindo(a)',
                     style: Theme.of(context).textTheme.headline1),
@@ -86,6 +88,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
                   title: Text('Me manter conectado'),
                   value: _saveSession,
                   onChanged: (value) => setState(() => _saveSession = value),

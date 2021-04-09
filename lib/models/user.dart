@@ -46,7 +46,9 @@ class User {
         'senha': this.senha,
         'cidade': this.cidade,
         'sangue': this.sangue,
-        'nascimento': this.nascimento,
+        'nascimento': this.nascimento != null
+            ? DateFormat('dd-MM-yyyy').format(this.nascimento)
+            : null,
         'quantidade_doacao': this.qtdDoacao,
         'ultima_doacao': this.ultimaDoacao,
       };
