@@ -33,8 +33,8 @@ class User {
         nascimento: json['nascimento'] != null
             ? DateFormat('dd-MM-yyyy').parse(json['nascimento'])
             : null,
-        qtdDoacao: json['quantidade_doacao'],
-        ultimaDoacao: json['ultima_doacao'] != null
+        qtdDoacao: json['quantidadeDoacao'],
+        ultimaDoacao: json['ultimaDoacao'] != null
             ? DateFormat('dd-MM-yyyy').parse(json['ultima_doacao'])
             : null,
       );
@@ -49,7 +49,7 @@ class User {
         'nascimento': this.nascimento != null
             ? DateFormat('dd-MM-yyyy').format(this.nascimento)
             : null,
-        'quantidade_doacao': this.qtdDoacao,
-        'ultima_doacao': this.ultimaDoacao,
+        'quantidadeDoacao': this.qtdDoacao,
+        'ultimaDoacao': this.ultimaDoacao,
       };
 }

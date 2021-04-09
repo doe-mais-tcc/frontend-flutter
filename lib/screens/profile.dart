@@ -19,7 +19,7 @@ class Profile extends StatelessWidget {
             confirmMessage: 'Ver requisitos',
             icon: Image.asset('assets/images/icon_test.png'),
             onConfirm: () =>
-                Navigator.of(context).pushNamed('/perfil/requisitos-doacao'),
+                Navigator.of(context).pushNamed('/requisitos-doacao'),
           ),
           ConfirmationCard(
             title: 'Agendamento de doação',
