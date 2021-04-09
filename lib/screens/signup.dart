@@ -1,10 +1,9 @@
-import 'package:doe_mais/components/app_frame.dart';
 import 'package:doe_mais/components/custom_back_button.dart';
 import 'package:doe_mais/components/form_step.dart';
 import 'package:doe_mais/components/form_stepper.dart';
 import 'package:doe_mais/models/user.dart';
-import 'package:doe_mais/screens/signup_steps/signup_step1.dart';
-import 'package:doe_mais/screens/signup_steps/signup_step2.dart';
+import 'package:doe_mais/screens/form_pages/signup_step1.dart';
+import 'package:doe_mais/screens/form_pages/signup_step2.dart';
 import 'package:doe_mais/services/user_dao.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/utils/session_manager.dart';

@@ -2,7 +2,7 @@ import 'package:doe_mais/components/app_frame.dart';
 import 'package:doe_mais/components/custom_elevated_button.dart';
 import 'package:doe_mais/components/custom_outlined_button.dart';
 import 'package:doe_mais/models/campanha.dart';
-import 'package:doe_mais/screens/campanha_steps/campanha_step1.dart';
+import 'package:doe_mais/screens/form_pages/campanha_step1.dart';
 import 'package:doe_mais/services/campanha_dao.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/utils/custom_dialog.dart';
