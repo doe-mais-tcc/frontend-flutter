@@ -1,4 +1,3 @@
-import 'package:doe_mais/components/custom_elevated_button.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 
@@ -22,9 +21,15 @@ class UserTile extends StatelessWidget {
               ),
             ],
           )
-        : CustomElevatedButton(
-            label: 'Entrar',
+        : TextButton(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              child: Text('Entrar na conta'),
+            ),
             onPressed: () => Navigator.of(context).pushNamed('/login'),
+            style: TextButton.styleFrom(
+              primary: Theme.of(context).primaryColor,
+            ),
           );
   }
 }

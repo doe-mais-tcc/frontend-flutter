@@ -20,7 +20,7 @@ class _AppFrameState extends State<AppFrame> {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 700)
-          return BroadLayout(widget.child, widget.menuIndex, this);
+          return BroadLayout(widget.child, widget.menuIndex);
         else
           return NarrowLayout(widget.child, widget.menuIndex);
       },
@@ -31,47 +31,42 @@ class _AppFrameState extends State<AppFrame> {
 class BroadLayout extends StatelessWidget {
   final Widget screen;
   final int currentIndex;
-  final State state;
-  BroadLayout(this.screen, this.currentIndex, this.state);
+  BroadLayout(this.screen, this.currentIndex);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.only(bottom: 200),
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  width: 80,
-                  alignment: Alignment.centerLeft,
-                ),
-                Spacer(),
-                HorizontalMenu(currentIndex: currentIndex),
-                UserTile(
-                  onConfirm: () {
-                    // ignore: invalid_use_of_protected_member
-                    state.setState(() {
+      body: Scrollbar(
+        isAlwaysShown: true,
+        child: ListView(
+          padding: const EdgeInsets.only(bottom: 200),
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/images/logo.png',
+                    width: 80,
+                    alignment: Alignment.centerLeft,
+                  ),
+                  Spacer(),
+                  HorizontalMenu(currentIndex: currentIndex),
+                  UserTile(
+                    onConfirm: () {
                       SessionManager.endSession();
-                    });
-                    messageBottomSheet(
-                      context: context,
-                      message: 'Usuário desconectado',
-                      timeLimit: 3,
-                    );
-                  },
-                ),
-              ],
+                      Navigator.of(context).pushNamed('/home');
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80),
-            child: screen,
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 80),
+              child: screen,
+            ),
+          ],
+        ),
       ),
     );
   }
