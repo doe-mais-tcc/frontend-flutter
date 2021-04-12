@@ -2,10 +2,27 @@ import 'package:doe_mais/components/hemocentro_card.dart';
 import 'package:doe_mais/components/app_frame.dart';
 import 'package:doe_mais/models/hemocentro.dart';
 import 'package:doe_mais/services/hemocentro_dao.dart';
+import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  List<Hemocentro> hemocentros = [];
+  bool showAllHemocentros = false;
+
+  @override
+  void initState() {
+    super.initState();
+    HemocentroDao.getHemocentros().then(
+      (list) => setState(() => hemocentros = list),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppFrame(
@@ -52,21 +69,26 @@ class Home extends StatelessWidget {
               ),
               TextButton(
                 child: Text('(ver todos)'),
-                onPressed: () {},
+                onPressed: () => SessionManager.currentUser != null
+                    ? setState(() => showAllHemocentros = !showAllHemocentros)
+                    : null,
               ),
             ],
           ),
-          FutureBuilder<List<Hemocentro>>(
-            future: HemocentroDao.getHemocentros(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.done)
-                return Center(child: CircularProgressIndicator());
-              if (!snapshot.hasData)
-                return Text('Não foi possível carregar Hemocentros');
+          Builder(
+            builder: (context) {
+              List<Hemocentro> list;
+              if (SessionManager.currentUser != null && !showAllHemocentros)
+                list = hemocentros
+                    .where((e) => e.cidade == SessionManager.currentUser.cidade)
+                    .toList();
+              else
+                list = hemocentros;
+
               return ResponsiveRow(
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                children: snapshot.data
+                children: list
                     .map(
                       (e) => ResponsiveColumn(
                         width: ColumnWidth(
