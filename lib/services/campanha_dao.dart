@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:doe_mais/models/campanha.dart';
 import 'package:doe_mais/models/user.dart';
@@ -31,26 +32,6 @@ class CampanhaDao {
           throw Exception(response.statusCode);
         else
           return true;
-      },
-    ).onError(
-      (error, stackTrace) => null,
-    );
-  }
-
-  static Future<List<Campanha>> getCampanhasUsuario(User user) {
-    return DAL.get('v1/api/campanha').then(
-      (response) {
-        if (response.statusCode != 200)
-          throw Exception(response.statusCode);
-        else {
-          List<Campanha> list = _toList(utf8.decode(response.bodyBytes));
-          List<Campanha> campanhaList = [];
-
-          for (Campanha campanha in list) {
-            if (campanha.user.id == user.id) campanhaList.add(campanha);
-          }
-          return campanhaList;
-        }
       },
     ).onError(
       (error, stackTrace) => null,

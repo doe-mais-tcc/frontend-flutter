@@ -7,7 +7,22 @@ import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
 
-class Campanhas extends StatelessWidget {
+class Campanhas extends StatefulWidget {
+  @override
+  _CampanhasState createState() => _CampanhasState();
+}
+
+class _CampanhasState extends State<Campanhas> {
+  List<Campanha> campanhas = [];
+
+  @override
+  void initState() {
+    super.initState();
+    CampanhaDao.getCampanhas().then(
+      (list) => setState(() => campanhas = list),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppFrame(
@@ -15,53 +30,48 @@ class Campanhas extends StatelessWidget {
       child: Column(
         children: [
           Text('Campanhas', style: Theme.of(context).textTheme.headline1),
-          SessionManager.currentUser != null
-              ? Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          campanhas.isEmpty
+              ? CircularProgressIndicator()
+              : SessionManager.currentUser != null
+                  ? Column(
                       children: [
-                        Text(
-                          'Suas Campanhas',
-                          style: Theme.of(context).textTheme.headline2,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Suas Campanhas',
+                              style: Theme.of(context).textTheme.headline2,
+                            ),
+                            CustomElevatedButton(
+                              label: 'Criar uma campanha',
+                              onPressed: () => Navigator.of(context)
+                                  .pushNamed('/campanhas/criar'),
+                            ),
+                          ],
                         ),
-                        CustomElevatedButton(
-                          label: 'Criar uma campanha',
-                          onPressed: () => Navigator.of(context)
-                              .pushNamed('/campanhas/criar'),
+                        ResponsiveRow(
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          children: campanhas
+                              .where(
+                                (e) =>
+                                    e.user.id == SessionManager.currentUser.id,
+                              )
+                              .map(
+                                (e) => ResponsiveColumn(
+                                  width: ColumnWidth(
+                                    smDown: 12,
+                                    md: 6,
+                                    lgUp: 4,
+                                  ),
+                                  child: CampanhaCard(e),
+                                ),
+                              )
+                              .toList(),
                         ),
                       ],
-                    ),
-                    FutureBuilder<List<Campanha>>(
-                      future: CampanhaDao.getCampanhasUsuario(
-                          SessionManager.currentUser),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasData)
-                            return ResponsiveRow(
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 10,
-                              children: snapshot.data
-                                  .map(
-                                    (e) => ResponsiveColumn(
-                                      width: ColumnWidth(
-                                        smDown: 12,
-                                        md: 6,
-                                        lgUp: 4,
-                                      ),
-                                      child: CampanhaCard(e),
-                                    ),
-                                  )
-                                  .toList(),
-                            );
-                          return Text('Você não tem nenhuma campanha ainda');
-                        }
-                        return CircularProgressIndicator();
-                      },
                     )
-                  ],
-                )
-              : Container(),
+                  : Container(),
           Padding(
             padding: const EdgeInsets.only(top: 40, bottom: 5),
             child: Text(
@@ -69,30 +79,21 @@ class Campanhas extends StatelessWidget {
               style: Theme.of(context).textTheme.headline2,
             ),
           ),
-          FutureBuilder<List<Campanha>>(
-            future: CampanhaDao.getCampanhas(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.done)
-                return CircularProgressIndicator();
-              if (!snapshot.hasData) return Text('Nenhuma campanha encontrada');
-
-              return ResponsiveRow(
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                children: snapshot.data
-                    .map(
-                      (e) => ResponsiveColumn(
-                        width: ColumnWidth(
-                          smDown: 12,
-                          md: 6,
-                          lgUp: 4,
-                        ),
-                        child: CampanhaCard(e),
-                      ),
-                    )
-                    .toList(),
-              );
-            },
+          ResponsiveRow(
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            children: campanhas
+                .map(
+                  (e) => ResponsiveColumn(
+                    width: ColumnWidth(
+                      smDown: 12,
+                      md: 6,
+                      lgUp: 4,
+                    ),
+                    child: CampanhaCard(e),
+                  ),
+                )
+                .toList(),
           ),
         ],
       ),
