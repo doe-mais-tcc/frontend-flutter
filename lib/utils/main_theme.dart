@@ -10,14 +10,22 @@ ThemeData mainTheme() {
   const disabled = Color(0xFF707070);
   const buttonText = Colors.white;
   const hoverColor = Color(0xFFF1F1F1);
+  const linkColor = Colors.blue;
 
   return ThemeData(
+    colorScheme: ColorScheme.light(
+      primary: primary,
+      secondary: accent,
+      background: canvas,
+    ),
     primaryColor: primary,
     accentColor: accent,
     canvasColor: canvas,
     buttonColor: primary,
     hoverColor: hoverColor,
     disabledColor: disabled,
+    errorColor: primary,
+    indicatorColor: minText,
     fontFamily: 'Roboto',
     textTheme: TextTheme(
       headline1: TextStyle(
@@ -77,6 +85,16 @@ ThemeData mainTheme() {
         primary: primary,
         side: BorderSide(color: primary),
       ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        primary: linkColor,
+      ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder:
+          UnderlineInputBorder(borderSide: BorderSide(color: linkColor)),
+      labelStyle: TextStyle(color: minText),
     ),
   );
 }

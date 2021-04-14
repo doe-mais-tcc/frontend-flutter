@@ -1,9 +1,9 @@
-import 'package:doe_mais/models/hospital.dart';
+import 'package:doe_mais/models/hemocentro.dart';
 import 'package:flutter/material.dart';
 
-class HospitalCard extends StatelessWidget {
-  final Hospital hospital;
-  HospitalCard(this.hospital);
+class HemocentroCard extends StatelessWidget {
+  final Hemocentro hemocentro;
+  HemocentroCard(this.hemocentro);
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +14,11 @@ class HospitalCard extends StatelessWidget {
         children: [
           Flexible(
             flex: 3,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: 150),
+            child: AspectRatio(
+              aspectRatio: 1.8,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: Container(color: Colors.grey),
+                child: Image.network(hemocentro.url, fit: BoxFit.cover),
               ),
             ),
           ),
@@ -30,26 +30,28 @@ class HospitalCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    hospital.name,
+                    hemocentro.nome,
                     style: Theme.of(context).textTheme.headline3,
                   ),
                   Row(
                     children: [
-                      Icon(Icons.location_on),
+                      Icon(Icons.location_city),
                       SizedBox(width: 8),
                       Text(
-                        hospital.location,
+                        hemocentro.cidade,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ],
                   ),
                   Row(
                     children: [
-                      Icon(Icons.phone),
+                      Icon(Icons.location_on),
                       SizedBox(width: 8),
-                      Text(
-                        hospital.phone,
-                        style: Theme.of(context).textTheme.bodyText1,
+                      Flexible(
+                        child: Text(
+                          hemocentro.endereco,
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
                       ),
                     ],
                   ),

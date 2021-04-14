@@ -1,11 +1,27 @@
-import 'package:doe_mais/components/hospital_card.dart';
-import 'package:doe_mais/models/hospital.dart';
+import 'package:doe_mais/components/hemocentro_card.dart';
 import 'package:doe_mais/components/app_frame.dart';
+import 'package:doe_mais/models/hemocentro.dart';
+import 'package:doe_mais/services/hemocentro_dao.dart';
+import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:responsively/responsively.dart';
 
-class Home extends StatelessWidget {
-  final Hospital hospital = Hospital(
-      name: 'Hemocentro', location: 'Endereço', phone: '(13) 99999-9999');
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  List<Hemocentro> hemocentros = [];
+  bool showAllHemocentros = false;
+
+  @override
+  void initState() {
+    super.initState();
+    HemocentroDao.getHemocentros().then(
+      (list) => setState(() => hemocentros = list),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +38,7 @@ class Home extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 10),
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
             height: 400,
+            width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -52,32 +69,37 @@ class Home extends StatelessWidget {
               ),
               TextButton(
                 child: Text('(ver todos)'),
-                onPressed: () {},
+                onPressed: () => SessionManager.currentUser != null
+                    ? setState(() => showAllHemocentros = !showAllHemocentros)
+                    : null,
               ),
             ],
           ),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              int columns;
-              if (constraints.maxWidth > 1000)
-                columns = 3;
-              else if (constraints.maxWidth > 600)
-                columns = 2;
+          Builder(
+            builder: (context) {
+              List<Hemocentro> list;
+              if (SessionManager.currentUser != null && !showAllHemocentros)
+                list = hemocentros
+                    .where((e) => e.cidade == SessionManager.currentUser.cidade)
+                    .toList();
               else
-                columns = 1;
+                list = hemocentros;
 
-              return GridView.count(
-                shrinkWrap: true,
-                crossAxisCount: columns,
+              return ResponsiveRow(
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                children: [
-                  HospitalCard(hospital),
-                  HospitalCard(hospital),
-                  HospitalCard(hospital),
-                  HospitalCard(hospital),
-                  HospitalCard(hospital),
-                ],
+                children: list
+                    .map(
+                      (e) => ResponsiveColumn(
+                        width: ColumnWidth(
+                          smDown: 12,
+                          md: 6,
+                          lgUp: 4,
+                        ),
+                        child: HemocentroCard(e),
+                      ),
+                    )
+                    .toList(),
               );
             },
           ),

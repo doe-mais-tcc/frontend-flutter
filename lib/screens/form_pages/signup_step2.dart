@@ -1,7 +1,6 @@
 import 'package:doe_mais/components/checkbox_form_field.dart';
 import 'package:doe_mais/components/form_step.dart';
 import 'package:doe_mais/components/modal.dart';
-import 'package:doe_mais/models/user.dart';
 import 'package:flutter/material.dart';
 
 class SignupStep2 extends StatefulWidget implements FormStep {
@@ -16,10 +15,10 @@ class SignupStep2 extends StatefulWidget implements FormStep {
   }
 
   dynamic returnData() {
-    return User(
-      email: _emailController.text,
-      senha: _pwd1Controller.text,
-    );
+    return {
+      'email': _emailController.text,
+      'senha': _pwd1Controller.text,
+    };
   }
 
   @override

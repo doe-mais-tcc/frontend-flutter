@@ -1,6 +1,5 @@
 import 'package:doe_mais/components/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ConfirmationCard extends StatelessWidget {
   final String title;
@@ -35,8 +34,7 @@ class ConfirmationCard extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  SvgPicture.asset('assets/images/icon_background.svg',
-                      width: 120),
+                  Image.asset('assets/images/icon_background.png', width: 120),
                   SizedBox(child: icon, width: 70),
                 ],
               ),

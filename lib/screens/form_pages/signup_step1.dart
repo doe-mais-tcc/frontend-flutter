@@ -1,5 +1,6 @@
 import 'package:doe_mais/components/form_step.dart';
 import 'package:doe_mais/models/user.dart';
+import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:doe_mais/utils/data_holder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,12 +19,12 @@ class SignupStep1 extends StatelessWidget implements FormStep {
   }
 
   dynamic returnData() {
-    return User(
-      nome: _nameController.text,
-      cidade: _cityController.text,
-      sangue: _bloodController.text,
-      nascimento: _birthDate.data,
-    );
+    return {
+      'nome': _nameController.text,
+      'cidade': _cityController.text,
+      'sangue': _bloodController.text,
+      'nascimento': DateFormat('dd-MM-yyyy').format(_birthDate.data),
+    };
   }
 
   String _validateField(dynamic data) {
@@ -60,16 +61,38 @@ class SignupStep1 extends StatelessWidget implements FormStep {
           ),
           DropdownButtonFormField(
             items: _bloodDropdownItems(),
-            decoration: InputDecoration(labelText: 'Insira seu sangue*'),
+            decoration: InputDecoration(labelText: 'Selecione seu sangue*'),
             value: _bloodController.text,
             onChanged: (value) => _bloodController.text = value,
             validator: _validateField,
           ),
-          TextFormField(
-            controller: _cityController,
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(labelText: 'Insira sua cidade*'),
-            validator: _validateField,
+          FutureBuilder<List<String>>(
+            future: HemocentroDao.getCidades(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return DropdownButtonFormField(
+                  items: [
+                    DropdownMenuItem(
+                      child: Text(''),
+                    )
+                  ],
+                  decoration: InputDecoration(labelText: 'Carregando cidades'),
+                  validator: _validateField,
+                );
+
+              var values = snapshot.data
+                  .map((e) => DropdownMenuItem(child: Text(e), value: e))
+                  .toList();
+
+              _cityController.text = values[0].value;
+              return DropdownButtonFormField(
+                items: values,
+                decoration: InputDecoration(labelText: 'Selecione sua cidade*'),
+                value: _cityController.text,
+                onChanged: (value) => _cityController.text = value,
+                validator: _validateField,
+              );
+            },
           ),
           DateTimeField(
             format: DateFormat('dd-MM-yyyy'),
@@ -77,11 +100,12 @@ class SignupStep1 extends StatelessWidget implements FormStep {
             initialValue: _birthDate.data,
             onShowPicker: (BuildContext context, DateTime currentValue) {
               DateTime now = DateTime.now();
+              var initialDate = DateTime(now.year - 14);
               return showDatePicker(
                 context: context,
-                initialDate: currentValue ?? now,
+                initialDate: currentValue ?? initialDate,
                 firstDate: DateTime(now.year - 100),
-                lastDate: DateTime.now(),
+                lastDate: initialDate,
               ).then((date) => _birthDate.data = date);
             },
             validator: _validateField,

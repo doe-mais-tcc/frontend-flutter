@@ -1,9 +1,13 @@
+import 'package:doe_mais/components/custom_back_button.dart';
 import 'package:doe_mais/components/form_step.dart';
 import 'package:doe_mais/components/form_stepper.dart';
-import 'package:doe_mais/screens/signup_steps/signup_step1.dart';
-import 'package:doe_mais/screens/signup_steps/signup_step2.dart';
+import 'package:doe_mais/models/user.dart';
+import 'package:doe_mais/screens/form_pages/signup_step1.dart';
+import 'package:doe_mais/screens/form_pages/signup_step2.dart';
+import 'package:doe_mais/services/user_dao.dart';
+import 'package:doe_mais/utils/custom_bottom_sheet.dart';
+import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class SignUp extends StatelessWidget {
   final List<FormStep> steps = [
@@ -14,29 +18,46 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          constraints: BoxConstraints(maxWidth: 600),
-          child: ListView(
-            padding: EdgeInsets.symmetric(vertical: 80, horizontal: 40),
-            children: [
-              SvgPicture.asset(
-                'assets/images/logo.svg',
-                width: 60,
-                semanticsLabel: 'Logo Doe mais',
-                alignment: Alignment.centerLeft,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Image.asset(
+                'assets/images/logo.png',
+                height: 80,
               ),
-              Text(
-                'Cadastro de usuário',
-                style: Theme.of(context).textTheme.headline1,
-              ),
-              SizedBox(height: 20),
-              FormStepper(
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: CustomBackButton(),
+            ),
+            Text(
+              'Cadastro de usuário',
+              style: Theme.of(context).textTheme.headline1,
+            ),
+            SizedBox(height: 20),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 500),
+              child: FormStepper(
                 steps: steps,
-                onSubmit: (users) => Navigator.of(context).pushNamed('/login'),
+                onSubmit: (data) {
+                  var user = User.fromJson(data);
+                  UserDao.postUser(user).then((value) {
+                    SessionManager.saveSession(user);
+                    Navigator.of(context).pushNamed('/home');
+                  }).onError(
+                    (error, stackTrace) {
+                      alertBottomSheet(
+                          context: context,
+                          message: 'Não foi possível concluir o cadastro');
+                    },
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

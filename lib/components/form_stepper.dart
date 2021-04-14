@@ -15,7 +15,7 @@ class FormStepper extends StatefulWidget {
 
 class _FormStepperState extends State<FormStepper> {
   int currentStep = 0;
-  List<dynamic> data = [];
+  Map<String, dynamic> data = {};
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +61,7 @@ class _FormStepperState extends State<FormStepper> {
                       onPressed: () {
                         if (widget.steps[currentStep].validate()) {
                           for (FormStep step in widget.steps)
-                            data.add(step.returnData());
-
+                            data.addAll(step.returnData());
                           widget.onSubmit(data);
                         }
                       },
