@@ -34,6 +34,7 @@ class _CampanhasState extends State<Campanhas> {
               ? CircularProgressIndicator()
               : SessionManager.currentUser != null
                   ? Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

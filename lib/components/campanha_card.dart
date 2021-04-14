@@ -16,16 +16,15 @@ class CampanhaCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Flexible(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: 150),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Container(color: Colors.grey),
-                ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Container(
+                height: 150,
+                color: Colors.grey,
               ),
             ),
             Container(
+              height: 200,
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 25),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,7 +33,7 @@ class CampanhaCard extends StatelessWidget {
                     '${campanha.nomeInternado}',
                     style: Theme.of(context).textTheme.headline2,
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 10),
                   Row(
                     children: [
                       Icon(Icons.location_on),
@@ -47,7 +46,7 @@ class CampanhaCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   Row(
                     children: [
                       Icon(Icons.invert_colors),
@@ -63,8 +62,8 @@ class CampanhaCard extends StatelessWidget {
                   campanha.compartilhavel
                       ? Padding(
                           padding: const EdgeInsets.only(top: 10),
-                          child: CustomOutlinedButton(
-                            label: 'Compartilhe no Facebook',
+                          child: TextButton(
+                            child: Text('Compartilhe no Facebook'),
                             onPressed: () {},
                           ),
                         )
