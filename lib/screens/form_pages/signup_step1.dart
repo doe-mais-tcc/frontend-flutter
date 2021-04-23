@@ -1,5 +1,4 @@
 import 'package:doe_mais/components/form_step.dart';
-import 'package:doe_mais/models/user.dart';
 import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:doe_mais/utils/data_holder.dart';
 import 'package:flutter/material.dart';

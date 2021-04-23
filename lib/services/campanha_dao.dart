@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:doe_mais/models/campanha.dart';
-import 'package:doe_mais/models/user.dart';
 import 'package:doe_mais/services/dal.dart';
 
 class CampanhaDao {
@@ -14,7 +13,10 @@ class CampanhaDao {
           return _toList(utf8.decode(response.bodyBytes));
       },
     ).onError(
-      (error, stackTrace) => null,
+      (error, stackTrace) {
+        print('$error');
+        return null;
+      },
     );
   }
 
@@ -34,7 +36,10 @@ class CampanhaDao {
           return true;
       },
     ).onError(
-      (error, stackTrace) => null,
+      (error, stackTrace) {
+        print('$error');
+        return null;
+      },
     );
   }
 

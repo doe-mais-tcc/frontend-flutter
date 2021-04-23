@@ -12,7 +12,10 @@ class HemocentroDao {
           return _toList(utf8.decode(response.bodyBytes));
       },
     ).onError(
-      (error, stackTrace) => null,
+      (error, stackTrace) {
+        print('$error');
+        return null;
+      },
     );
   }
 
@@ -30,7 +33,10 @@ class HemocentroDao {
           return true;
       },
     ).onError(
-      (error, stackTrace) => null,
+      (error, stackTrace){
+        print('$error');
+        return null;
+      },
     );
   }
 

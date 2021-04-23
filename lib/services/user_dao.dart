@@ -12,7 +12,10 @@ class UserDao {
           return _toList(utf8.decode(response.bodyBytes));
       },
     ).onError(
-      (error, stackTrace) => throw Exception(error),
+      (error, stackTrace) {
+        print('$error');
+        return null;
+      },
     );
   }
 
@@ -30,7 +33,10 @@ class UserDao {
           return true;
       },
     ).onError(
-      (error, stackTrace) => throw Exception(error),
+      (error, stackTrace) {
+        print('$error');
+        return null;
+      },
     );
   }
 
@@ -48,7 +54,10 @@ class UserDao {
           return null;
       },
     ).onError(
-      (error, stackTrace) => throw Exception(error),
+      (error, stackTrace) {
+        print('$error');
+        return null;
+      },
     );
   }
 
@@ -59,7 +68,10 @@ class UserDao {
 
       return User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     }).onError(
-      (error, stackTrace) => throw Exception(error),
+      (error, stackTrace) {
+        print('$error');
+        return null;
+      },
     );
   }
 
