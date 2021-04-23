@@ -15,7 +15,6 @@ class Campanhas extends StatefulWidget {
 }
 
 class _CampanhasState extends State<Campanhas> {
-  final scrollController = InfiniteScrollController();
   List<Campanha> campanhas = [];
   List<Campanha> campanhasUser = [];
 
@@ -67,21 +66,18 @@ class _CampanhasState extends State<Campanhas> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        CarouselControls(
                           height: 420,
-                          child: CarouselControls(
-                            controller: scrollController,
-                            infiniteCarousel: InfiniteCarousel.builder(
-                              controller: scrollController,
-                              itemCount: campanhasUser.length,
-                              itemExtent: 400,
-                              center: false,
-                              loop: false,
-                              itemBuilder: (_, index, __) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
-                                child: CampanhaCard(campanhasUser[index]),
-                              ),
+                          infiniteCarousel: InfiniteCarousel.builder(
+                            controller: InfiniteScrollController(),
+                            itemCount: campanhasUser.length,
+                            itemExtent: 400,
+                            center: false,
+                            loop: false,
+                            itemBuilder: (_, index, __) => Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: CampanhaCard(campanhasUser[index]),
                             ),
                           ),
                         ),

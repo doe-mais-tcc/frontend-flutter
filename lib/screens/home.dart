@@ -1,9 +1,12 @@
+import 'package:doe_mais/components/carousel_controls.dart';
 import 'package:doe_mais/components/hemocentro_card.dart';
 import 'package:doe_mais/components/app_frame.dart';
+import 'package:doe_mais/components/message_card.dart';
 import 'package:doe_mais/models/hemocentro.dart';
 import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:responsively/responsively.dart';
 
 class Home extends StatefulWidget {
@@ -30,49 +33,46 @@ class _HomeState extends State<Home> {
       child: Column(
         children: [
           Text('Bem Vindo!', style: Theme.of(context).textTheme.headline1),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: Theme.of(context).accentColor,
-            ),
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
-            height: 400,
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Faça o Teste!',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline2
-                      .copyWith(color: Colors.white),
+          SizedBox(height: 30),
+          CarouselControls(
+            height: 300,
+            infiniteCarousel: InfiniteCarousel.builder(
+              controller: InfiniteScrollController(),
+              itemCount: 2,
+              itemExtent: 600,
+              itemBuilder: (_, __, ___) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: MessageCard(
+                  title: 'Faça o teste agora!',
+                  message:
+                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages',
                 ),
-                SizedBox(height: 20),
-                Text(
-                  'lorem',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(color: Colors.white),
-                ),
-              ],
+              ),
             ),
           ),
-          Wrap(
-            spacing: 10,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Hemocentros próximos',
-                style: Theme.of(context).textTheme.headline2,
+              Padding(
+                padding: const EdgeInsets.only(top: 30, bottom: 20),
+                child: Text(
+                  'Hemocentros próximos',
+                  style: Theme.of(context).textTheme.headline2,
+                ),
               ),
-              TextButton(
-                child: Text('(ver todos)'),
-                onPressed: () => SessionManager.currentUser != null
-                    ? setState(() => showAllHemocentros = !showAllHemocentros)
-                    : null,
-              ),
+              SessionManager.currentUser != null
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: TextButton(
+                        child: Text(
+                            showAllHemocentros ? '(ver menos)' : '(ver todos)'),
+                        onPressed: () => SessionManager.currentUser != null
+                            ? setState(
+                                () => showAllHemocentros = !showAllHemocentros)
+                            : null,
+                      ),
+                    )
+                  : Container(),
             ],
           ),
           Builder(
@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
                     .toList();
               else
                 list = hemocentros;
-
+              if (list == null) return CircularProgressIndicator();
               return ResponsiveRow(
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
