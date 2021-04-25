@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  bubble:
+    dependency: "direct main"
+    description:
+      name: bubble
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.1"
   characters:
     dependency: transitive
     description:
@@ -43,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
+  crypto:
+    dependency: transitive
+    description:
+      name: crypto
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -83,6 +97,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_dialogflow_v2:
+    dependency: "direct main"
+    description:
+      name: flutter_dialogflow_v2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -98,20 +119,27 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  googleapis_auth:
+    dependency: transitive
+    description:
+      name: googleapis_auth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.12+1"
   http:
     dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0"
+    version: "0.12.2"
   http_parser:
     dependency: transitive
     description:
       name: http_parser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "3.1.4"
   intl:
     dependency: "direct main"
     description:
