@@ -16,7 +16,7 @@ class UserDao {
         print('$error');
         return null;
       },
-    );
+    ).timeout(Duration(minutes: 1));
   }
 
   static Future<dynamic> postUser(User user) {
@@ -37,7 +37,7 @@ class UserDao {
         print('$error');
         return null;
       },
-    );
+    ).timeout(Duration(minutes: 1));
   }
 
   static Future<User> checkUser(User user) {
@@ -58,7 +58,7 @@ class UserDao {
         print('$error');
         return null;
       },
-    );
+    ).timeout(Duration(minutes: 1));
   }
 
   static Future<User> getUser(String id) {
@@ -72,7 +72,7 @@ class UserDao {
         print('$error');
         return null;
       },
-    );
+    ).timeout(Duration(minutes: 1));
   }
 
   static List<User> _toList(String response) {

@@ -16,7 +16,7 @@ class HemocentroDao {
         print('$error');
         return null;
       },
-    );
+    ).timeout(Duration(minutes: 1));
   }
 
   static Future<dynamic> postHemocentro(Hemocentro hemocentro) {
@@ -33,11 +33,11 @@ class HemocentroDao {
           return true;
       },
     ).onError(
-      (error, stackTrace){
+      (error, stackTrace) {
         print('$error');
         return null;
       },
-    );
+    ).timeout(Duration(minutes: 1));
   }
 
   static Future<List<String>> getCidades() async {

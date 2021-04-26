@@ -17,7 +17,7 @@ class CampanhaDao {
         print('$error');
         return null;
       },
-    );
+    ).timeout(Duration(minutes: 1));
   }
 
   static Future<dynamic> postCampanha(Campanha campanha) {
@@ -40,7 +40,7 @@ class CampanhaDao {
         print('$error');
         return null;
       },
-    );
+    ).timeout(Duration(minutes: 1));
   }
 
   static List<Campanha> _toList(String response) {
