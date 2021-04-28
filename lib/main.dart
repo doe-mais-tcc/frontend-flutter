@@ -1,10 +1,10 @@
 import 'package:doe_mais/screens/campanha_form.dart';
 import 'package:doe_mais/screens/campanhas.dart';
-import 'package:doe_mais/screens/donation_info.dart';
-import 'package:doe_mais/screens/faq.dart';
-import 'package:doe_mais/screens/home.dart';
+import 'package:doe_mais/screens/requisitos_doacao.dart';
+import 'package:doe_mais/screens/duvidas.dart';
+import 'package:doe_mais/screens/inicio.dart';
 import 'package:doe_mais/screens/login.dart';
-import 'package:doe_mais/screens/profile.dart';
+import 'package:doe_mais/screens/perfil.dart';
 import 'package:doe_mais/screens/signup.dart';
 import 'package:doe_mais/utils/main_theme.dart';
 import 'package:doe_mais/utils/session_manager.dart';
@@ -31,16 +31,16 @@ class DoeMais extends StatelessWidget {
       theme: mainTheme(),
       initialRoute: '/home',
       onUnknownRoute: (routeSettings) =>
-          MaterialPageRoute(builder: (context) => Home()),
+          MaterialPageRoute(builder: (context) => Inicio()),
       routes: {
         '/login': (context) => Login(),
         '/signup': (context) => SignUp(),
-        '/home': (context) => Home(),
+        '/home': (context) => Inicio(),
         '/perfil': (context) =>
-            SessionManager.currentUser == null ? Login() : Profile(),
-        '/duvidas': (context) => FAQ(),
+            SessionManager.currentUser == null ? Login() : Perfil(),
+        '/duvidas': (context) => Duvidas(),
         '/campanhas': (context) => Campanhas(),
-        '/requisitos-doacao': (context) => DonationInfo(),
+        '/requisitos-doacao': (context) => RequisitosDoacao(),
         '/campanhas/criar': (context) =>
             SessionManager.currentUser == null ? Login() : CampanhaForm(),
       },

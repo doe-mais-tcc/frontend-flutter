@@ -2,7 +2,7 @@ import 'package:doe_mais/components/app_frame.dart';
 import 'package:doe_mais/components/chatbot.dart';
 import 'package:flutter/material.dart';
 
-class FAQ extends StatelessWidget {
+class Duvidas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppFrame(

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class DonationInfo extends StatelessWidget {
+class RequisitosDoacao extends StatelessWidget {
   final String referenceUrl =
       'https://portalarquivos.saude.gov.br/campanhas/doesangue/';
 

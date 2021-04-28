@@ -9,12 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:responsively/responsively.dart';
 
-class Home extends StatefulWidget {
+class Inicio extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _InicioState createState() => _InicioState();
 }
 
-class _HomeState extends State<Home> {
+class _InicioState extends State<Inicio> {
   List<Hemocentro> hemocentros = [];
   bool showAllHemocentros = false;
 
