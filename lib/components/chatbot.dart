@@ -12,46 +12,63 @@ class _ChatBotState extends State<ChatBot> {
   final textController = TextEditingController();
   final List<Message> messages = [];
 
-  void newMessage() {
-    String text = textController.text;
+  void newMessage(String text) {
     if (text.isEmpty) return;
     setState(() => messages.add(Message(text: text)));
     textController.clear();
 
     ChatBotService.queryInput(text)
-        .then((output) => setState(() => messages.add(output)));
+        .then((response) => setState(() => messages.addAll(response)))
+        .onError((error, stackTrace) => setState(() => messages.add(
+              Message(
+                text:
+                    'Não foi possível responder a sua pergunta, tente novamente mais tarde',
+                isInput: false,
+              ),
+            )));
   }
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(minHeight: 500, minWidth: 800),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          ListView.builder(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        ConstrainedBox(
+          constraints: BoxConstraints(minHeight: 400),
+          child: ListView.builder(
+            shrinkWrap: true,
             itemCount: messages.length,
             itemBuilder: (context, index) => ChatBubble(
               text: messages[index].text,
               isInput: messages[index].isInput,
             ),
           ),
-          Row(
-            children: [
-              Flexible(
-                child: TextField(
-                  controller: textController,
+        ),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Flexible(
+                  child: TextField(
+                    decoration: InputDecoration(hintText: 'Faça uma pergunta'),
+                    controller: textController,
+                    onSubmitted: (text) => newMessage(text),
+                  ),
                 ),
-              ),
-              IconButton(
-                icon: Icon(Icons.send),
-                onPressed: newMessage,
-              ),
-            ],
+                IconButton(
+                  icon: Icon(
+                    Icons.send,
+                    color: Theme.of(context).accentColor,
+                  ),
+                  onPressed: () => newMessage(textController.text),
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

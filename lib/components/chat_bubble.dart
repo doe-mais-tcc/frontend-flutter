@@ -9,7 +9,7 @@ class ChatBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.headline3;
+    final textStyle = Theme.of(context).textTheme.bodyText1;
     return Bubble(
       style: isInput
           ? CustomTheme.inBubble(context)
