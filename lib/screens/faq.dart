@@ -13,7 +13,7 @@ class FAQ extends StatelessWidget {
           Text('Tire suas Dúvidas!',
               style: Theme.of(context).textTheme.headline1),
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 700),
+            constraints: BoxConstraints(maxWidth: 720),
             child: ChatBot(),
           ),
         ],

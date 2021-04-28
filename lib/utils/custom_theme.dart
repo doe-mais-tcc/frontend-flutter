@@ -23,7 +23,7 @@ class CustomTheme {
   static BubbleStyle outBubble(BuildContext context) => BubbleStyle(
         color: Theme.of(context).accentColor,
         padding: const BubbleEdges.all(8),
-        margin: const BubbleEdges.only(top: 10),
+        margin: const BubbleEdges.only(top: 8),
         alignment: Alignment.topLeft,
         nip: BubbleNip.leftBottom,
         nipRadius: 3,
@@ -32,7 +32,7 @@ class CustomTheme {
   static BubbleStyle inBubble(BuildContext context) => BubbleStyle(
         color: Colors.white,
         padding: const BubbleEdges.all(8),
-        margin: const BubbleEdges.only(top: 10),
+        margin: const BubbleEdges.only(top: 8),
         alignment: Alignment.topRight,
         nip: BubbleNip.rightBottom,
         nipRadius: 3,

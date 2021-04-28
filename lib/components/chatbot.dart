@@ -9,23 +9,35 @@ class ChatBot extends StatefulWidget {
 }
 
 class _ChatBotState extends State<ChatBot> {
+  final textFieldFocus = FocusNode();
   final textController = TextEditingController();
-  final List<Message> messages = [];
+  final List<Widget> messages = [];
 
-  void newMessage(String text) {
+  void newMessage(String text) async {
     if (text.isEmpty) return;
-    setState(() => messages.add(Message(text: text)));
-    textController.clear();
 
-    ChatBotService.queryInput(text)
-        .then((response) => setState(() => messages.addAll(response)))
-        .onError((error, stackTrace) => setState(() => messages.add(
-              Message(
-                text:
-                    'Não foi possível responder a sua pergunta, tente novamente mais tarde',
-                isInput: false,
-              ),
-            )));
+    var messageIndex = messages.length;
+    setState(() => messages.insertAll(messageIndex, [
+          ChatBubble(Message(text: text)),
+          ChatBubble.indicator(),
+        ]));
+
+    textController.clear();
+    textFieldFocus.requestFocus();
+
+    List<Message> response = await ChatBotService.queryInput(text).onError(
+      (error, stackTrace) => [
+        Message(
+          text:
+              'Não foi possível responder a sua pergunta, tente novamente mais tarde',
+          isInput: false,
+        )
+      ],
+    );
+    setState(() {
+      messages.removeAt(++messageIndex);
+      messages.insertAll(messageIndex, response.map((e) => ChatBubble(e)));
+    });
   }
 
   @override
@@ -39,10 +51,7 @@ class _ChatBotState extends State<ChatBot> {
           child: ListView.builder(
             shrinkWrap: true,
             itemCount: messages.length,
-            itemBuilder: (context, index) => ChatBubble(
-              text: messages[index].text,
-              isInput: messages[index].isInput,
-            ),
+            itemBuilder: (context, index) => messages[index],
           ),
         ),
         Card(
@@ -52,8 +61,10 @@ class _ChatBotState extends State<ChatBot> {
               children: [
                 Flexible(
                   child: TextField(
-                    decoration: InputDecoration(hintText: 'Faça uma pergunta'),
+                    autofocus: true,
                     controller: textController,
+                    focusNode: textFieldFocus,
+                    decoration: InputDecoration(hintText: 'Faça uma pergunta'),
                     onSubmitted: (text) => newMessage(text),
                   ),
                 ),
