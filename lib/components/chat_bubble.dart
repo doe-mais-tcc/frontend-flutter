@@ -6,12 +6,7 @@ import 'package:flutter/material.dart';
 
 class ChatBubble extends StatelessWidget {
   final Message message;
-  final bool showDots;
-  ChatBubble(this.message) : this.showDots = false;
-
-  ChatBubble.indicator()
-      : this.message = null,
-        this.showDots = true;
+  ChatBubble(this.message);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +15,7 @@ class ChatBubble extends StatelessWidget {
       style: message != null && message.isInput
           ? CustomTheme.inBubble(context)
           : CustomTheme.outBubble(context),
-      child: showDots
+      child: message?.text == null
           ? TypingIndicator()
           : Text(
               '${message.text}',

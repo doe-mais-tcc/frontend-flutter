@@ -7,6 +7,7 @@ class Duvidas extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppFrame(
       menuIndex: 2,
+      shrink: true,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

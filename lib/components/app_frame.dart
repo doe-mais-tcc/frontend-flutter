@@ -8,7 +8,12 @@ import 'package:flutter/material.dart';
 class AppFrame extends StatefulWidget {
   final Widget child;
   final int menuIndex;
-  AppFrame({this.child, this.menuIndex});
+  final bool shrink;
+  AppFrame({
+    this.child,
+    this.menuIndex,
+    this.shrink = false,
+  });
 
   @override
   _AppFrameState createState() => _AppFrameState();
@@ -20,9 +25,9 @@ class _AppFrameState extends State<AppFrame> {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 700)
-          return BroadLayout(widget.child, widget.menuIndex);
+          return BroadLayout(widget.child, widget.menuIndex, widget.shrink);
         else
-          return NarrowLayout(widget.child, widget.menuIndex);
+          return NarrowLayout(widget.child, widget.menuIndex, widget.shrink);
       },
     );
   }
@@ -31,7 +36,8 @@ class _AppFrameState extends State<AppFrame> {
 class BroadLayout extends StatelessWidget {
   final Widget screen;
   final int currentIndex;
-  BroadLayout(this.screen, this.currentIndex);
+  final bool shrink;
+  BroadLayout(this.screen, this.currentIndex, this.shrink);
 
   @override
   Widget build(BuildContext context) {
@@ -39,32 +45,28 @@ class BroadLayout extends StatelessWidget {
       body: Scrollbar(
         isAlwaysShown: true,
         child: ListView(
-          padding: const EdgeInsets.only(bottom: 200),
+          padding: EdgeInsets.fromLTRB(70, 10, 70, shrink ? 0 : 200),
+          physics:
+              shrink ? NeverScrollableScrollPhysics() : ClampingScrollPhysics(),
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
-              child: Row(
-                children: [
-                  Image.asset(
-                    'assets/images/logo.png',
-                    width: 80,
-                    alignment: Alignment.centerLeft,
-                  ),
-                  Spacer(),
-                  HorizontalMenu(currentIndex: currentIndex),
-                  UserTile(
-                    onConfirm: () {
-                      SessionManager.endSession();
-                      Navigator.of(context).pushNamed('/home');
-                    },
-                  ),
-                ],
-              ),
+            Row(
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 80,
+                  alignment: Alignment.centerLeft,
+                ),
+                Spacer(),
+                HorizontalMenu(currentIndex: currentIndex),
+                UserTile(
+                  onConfirm: () {
+                    SessionManager.endSession();
+                    Navigator.of(context).pushNamed('/home');
+                  },
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 80),
-              child: screen,
-            ),
+            screen,
           ],
         ),
       ),
@@ -75,7 +77,8 @@ class BroadLayout extends StatelessWidget {
 class NarrowLayout extends StatelessWidget {
   final Widget screen;
   final int currentIndex;
-  NarrowLayout(this.screen, this.currentIndex);
+  final bool shrink;
+  NarrowLayout(this.screen, this.currentIndex, this.shrink);
 
   @override
   Widget build(BuildContext context) {
@@ -97,15 +100,12 @@ class NarrowLayout extends StatelessWidget {
           );
         },
       ),
-      body: ListView(
-        padding: const EdgeInsets.only(bottom: 200),
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: screen,
-          ),
-        ],
-      ),
+      body: shrink
+          ? screen
+          : SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: 200, right: 15, left: 15),
+              child: screen,
+            ),
     );
   }
 }
