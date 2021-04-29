@@ -71,7 +71,7 @@ ThemeData mainTheme() {
     ),
     cardTheme: CardTheme(
       elevation: 5,
-      shadowColor: Colors.black26,
+      shadowColor: Colors.black45,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(

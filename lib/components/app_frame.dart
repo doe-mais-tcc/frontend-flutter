@@ -44,24 +44,36 @@ class BroadLayout extends StatelessWidget {
     return Scaffold(
       body: Scrollbar(
         isAlwaysShown: true,
-        child: ListView(
-          padding: EdgeInsets.fromLTRB(70, 10, 70, shrink ? 0 : 200),
-          physics:
-              shrink ? NeverScrollableScrollPhysics() : ClampingScrollPhysics(),
+        child: Column(
           children: [
-            Row(
-              children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  width: 80,
-                  alignment: Alignment.centerLeft,
-                ),
-                Expanded(
-                  child: HorizontalMenu(currentIndex: currentIndex),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(top: 10, left: 70, right: 70),
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/images/logo.png',
+                    width: 80,
+                    alignment: Alignment.centerLeft,
+                  ),
+                  Expanded(
+                    child: HorizontalMenu(currentIndex: currentIndex),
+                  ),
+                ],
+              ),
             ),
-            screen,
+            Expanded(
+              child: shrink
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, bottom: 100),
+                      child: screen,
+                    )
+                  : SingleChildScrollView(
+                      padding: const EdgeInsets.only(
+                          left: 70, right: 70, bottom: 200),
+                      child: screen,
+                    ),
+            )
           ],
         ),
       ),
@@ -96,9 +108,12 @@ class NarrowLayout extends StatelessWidget {
         },
       ),
       body: shrink
-          ? screen
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: screen,
+            )
           : SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 200, right: 15, left: 15),
+              padding: EdgeInsets.only(right: 15, left: 15, bottom: 200),
               child: screen,
             ),
     );

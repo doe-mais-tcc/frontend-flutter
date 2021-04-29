@@ -13,9 +13,11 @@ class Duvidas extends StatelessWidget {
         children: [
           Text('Tire suas Dúvidas!',
               style: Theme.of(context).textTheme.headline1),
-          ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 720),
-            child: ChatBot(),
+          Flexible(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 650),
+              child: ChatBot(),
+            ),
           ),
         ],
       ),
