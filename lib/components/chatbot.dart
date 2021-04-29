@@ -8,13 +8,12 @@ class ChatBot extends StatelessWidget {
   final textController = TextEditingController();
   final scrollController = ScrollController();
   final textFieldFocus = FocusNode();
-  final loadingMessage = Message(isInput: false);
   final List<Message> messages = [];
 
   void newMessage(String text) {
     if (text.isEmpty) return;
 
-    var loadingIndex = messages.length + 1;
+    var loadingMessage = Message(isInput: false);
     addToList(messages.length, [
       Message(text: text),
       loadingMessage,
@@ -23,33 +22,33 @@ class ChatBot extends StatelessWidget {
     textController.clear();
     textFieldFocus.requestFocus();
 
-    ChatBotService.queryInput(text).then(
-      (response) {
-        messages.removeAt(loadingIndex);
-        addToList(loadingIndex, response);
-        listKey.currentState
-            .removeItem(loadingIndex, (context, animation) => null);
-      },
-    ).onError(
-      (error, stackTrace) {
-        messages.removeAt(loadingIndex);
-        addToList(loadingIndex, [
-          Message(
-            text:
-                'Não foi possível responder a sua pergunta, tente novamente mais tarde',
-            isInput: false,
-          )
-        ]);
-        listKey.currentState
-            .removeItem(loadingIndex, (context, animation) => null);
-      },
-    );
+    ChatBotService.queryInput(text)
+        .then(
+          (response) => replaceMessage(loadingMessage, response),
+        )
+        .onError(
+          (error, stackTrace) => replaceMessage(loadingMessage, [
+            Message(
+              text:
+                  'Não foi possível responder a sua pergunta, tente novamente mais tarde',
+              isInput: false,
+            )
+          ]),
+        );
   }
 
   void addToList(int index, List<Message> elements) {
     messages.insertAll(index, elements);
     for (int i = 0; i < elements.length; i++)
       listKey.currentState.insertItem(index++);
+  }
+
+  void replaceMessage(Message replaced, List<Message> replacements) {
+    int index = messages.lastIndexOf(replaced);
+
+    messages.removeAt(index);
+    addToList(index, replacements);
+    listKey.currentState.removeItem(index, (context, animation) => null);
   }
 
   @override
