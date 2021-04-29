@@ -1,5 +1,7 @@
 import 'package:doe_mais/components/menu_button.dart';
+import 'package:doe_mais/components/user_tile.dart';
 import 'package:doe_mais/utils/navigation.dart';
+import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 
 class HorizontalMenu extends StatelessWidget {
@@ -8,7 +10,9 @@ class HorizontalMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
+      alignment: WrapAlignment.end,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: List.generate(
         Navigation.routes.length,
         (index) => MenuButton(
@@ -18,7 +22,14 @@ class HorizontalMenu extends StatelessWidget {
           isActive: currentIndex == index,
           isHorizontal: true,
         ),
-      ),
+      )..add(
+          UserTile(
+            onConfirm: () {
+              SessionManager.endSession();
+              Navigator.of(context).pushNamed('/home');
+            },
+          ),
+        ),
     );
   }
 }

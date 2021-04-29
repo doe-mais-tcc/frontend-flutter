@@ -56,13 +56,8 @@ class BroadLayout extends StatelessWidget {
                   width: 80,
                   alignment: Alignment.centerLeft,
                 ),
-                Spacer(),
-                HorizontalMenu(currentIndex: currentIndex),
-                UserTile(
-                  onConfirm: () {
-                    SessionManager.endSession();
-                    Navigator.of(context).pushNamed('/home');
-                  },
+                Expanded(
+                  child: HorizontalMenu(currentIndex: currentIndex),
                 ),
               ],
             ),
