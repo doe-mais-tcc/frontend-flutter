@@ -28,6 +28,8 @@ class DoeMais extends StatelessWidget {
       supportedLocales: [
         const Locale('pt', 'BR'),
       ],
+      title: 'Doe+',
+      onGenerateTitle: (context) => 'Doe+',
       theme: mainTheme(),
       initialRoute: '/home',
       onUnknownRoute: (routeSettings) =>
