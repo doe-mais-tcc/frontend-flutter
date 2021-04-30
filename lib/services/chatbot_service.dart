@@ -1,19 +1,32 @@
-import 'package:flutter_dialogflow_v2/flutter_dialogflow_v2.dart';
+import 'dart:math';
+import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:doe_mais/models/message.dart' as msg;
 
 class ChatBotService {
+  static const String path = 'assets/files/chatbot_credentials.json';
+
+  static DialogFlowtter _df;
+  static Future<DialogFlowtter> get _dialogFlowtter async {
+    if (_df == null) {
+      _df = await DialogFlowtter.fromFile(
+        path: path,
+        sessionId: Random().toString(),
+      );
+    }
+    return _df;
+  }
+
   static Future<List<msg.Message>> queryInput(String query) async {
-    var authGoogle =
-        await AuthGoogle(fileJson: 'assets/files/chatbot_service.json').build();
-    var dialogflow = Dialogflow(authGoogle: authGoogle);
-    var response = await dialogflow
-        .detectIntentFromText(query, Language.portugueseBrazilian)
-        .timeout(Duration(seconds: 3));
+    var queryInput =
+        QueryInput(text: TextInput(text: query, languageCode: 'pt-Br'));
+
+    var dialogFlowtter = await _dialogFlowtter;
+    var response = await dialogFlowtter.detectIntent(queryInput: queryInput);
 
     List<msg.Message> output = [];
-    for (Text message in response.queryResult.fulfillmentMessages)
+    for (var message in response.queryResult.fulfillmentMessages)
       output.add(msg.Message(
-        text: message.text[0],
+        text: message.text.text[0],
         isInput: false,
       ));
 

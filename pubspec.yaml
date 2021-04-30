@@ -1,5 +1,5 @@
 name: doe_mais
-description: A new Flutter project.
+description: Uma aplicação voltada para a orientação de doação de sangue
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -28,9 +28,9 @@ dependencies:
   bubble: ^1.2.1
   cupertino_icons: ^1.0.2
   datetime_picker_formfield: ^2.0.0
-  flutter_dialogflow_v2: ^0.3.2
+  dialog_flowtter: ^0.3.1
   flutter_launcher_icons: ^0.9.0
-  http: ^0.12.2
+  http: ^0.13.1
   infinite_carousel: ^1.0.0
   intl: ^0.17.0
   responsively: ^1.0.2

@@ -1,54 +1,41 @@
 import 'package:doe_mais/components/chat_bubble.dart';
 import 'package:doe_mais/models/message.dart';
-import 'package:doe_mais/services/chatbot_service.dart';
+import 'package:doe_mais/utils/chatbot_list_manager.dart';
 import 'package:flutter/material.dart';
 
-class ChatBot extends StatelessWidget {
+class ChatBot extends StatefulWidget {
   final listKey = GlobalKey<AnimatedListState>();
+
+  @override
+  _ChatBotState createState() => _ChatBotState();
+}
+
+class _ChatBotState extends State<ChatBot> {
   final textController = TextEditingController();
-  final scrollController = ScrollController();
   final textFieldFocus = FocusNode();
   final List<Message> messages = [];
+  ChatbotListManager chatbotListManager;
 
-  void newMessage(String text) {
+  void initialize() {
+    chatbotListManager = ChatbotListManager(
+      messages: messages,
+      listKey: widget.listKey,
+    );
+    chatbotListManager.welcomeMessage();
+  }
+
+  void sendMessage(String text) {
     if (text.isEmpty) return;
-
-    var loadingMessage = Message(isInput: false);
-    addToList(messages.length, [
-      Message(text: text),
-      loadingMessage,
-    ]);
 
     textController.clear();
     textFieldFocus.requestFocus();
-
-    ChatBotService.queryInput(text)
-        .then(
-          (response) => replaceMessage(loadingMessage, response),
-        )
-        .onError(
-          (error, stackTrace) => replaceMessage(loadingMessage, [
-            Message(
-              text:
-                  'Não foi possível responder a sua pergunta, tente novamente mais tarde',
-              isInput: false,
-            )
-          ]),
-        );
+    chatbotListManager.newMessage(text);
   }
 
-  void addToList(int index, List<Message> elements) {
-    messages.insertAll(index, elements);
-    for (int i = 0; i < elements.length; i++)
-      listKey.currentState.insertItem(index++);
-  }
-
-  void replaceMessage(Message replaced, List<Message> replacements) {
-    int index = messages.lastIndexOf(replaced);
-
-    messages.removeAt(index);
-    addToList(index, replacements);
-    listKey.currentState.removeItem(index, (context, animation) => null);
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, initialize);
   }
 
   @override
@@ -58,10 +45,9 @@ class ChatBot extends StatelessWidget {
       children: [
         Flexible(
           child: AnimatedList(
-            key: listKey,
+            key: widget.listKey,
             reverse: true,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            controller: scrollController,
             itemBuilder: (context, index, animation) {
               int i = messages.length - index - 1;
               return ChatBubble(messages[i]);
@@ -80,7 +66,7 @@ class ChatBot extends StatelessWidget {
                     controller: textController,
                     focusNode: textFieldFocus,
                     decoration: InputDecoration(hintText: 'Faça uma pergunta'),
-                    onSubmitted: (text) => newMessage(text),
+                    onSubmitted: sendMessage,
                   ),
                 ),
                 IconButton(
@@ -88,7 +74,7 @@ class ChatBot extends StatelessWidget {
                     Icons.send,
                     color: Theme.of(context).accentColor,
                   ),
-                  onPressed: () => newMessage(textController.text),
+                  onPressed: () => sendMessage(textController.text),
                 ),
               ],
             ),
