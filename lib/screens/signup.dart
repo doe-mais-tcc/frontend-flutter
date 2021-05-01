@@ -18,43 +18,55 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
-        child: Column(
+      body: SafeArea(
+        child: ListView(
           children: [
             Align(
-              alignment: Alignment.centerLeft,
-              child: Image.asset(
-                'assets/images/logo.png',
-                height: 80,
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: CustomBackButton(),
               ),
             ),
             Align(
-              alignment: Alignment.centerLeft,
-              child: CustomBackButton(),
-            ),
-            Text(
-              'Cadastro de usuário',
-              style: Theme.of(context).textTheme.headline1,
-            ),
-            SizedBox(height: 20),
-            ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 500),
-              child: FormStepper(
-                steps: steps,
-                onSubmit: (data) {
-                  var user = User.fromJson(data);
-                  UserDao.postUser(user).then((value) {
-                    SessionManager.saveSession(user);
-                    Navigator.of(context).pushNamed('/home');
-                  }).onError(
-                    (error, stackTrace) {
-                      alertBottomSheet(
-                          context: context,
-                          message: 'Não foi possível concluir o cadastro');
-                    },
-                  );
-                },
+              alignment: Alignment.center,
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 600),
+                padding:
+                    const EdgeInsets.only(left: 50, right: 50, bottom: 100),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      'assets/images/logo.png',
+                      width: 80,
+                    ),
+                    Text(
+                      'Cadastro de usuário',
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
+                    SizedBox(height: 20),
+                    FormStepper(
+                      steps: steps,
+                      onSubmit: (data) {
+                        var user = User.fromJson(data);
+                        UserDao.postUser(user).then(
+                          (value) {
+                            SessionManager.saveSession(user);
+                            Navigator.of(context).pushNamed('/home');
+                          },
+                        ).onError(
+                          (error, stackTrace) {
+                            alertBottomSheet(
+                                context: context,
+                                message:
+                                    'Não foi possível concluir o cadastro');
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

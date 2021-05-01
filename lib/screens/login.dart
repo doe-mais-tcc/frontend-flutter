@@ -49,70 +49,79 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.only(right: 80, left: 80, top: 30),
-        child: Column(
+      body: SafeArea(
+        child: ListView(
           children: [
             Align(
-              alignment: Alignment.centerLeft,
-              child: CustomBackButton(),
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: CustomBackButton(),
+              ),
             ),
-            ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 400),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    'assets/images/logo.png',
-                    width: 80,
-                  ),
-                  Text('Bem Vindo(a)',
-                      style: Theme.of(context).textTheme.headline1),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          autofillHints: [AutofillHints.username],
-                          decoration:
-                              InputDecoration(labelText: 'Insira seu email'),
-                          validator: (data) =>
-                              data.isEmpty ? 'Obrigatório' : null,
-                        ),
-                        TextFormField(
-                          controller: _pwdController,
-                          obscureText: true,
-                          autofillHints: [AutofillHints.password],
-                          decoration:
-                              InputDecoration(labelText: 'Insira sua senha'),
-                          validator: (data) =>
-                              data.isEmpty ? 'Obrigatório' : null,
-                        ),
-                      ],
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 600),
+                padding:
+                    const EdgeInsets.only(left: 50, right: 50, bottom: 100),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      'assets/images/logo.png',
+                      width: 80,
                     ),
-                  ),
-                  CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    title: Text('Me manter conectado'),
-                    value: _saveSession,
-                    onChanged: (value) => setState(() => _saveSession = value),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pushNamed('/signup'),
-                    child: Text('Não tem conta? Cadastre-se'),
-                  ),
-                  TextButton(
-                    onPressed: null,
-                    child: Text('Esqueceu sua senha?'),
-                  ),
-                  SizedBox(height: 20),
-                  CustomElevatedButton(
-                    label: 'Entrar',
-                    onPressed: () => validateForm(context),
-                  ),
-                ],
+                    Text('Bem Vindo(a)',
+                        style: Theme.of(context).textTheme.headline1),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            autofillHints: [AutofillHints.username],
+                            decoration:
+                                InputDecoration(labelText: 'Insira seu email'),
+                            validator: (data) =>
+                                data.isEmpty ? 'Obrigatório' : null,
+                          ),
+                          TextFormField(
+                            controller: _pwdController,
+                            obscureText: true,
+                            autofillHints: [AutofillHints.password],
+                            decoration:
+                                InputDecoration(labelText: 'Insira sua senha'),
+                            validator: (data) =>
+                                data.isEmpty ? 'Obrigatório' : null,
+                          ),
+                        ],
+                      ),
+                    ),
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('Me manter conectado'),
+                      value: _saveSession,
+                      onChanged: (value) =>
+                          setState(() => _saveSession = value),
+                    ),
+                    TextButton(
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed('/signup'),
+                      child: Text('Não tem conta? Cadastre-se'),
+                    ),
+                    TextButton(
+                      onPressed: null,
+                      child: Text('Esqueceu sua senha?'),
+                    ),
+                    SizedBox(height: 20),
+                    CustomElevatedButton(
+                      label: 'Entrar',
+                      onPressed: () => validateForm(context),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
