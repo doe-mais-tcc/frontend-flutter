@@ -1,6 +1,5 @@
 import 'package:doe_mais/components/form_step.dart';
 import 'package:doe_mais/services/hemocentro_dao.dart';
-import 'package:doe_mais/utils/data_holder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -11,7 +10,7 @@ class SignupStep1 extends StatelessWidget implements FormStep {
   final _nameController = TextEditingController();
   final _cityController = TextEditingController();
   final _bloodController = TextEditingController();
-  final _birthDate = DataHolder<DateTime>();
+  final _birthDate = DateTime.now();
 
   bool validate() {
     return _formKey.currentState.validate();
@@ -22,7 +21,7 @@ class SignupStep1 extends StatelessWidget implements FormStep {
       'nome': _nameController.text,
       'cidade': _cityController.text,
       'sangue': _bloodController.text,
-      'nascimento': DateFormat('dd-MM-yyyy').format(_birthDate.data),
+      'nascimento': DateFormat('dd-MM-yyyy').format(_birthDate),
     };
   }
 
@@ -96,7 +95,7 @@ class SignupStep1 extends StatelessWidget implements FormStep {
           DateTimeField(
             format: DateFormat('dd-MM-yyyy'),
             decoration: InputDecoration(labelText: 'Insira seu nascimento*'),
-            initialValue: _birthDate.data,
+            initialValue: _birthDate,
             onShowPicker: (BuildContext context, DateTime currentValue) {
               DateTime now = DateTime.now();
               var initialDate = DateTime(now.year - 14);
@@ -105,7 +104,11 @@ class SignupStep1 extends StatelessWidget implements FormStep {
                 initialDate: currentValue ?? initialDate,
                 firstDate: DateTime(now.year - 100),
                 lastDate: initialDate,
-              ).then((date) => _birthDate.data = date);
+              ).then((date) {
+                var dif = _birthDate.difference(date);
+                _birthDate.add(dif);
+                return null;
+              });
             },
             validator: _validateField,
           ),

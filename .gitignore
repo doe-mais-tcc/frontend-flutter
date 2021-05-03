@@ -45,5 +45,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-/assets/files/chatbot_service.json
 /public/
+assets/files/chatbot_credentials.json

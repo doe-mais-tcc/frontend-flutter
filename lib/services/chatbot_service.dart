@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' show Random;
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:doe_mais/models/message.dart' as msg;
 

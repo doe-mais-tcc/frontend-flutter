@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'dart:math' show sin, pi;
 
 class TypingIndicator extends StatefulWidget {
   final flashingCircleBrightColor = const Color(0xfffaccc8);
