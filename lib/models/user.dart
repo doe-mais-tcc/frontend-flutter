@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 
+enum Sexo { Masculino, Feminino }
+
 class User {
   int id;
   String nome;
@@ -8,8 +10,7 @@ class User {
   String cidade;
   String sangue;
   DateTime nascimento;
-  int qtdDoacao;
-  DateTime ultimaDoacao;
+  Sexo sexo;
 
   User({
     this.id,
@@ -19,8 +20,7 @@ class User {
     this.cidade,
     this.sangue,
     this.nascimento,
-    this.qtdDoacao,
-    this.ultimaDoacao,
+    this.sexo,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -29,14 +29,11 @@ class User {
         email: json['email'],
         senha: json['senha'],
         cidade: json['cidade'],
-        sangue: json['sangue'],
-        nascimento: json['nascimento'] != null
-            ? DateFormat('dd-MM-yyyy').parse(json['nascimento'])
+        sangue: json['tipo_sanguineo'],
+        nascimento: json['data_nascimento'] != null
+            ? DateFormat('dd-MM-yyyy').parse(json['data_nascimento'])
             : null,
-        qtdDoacao: json['quantidadeDoacao'],
-        ultimaDoacao: json['ultimaDoacao'] != null
-            ? DateFormat('dd-MM-yyyy').parse(json['ultima_doacao'])
-            : null,
+        sexo: json['sexo'] == 'M' ? Sexo.Masculino : Sexo.Feminino,
       );
 
   Map<String, dynamic> toJson() => {
@@ -45,11 +42,10 @@ class User {
         'email': this.email,
         'senha': this.senha,
         'cidade': this.cidade,
-        'sangue': this.sangue,
-        'nascimento': this.nascimento != null
+        'tipo_sanguineo': this.sangue,
+        'data_nascimento': this.nascimento != null
             ? DateFormat('dd-MM-yyyy').format(this.nascimento)
             : null,
-        'quantidadeDoacao': this.qtdDoacao,
-        'ultimaDoacao': this.ultimaDoacao,
+        'sexo': this.sexo == Sexo.Masculino ? 'M' : 'F',
       };
 }

@@ -3,40 +3,40 @@ import 'package:doe_mais/models/user.dart';
 
 class Campanha {
   int id;
-  bool compartilhavel;
-  String descricao;
+  User user;
+  Hemocentro hemocentro;
   String nomeInternado;
   String tipoSanguineo;
-  Hemocentro hemocentro;
-  User user;
+  bool compartilhavel;
+  String descricao;
 
   Campanha({
     this.id,
-    this.compartilhavel,
-    this.descricao,
+    this.user,
+    this.hemocentro,
     this.nomeInternado,
     this.tipoSanguineo,
-    this.hemocentro,
-    this.user,
+    this.compartilhavel,
+    this.descricao,
   });
 
   factory Campanha.fromJson(Map<String, dynamic> json) => Campanha(
         id: json['id'],
+        user: User.fromJson(json['user']),
+        hemocentro: Hemocentro.fromJson(json['hemocentro']),
+        nomeInternado: json['nome_internado'],
+        tipoSanguineo: json['tipo_sanguineo'],
         compartilhavel: json['compartilhavel'],
         descricao: json['descricao'],
-        nomeInternado: json['nomeInternado'],
-        tipoSanguineo: json['tipoSanguineo'],
-        hemocentro: Hemocentro.fromJson(json['hemocentro']),
-        user: User.fromJson(json['user']),
       );
 
   Map<String, dynamic> toJson() => {
         'id': this.id,
+        'user': this.user.toJson(),
+        'hemocentro': this.hemocentro.toJson(),
+        'nome_internado': this.nomeInternado,
+        'tipo_sanguineo': this.tipoSanguineo,
         'compartilhavel': this.compartilhavel,
         'descricao': this.descricao,
-        'nomeInternado': this.nomeInternado,
-        'tipoSanguineo': this.tipoSanguineo,
-        'hemocentro': this.hemocentro.toJson(),
-        'user': this.user.toJson(),
       };
 }

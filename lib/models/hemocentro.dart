@@ -17,7 +17,7 @@ class Hemocentro {
         nome: json['nome'],
         endereco: json['endereco'],
         cidade: json['cidade'],
-        url: json['url'],
+        url: json['url_imagem'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -25,6 +25,6 @@ class Hemocentro {
         'nome': this.nome,
         'endereco': this.endereco,
         'cidade': this.cidade,
-        'url': this.url,
+        'url_imagem': this.url,
       };
 }
