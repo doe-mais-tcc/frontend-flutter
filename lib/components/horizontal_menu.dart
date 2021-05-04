@@ -13,6 +13,7 @@ class HorizontalMenu extends StatelessWidget {
     return Wrap(
       alignment: WrapAlignment.end,
       crossAxisAlignment: WrapCrossAlignment.center,
+      verticalDirection: VerticalDirection.up,
       children: List.generate(
         Navigation.routes.length,
         (index) => MenuButton(

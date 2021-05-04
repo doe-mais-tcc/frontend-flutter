@@ -15,36 +15,35 @@ class MenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return GestureDetector(
       child: Container(
-        decoration: isActive
-            ? isHorizontal
-                ? BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        width: 4,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                  )
-                : BoxDecoration(
-                    color: Theme.of(context).hoverColor,
-                    border: Border(
-                      right: BorderSide(
-                        width: 4,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                  )
-            : BoxDecoration(
-                color: Colors.transparent,
-              ),
+        height: isHorizontal ? 65 : 50,
         padding: const EdgeInsets.all(15),
-        child: Text(
-          label,
-          style: isActive
-              ? CustomTheme.activeHamburger(context)
-              : CustomTheme.inactiveHamburger(context),
+        decoration: BoxDecoration(
+          border: !isActive
+              ? Border()
+              : isHorizontal
+                  ? Border(
+                      bottom: BorderSide(
+                      width: 4,
+                      color: theme.primaryColor,
+                    ))
+                  : Border(
+                      right: BorderSide(
+                      width: 4,
+                      color: theme.primaryColor,
+                    )),
+        ),
+        child: Center(
+          widthFactor: 1,
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: isActive
+                ? CustomTheme.activeHamburger(context)
+                : CustomTheme.inactiveHamburger(context),
+          ),
         ),
       ),
       onTap: onPressed,
