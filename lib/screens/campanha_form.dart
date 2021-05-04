@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 class CampanhaForm extends StatelessWidget {
   void _onValidForm(BuildContext context, Campanha campanha) {
     CampanhaDao.postCampanha(campanha).then(
-      (value) {
+      (response) {
         customDialog(
           context: context,
           title: 'Parabéns! Você cirou uma campanha de doação!',

@@ -22,16 +22,18 @@ class _CampanhasState extends State<Campanhas> {
   void initState() {
     super.initState();
 
-    CampanhaDao.getCampanhas().then(
-      (list) => setState(() {
-        if (list == null) return;
-        campanhas = list;
-        if (SessionManager.currentUser != null)
-          campanhasUser = campanhas
-              .where((e) => e.user.id == SessionManager.currentUser.id)
-              .toList();
-      }),
-    );
+    CampanhaDao.getCampanhas()
+        .then(
+          (list) => setState(() {
+            if (list == null) return;
+            campanhas = list;
+            if (SessionManager.currentUser != null)
+              campanhasUser = campanhas
+                  .where((e) => e.user.id == SessionManager.currentUser.id)
+                  .toList();
+          }),
+        )
+        .onError((error, stackTrace) => null);
   }
 
   @override
@@ -41,49 +43,49 @@ class _CampanhasState extends State<Campanhas> {
       child: Column(
         children: [
           Text('Campanhas', style: Theme.of(context).textTheme.headline1),
-          campanhas.isEmpty
-              ? CircularProgressIndicator()
-              : SessionManager.currentUser != null
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
+          SessionManager.currentUser != null
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Suas Campanhas',
-                              style: Theme.of(context).textTheme.headline2,
-                            ),
-                            Spacer(),
-                            SizedBox(
-                              width: 200,
-                              child: CustomElevatedButton(
-                                label: 'Criar uma campanha',
-                                onPressed: () => Navigator.of(context)
-                                    .pushNamed('/campanhas/criar'),
-                              ),
-                            ),
-                          ],
+                        Text(
+                          'Suas Campanhas',
+                          style: Theme.of(context).textTheme.headline2,
                         ),
-                        CarouselControls(
-                          height: 420,
-                          infiniteCarousel: InfiniteCarousel.builder(
-                            controller: InfiniteScrollController(),
-                            itemCount: campanhasUser.length,
-                            itemExtent: 400,
-                            center: false,
-                            loop: false,
-                            itemBuilder: (_, index, __) => Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: CampanhaCard(campanhasUser[index]),
-                            ),
+                        Spacer(),
+                        SizedBox(
+                          width: 200,
+                          child: CustomElevatedButton(
+                            label: 'Criar uma campanha',
+                            onPressed: () => Navigator.of(context)
+                                .pushNamed('/campanhas/criar'),
                           ),
                         ),
                       ],
-                    )
-                  : Container(),
+                    ),
+                    campanhasUser.isEmpty
+                        ? Container()
+                        : CarouselControls(
+                            height: 420,
+                            infiniteCarousel: InfiniteCarousel.builder(
+                              controller: InfiniteScrollController(),
+                              itemCount: campanhasUser.length,
+                              itemExtent: 400,
+                              center: false,
+                              loop: false,
+                              itemBuilder: (_, index, __) => Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: CampanhaCard(campanhasUser[index]),
+                              ),
+                            ),
+                          ),
+                  ],
+                )
+              : Container(),
           Padding(
             padding: const EdgeInsets.only(top: 40, bottom: 5),
             child: Text(
@@ -91,22 +93,24 @@ class _CampanhasState extends State<Campanhas> {
               style: Theme.of(context).textTheme.headline2,
             ),
           ),
-          ResponsiveRow(
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            children: campanhas
-                .map(
-                  (e) => ResponsiveColumn(
-                    width: ColumnWidth(
-                      smDown: 12,
-                      md: 6,
-                      lgUp: 4,
-                    ),
-                    child: CampanhaCard(e),
-                  ),
-                )
-                .toList(),
-          ),
+          campanhas.isEmpty
+              ? CircularProgressIndicator()
+              : ResponsiveRow(
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  children: campanhas
+                      .map(
+                        (e) => ResponsiveColumn(
+                          width: ColumnWidth(
+                            smDown: 12,
+                            md: 6,
+                            lgUp: 4,
+                          ),
+                          child: CampanhaCard(e),
+                        ),
+                      )
+                      .toList(),
+                ),
         ],
       ),
     );
