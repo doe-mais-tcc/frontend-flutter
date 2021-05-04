@@ -21,7 +21,19 @@ class ChatBotService {
         QueryInput(text: TextInput(text: query, languageCode: 'pt-Br'));
 
     var dialogFlowtter = await _dialogFlowtter;
-    var response = await dialogFlowtter.detectIntent(queryInput: queryInput);
+    var response =
+        await dialogFlowtter.detectIntent(queryInput: queryInput).onError(
+      (error, stackTrace) {
+        print('[CHATBOT ERROR] $error: $stackTrace');
+        throw error;
+      },
+    ).timeout(
+      Duration(minutes: 1),
+      onTimeout: () {
+        print('[TIMEOUT] chatbot hit timeout');
+        return null;
+      },
+    );
 
     List<msg.Message> output = [];
     for (var message in response.queryResult.fulfillmentMessages)

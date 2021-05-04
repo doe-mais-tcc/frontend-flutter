@@ -3,41 +3,9 @@ import 'package:doe_mais/models/hemocentro.dart';
 import 'package:doe_mais/services/dal.dart';
 
 class HemocentroDao {
-  static Future<List<Hemocentro>> getHemocentros() {
-    return DAL.get('v1/api/hemocentro').then(
-      (response) {
-        if (response.statusCode != 200)
-          throw Exception(response.statusCode);
-        else
-          return _toList(utf8.decode(response.bodyBytes));
-      },
-    ).onError(
-      (error, stackTrace) {
-        print('$error');
-        return null;
-      },
-    ).timeout(Duration(minutes: 1));
-  }
-
-  static Future<dynamic> postHemocentro(Hemocentro hemocentro) {
-    return DAL
-        .post(
-      'v1/api/hemocentro',
-      body: jsonEncode(hemocentro.toJson()),
-    )
-        .then(
-      (response) {
-        if (response.statusCode != 200)
-          throw Exception(response.statusCode);
-        else
-          return true;
-      },
-    ).onError(
-      (error, stackTrace) {
-        print('$error');
-        return null;
-      },
-    ).timeout(Duration(minutes: 1));
+  static Future<List<Hemocentro>> getHemocentros() async {
+    var response = await DAL.get('v1/api/hemocentro/recuperar');
+    return _toList(utf8.decode(response.bodyBytes));
   }
 
   static Future<List<String>> getCidades() async {

@@ -3,76 +3,41 @@ import 'package:doe_mais/models/user.dart';
 import 'package:doe_mais/services/dal.dart';
 
 class UserDao {
-  static Future<List<User>> fetchUsers() {
-    return DAL.get('v1/api/user').then(
-      (response) {
-        if (response.statusCode != 200)
-          throw Exception(response.statusCode);
-        else
-          return _toList(utf8.decode(response.bodyBytes));
-      },
-    ).onError(
-      (error, stackTrace) {
-        print('$error');
-        return null;
-      },
-    ).timeout(Duration(minutes: 1));
+  static Future<List<User>> fetchUsers() async {
+    var response = await DAL.get('v1/api/usuario/recuperar');
+    return _toList(utf8.decode(response.bodyBytes));
   }
 
-  static Future<dynamic> postUser(User user) {
-    return DAL
-        .post(
-      'v1/api/user',
+  static Future<dynamic> postUser(User user) async {
+    var response = await DAL.post(
+      'v1/api/usuario/criar',
       body: jsonEncode(user.toJson()),
-    )
-        .then(
-      (response) {
-        if (response.statusCode != 200)
-          throw Exception(response.statusCode);
-        else
-          return true;
-      },
-    ).onError(
-      (error, stackTrace) {
-        print('$error');
-        return null;
-      },
-    ).timeout(Duration(minutes: 1));
+    );
+    return response;
   }
 
-  static Future<User> checkUser(User user) {
-    return DAL.get('v1/api/user/email/${user.email}').then(
-      (response) {
-        if (response.statusCode != 200) throw Exception(response.statusCode);
-        if (response.body.length == 0) throw Exception('No such user');
+  static Future<User> checkUser(User user) async {
+    var response =
+        await DAL.get('v1/api/usuario/recuperar/email/${user.email}');
 
-        User responseUser =
-            User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-        if (responseUser.senha == DAL.encode(user.senha))
-          return responseUser;
-        else
-          return null;
-      },
-    ).onError(
-      (error, stackTrace) {
-        print('$error');
-        return null;
-      },
-    ).timeout(Duration(minutes: 1));
+    if (response.body.length == 0) throw Exception('No such user');
+
+    User responseUser = User.fromJson(
+      jsonDecode(utf8.decode(response.bodyBytes)),
+    );
+
+    if (responseUser.senha == DAL.encode(user.senha))
+      return responseUser;
+    else
+      return null;
   }
 
-  static Future<User> getUser(String id) {
-    return DAL.get('v1/api/user/$id').then((response) {
-      if (response.statusCode != 200) throw Exception(response.statusCode);
-      if (response.body.length == 0) throw Exception('No such user');
+  static Future<User> getUser(String id) async {
+    var response = await DAL.get('v1/api/usuario/recuperar/$id');
 
-      return User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-    }).onError(
-      (error, stackTrace) {
-        print('$error');
-        return null;
-      },
-    ).timeout(Duration(minutes: 1));
+    if (response.body.length == 0) throw Exception('No such user');
+
+    return User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   }
 
   static List<User> _toList(String response) {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -6,17 +7,57 @@ class DAL {
   static const String connectionString =
       kIsWeb ? 'localhost:8080' : '10.0.2.2:8080';
 
-  static Future<http.Response> get(String url) =>
-      http.get(Uri.http(connectionString, url));
+  static Future<http.Response> get(String url) async {
+    var response = await http.get(Uri.http(connectionString, url))
+        //Handle get error
+        .onError(
+      (error, stackTrace) {
+        print('[ERROR] $error: $stackTrace');
+        throw error;
+      },
+      //Get timeout
+    ).timeout(
+      Duration(minutes: 1),
+      onTimeout: () {
+        print('[TIMEOUT] http get hit time out');
+        return null;
+      },
+    );
+    if (!_handleResponse(response))
+      throw Exception('[ERROR]: Null response on get');
 
-  static Future<http.Response> post(String url, {Object body}) => http.post(
-        Uri.http(connectionString, url),
-        body: body,
-        headers: {
-          "Accept": "application/json",
-          "content-type": "application/json"
-        },
-      );
+    //Returned response is never null
+    return response;
+  }
+
+  static Future<http.Response> post(String url, {Object body}) async {
+    var response = await http.post(
+      Uri.http(connectionString, url),
+      body: body,
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json"
+      },
+      //Handle error
+    ).onError(
+      (error, stackTrace) {
+        print('[ERROR] $error: $stackTrace');
+        throw error;
+      },
+      //Post timeout
+    ).timeout(
+      Duration(minutes: 1),
+      onTimeout: () {
+        print('[TIMEOUT] http set hit time out');
+        return null;
+      },
+    );
+    if (!_handleResponse(response))
+      throw Exception('[ERROR]: Null response on set');
+
+    //Returned response is never null
+    return response;
+  }
 
   static String encode(String input) {
     return base64.encode(utf8.encode(input));
@@ -24,5 +65,11 @@ class DAL {
 
   static String decode(String input) {
     return utf8.decode(base64.decode(input));
+  }
+
+  static bool _handleResponse(http.Response response) {
+    if (response == null) return false;
+    if (response.statusCode != 200) return false;
+    return true;
   }
 }
