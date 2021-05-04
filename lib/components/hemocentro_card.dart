@@ -1,9 +1,21 @@
+import 'package:doe_mais/components/source_box.dart';
 import 'package:doe_mais/models/hemocentro.dart';
 import 'package:flutter/material.dart';
 
-class HemocentroCard extends StatelessWidget {
+class HemocentroCard extends StatefulWidget {
   final Hemocentro hemocentro;
-  HemocentroCard(this.hemocentro);
+  HemocentroCard(this.hemocentro) : assert(hemocentro != null);
+
+  @override
+  _HemocentroCardState createState() => _HemocentroCardState();
+}
+
+class _HemocentroCardState extends State<HemocentroCard> {
+  final Widget _loadingWidget = Container(
+    color: Colors.black26,
+    child: Center(child: CircularProgressIndicator()),
+  );
+  bool showSource = false;
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +26,30 @@ class HemocentroCard extends StatelessWidget {
         children: [
           Flexible(
             flex: 3,
-            child: AspectRatio(
-              aspectRatio: 1.8,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.network(hemocentro.url, fit: BoxFit.cover),
+            child: MouseRegion(
+              onEnter: (_) => setState(() => showSource = true),
+              onExit: (_) => setState(() => showSource = false),
+              child: Stack(
+                alignment: Alignment.bottomLeft,
+                children: [
+                  AspectRatio(
+                    aspectRatio: 1.8,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: widget.hemocentro.url == null
+                          ? _loadingWidget
+                          : Image.network(
+                              widget.hemocentro.url,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (context, child, progress) =>
+                                  progress != null ? _loadingWidget : child,
+                            ),
+                    ),
+                  ),
+                  showSource
+                      ? SourceBox(sourceLink: widget.hemocentro.url)
+                      : Container(),
+                ],
               ),
             ),
           ),
@@ -30,7 +61,7 @@ class HemocentroCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    hemocentro.nome,
+                    '${widget.hemocentro.nome}',
                     style: Theme.of(context).textTheme.headline3,
                   ),
                   Row(
@@ -38,7 +69,7 @@ class HemocentroCard extends StatelessWidget {
                       Icon(Icons.location_city),
                       SizedBox(width: 8),
                       Text(
-                        hemocentro.cidade,
+                        '${widget.hemocentro.cidade}',
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ],
@@ -49,7 +80,7 @@ class HemocentroCard extends StatelessWidget {
                       SizedBox(width: 8),
                       Flexible(
                         child: Text(
-                          hemocentro.endereco,
+                          '${widget.hemocentro.endereco}',
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),
