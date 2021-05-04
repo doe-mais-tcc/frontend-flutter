@@ -1,0 +1,3 @@
+class DataHolder {
+  dynamic data;
+}
