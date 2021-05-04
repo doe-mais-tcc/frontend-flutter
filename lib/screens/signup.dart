@@ -50,17 +50,18 @@ class SignUp extends StatelessWidget {
                       steps: steps,
                       onSubmit: (data) {
                         var user = User.fromJson(data);
+
                         UserDao.postUser(user).then(
-                          (value) {
+                          (response) {
                             SessionManager.saveSession(user);
-                            Navigator.of(context).pushNamed('/home');
+                            Navigator.of(context).pushNamed('/inicio');
                           },
                         ).onError(
                           (error, stackTrace) {
                             alertBottomSheet(
-                                context: context,
-                                message:
-                                    'Não foi possível concluir o cadastro');
+                              context: context,
+                              message: 'Não foi possível concluir o cadastro',
+                            );
                           },
                         );
                       },

@@ -16,14 +16,24 @@ class Inicio extends StatefulWidget {
 
 class _InicioState extends State<Inicio> {
   List<Hemocentro> hemocentros = [];
+  List<Widget> messages = [];
   bool showAllHemocentros = false;
 
   @override
   void initState() {
     super.initState();
-    HemocentroDao.getHemocentros().then(
-      (list) => setState(() => hemocentros = list),
+    messages.add(
+      MessageCard(
+        title: 'Faça o teste agora!',
+        message:
+            'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages',
+      ),
     );
+    HemocentroDao.getHemocentros()
+        .then(
+          (list) => setState(() => hemocentros = list),
+        )
+        .onError((error, stackTrace) => null);
   }
 
   @override
@@ -34,22 +44,18 @@ class _InicioState extends State<Inicio> {
         children: [
           Text('Bem Vindo!', style: Theme.of(context).textTheme.headline1),
           SizedBox(height: 30),
-          CarouselControls(
-            height: 300,
-            infiniteCarousel: InfiniteCarousel.builder(
-              controller: InfiniteScrollController(),
-              itemCount: 2,
-              itemExtent: 600,
-              itemBuilder: (_, __, ___) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: MessageCard(
-                  title: 'Faça o teste agora!',
-                  message:
-                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages',
-                ),
-              ),
-            ),
-          ),
+          // CarouselControls(
+          //   height: 300,
+          //   infiniteCarousel: InfiniteCarousel.builder(
+          //     controller: InfiniteScrollController(),
+          //     itemCount: messages.length,
+          //     itemExtent: 500,
+          //     itemBuilder: (context, index, _) => Padding(
+          //       padding: const EdgeInsets.symmetric(horizontal: 15),
+          //       child: messages[index],
+          //     ),
+          //   ),
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

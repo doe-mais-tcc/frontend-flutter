@@ -2,6 +2,9 @@ import 'package:doe_mais/components/checkbox_form_field.dart';
 import 'package:doe_mais/components/form_step.dart';
 import 'package:doe_mais/components/modal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:password_credential/credentials.dart';
+import 'package:password_credential/entity/mediation.dart';
 
 class SignupStep2 extends StatefulWidget implements FormStep {
   final _formKey = GlobalKey<FormState>();
@@ -11,7 +14,15 @@ class SignupStep2 extends StatefulWidget implements FormStep {
 
   bool validate() {
     if (!_formKey.currentState.validate()) return false;
-    return _pwd1Controller.text == _pwd2Controller.text;
+    if (_pwd1Controller.text != _pwd2Controller.text) return false;
+
+    //Request user to save credentials
+    Credentials().store(
+      _emailController.text,
+      _pwd1Controller.text,
+      Mediation.Optional,
+    );
+    return true;
   }
 
   dynamic returnData() {
@@ -57,18 +68,21 @@ class _SignupStep2State extends State<SignupStep2> {
             controller: widget._emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(labelText: 'Insira seu email*'),
+            autofillHints: [AutofillHints.username, AutofillHints.email],
             validator: _validateField,
           ),
           TextFormField(
             controller: widget._pwd1Controller,
             obscureText: true,
             decoration: InputDecoration(labelText: 'Insira sua senha*'),
+            autofillHints: [AutofillHints.password],
             validator: _validateField,
           ),
           TextFormField(
             controller: widget._pwd2Controller,
             obscureText: true,
             decoration: InputDecoration(labelText: 'Repita sua senha*'),
+            autofillHints: [AutofillHints.password],
             validator: (data) {
               if (data == null || data.toString().isEmpty) return 'Obrigatório';
               if (widget._pwd1Controller.text != data)

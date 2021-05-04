@@ -6,6 +6,8 @@ import 'package:doe_mais/services/user_dao.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:password_credential/credentials.dart';
+import 'package:password_credential/entity/mediation.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -18,32 +20,54 @@ class _LoginState extends State<Login> {
   final _pwdController = TextEditingController();
   bool _saveSession = false;
 
-  void validateForm(BuildContext context) {
+  void validateForm(BuildContext context) async {
     if (!_formKey.currentState.validate()) return;
 
     User user = User(
       email: _emailController.text,
       senha: _pwdController.text,
     );
-    UserDao.checkUser(user).then(
-      (result) {
-        if (result != null) {
-          if (_saveSession)
-            SessionManager.saveSession(result);
-          else
-            SessionManager.currentUser = result;
-          Navigator.of(context).pushReplacementNamed('/home');
-        } else
-          alertBottomSheet(
-            context: context,
-            message: 'Senha incorreta',
-            timeLimit: 5,
-          );
+    //Returns user on success and null on fail
+    var returnedUser = await UserDao.checkUser(user)
+
+        //For internet error or no match user
+        .onError(
+      (error, stackTrace) {
+        alertBottomSheet(
+            context: context, message: 'Não foi possível realizar o login');
+        return;
       },
-    ).onError((error, stackTrace) {
+    );
+
+    if (returnedUser == null) {
       alertBottomSheet(
-          context: context, message: 'Não foi possível realizar o login');
-    });
+        context: context,
+        message: 'Email ou senha incorretos',
+        timeLimit: 5,
+      );
+      return;
+    }
+
+    // Saves session if required, otherwise just sets temp user
+    if (_saveSession)
+      SessionManager.saveSession(returnedUser);
+    else
+      SessionManager.currentUser = returnedUser;
+
+    //Return home
+    Navigator.of(context).pushReplacementNamed('/inicio');
+  }
+
+  void _getCredentials() async {
+    var credentials = await Credentials().get(Mediation.Optional);
+    _emailController.text = credentials.name;
+    _pwdController.text = credentials.password;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getCredentials();
   }
 
   @override

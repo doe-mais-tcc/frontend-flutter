@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class FormStepper extends StatefulWidget {
   final List<FormStep> steps;
-  final Function(dynamic) onSubmit;
+  final Function(Map<String, dynamic>) onSubmit;
   FormStepper({@required this.steps, @required this.onSubmit});
 
   @override
