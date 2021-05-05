@@ -1,5 +1,6 @@
 import 'package:doe_mais/components/confirmation_card.dart';
 import 'package:doe_mais/components/app_frame.dart';
+import 'package:doe_mais/utils/donation_dialog.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatelessWidget {
@@ -22,11 +23,13 @@ class Profile extends StatelessWidget {
                 Navigator.of(context).pushNamed('/requisitos-doacao'),
           ),
           ConfirmationCard(
-            title: 'Agendamento de doação',
-            description: 'Você não tem nenhuma doação marcada. Marque uma!',
-            confirmMessage: 'Marcar doação',
+            title: 'Lembrete de doação',
+            description:
+                'Você não tem nenhum lembrete de doação marcado. Marque um!',
+            confirmMessage: 'Marcar lembrete',
             icon: Image.asset('assets/images/icon_calendar.png'),
-            onConfirm: () {},
+            onConfirm: () =>
+                donationDialog(context).then((doacao) => print(doacao?.data)),
           ),
           Text(
             'Todos os Hemocentros na região',
