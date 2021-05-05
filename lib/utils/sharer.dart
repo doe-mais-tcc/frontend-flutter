@@ -1,8 +1,19 @@
 import 'package:doe_mais/models/campanha.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+enum SocialMedia { Facebook, Twitter }
+
 class Sharer {
   static const String authority = 'doemais-924bf.web.app';
+
+  static void share(SocialMedia socialMedia, Campanha campanha) {
+    switch (socialMedia) {
+      case SocialMedia.Facebook:
+        return shareOnFacebook(campanha);
+      case SocialMedia.Twitter:
+        return shareOnTwitter(campanha);
+    }
+  }
 
   static void shareOnFacebook(Campanha campanha) async {
     var uri = Uri.https(
