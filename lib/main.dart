@@ -35,7 +35,7 @@ class DoeMais extends StatelessWidget {
       routes: {
         '/login': (context) => Login(),
         '/signup': (context) => SignUp(),
-        '/home': (context) => Inicio(),
+        '/inicio': (context) => Inicio(),
         '/perfil': (context) =>
             SessionManager.currentUser == null ? Login() : Perfil(),
         '/duvidas': (context) => Duvidas(),

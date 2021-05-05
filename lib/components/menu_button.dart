@@ -16,7 +16,7 @@ class MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return GestureDetector(
+    return InkWell(
       child: Container(
         height: isHorizontal ? 65 : 50,
         padding: const EdgeInsets.all(15),

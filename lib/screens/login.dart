@@ -29,7 +29,6 @@ class _LoginState extends State<Login> {
     );
     //Returns user on success and null on fail
     var returnedUser = await UserDao.checkUser(user)
-
         //For internet error or no match user
         .onError(
       (error, stackTrace) {
@@ -38,7 +37,6 @@ class _LoginState extends State<Login> {
         return;
       },
     );
-
     if (returnedUser == null) {
       alertBottomSheet(
         context: context,
@@ -48,7 +46,13 @@ class _LoginState extends State<Login> {
       return;
     }
 
-    // Saves session if required, otherwise just sets temp user
+    //Requests user to save credentials
+    Credentials().store(
+      _emailController.text,
+      _pwdController.text,
+      Mediation.Optional,
+    );
+    //Saves session if required, otherwise just sets temp user
     if (_saveSession)
       SessionManager.saveSession(returnedUser);
     else
