@@ -60,6 +60,7 @@ class _LoginState extends State<Login> {
 
   void _getCredentials() async {
     var credentials = await Credentials().get(Mediation.Optional);
+    if (credentials == null) return;
     _emailController.text = credentials.name;
     _pwdController.text = credentials.password;
   }

@@ -1,10 +1,31 @@
 import 'package:doe_mais/models/campanha.dart';
-import 'package:doe_mais/screens/campanha_info.dart';
+import 'package:doe_mais/utils/navigation.dart';
+import 'package:doe_mais/utils/sharer.dart';
 import 'package:flutter/material.dart';
 
 class CampanhaCard extends StatelessWidget {
   final Campanha campanha;
   CampanhaCard(this.campanha);
+
+  List<Widget> shareButtons() {
+    if (!campanha.compartilhavel) return [Container()];
+    return [
+      Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: TextButton(
+          child: Text('Compartilhe no Facebook'),
+          onPressed: () => Sharer.shareOnFacebook(campanha),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: TextButton(
+          child: Text('Compartilhe no Twitter'),
+          onPressed: () => Sharer.shareOnTwitter(campanha),
+        ),
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,26 +78,15 @@ class CampanhaCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  campanha.compartilhavel
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: TextButton(
-                            child: Text('Compartilhe no Facebook'),
-                            onPressed: () {},
-                          ),
-                        )
-                      : Container(),
+                  ...shareButtons(),
                 ],
               ),
             ),
           ],
         ),
       ),
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => CampanhaInfo(campanha),
-        ),
-      ),
+      onTap: () => Navigator.of(context)
+          .pushNamed(Navigation.getCampanhaRoute(campanha)),
     );
   }
 }

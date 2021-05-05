@@ -7,6 +7,7 @@ import 'package:doe_mais/screens/login.dart';
 import 'package:doe_mais/screens/perfil.dart';
 import 'package:doe_mais/screens/signup.dart';
 import 'package:doe_mais/utils/main_theme.dart';
+import 'package:doe_mais/utils/navigation.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -31,8 +32,6 @@ class DoeMais extends StatelessWidget {
       title: 'Doe+',
       theme: mainTheme(),
       initialRoute: '/home',
-      onUnknownRoute: (routeSettings) =>
-          MaterialPageRoute(builder: (context) => Inicio()),
       routes: {
         '/login': (context) => Login(),
         '/signup': (context) => SignUp(),
@@ -45,6 +44,7 @@ class DoeMais extends StatelessWidget {
         '/campanhas/criar': (context) =>
             SessionManager.currentUser == null ? Login() : CampanhaForm(),
       },
+      onGenerateRoute: Navigation.generateRoutes,
     );
   }
 }

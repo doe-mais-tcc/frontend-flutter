@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:doe_mais/models/hemocentro.dart';
 import 'package:doe_mais/models/user.dart';
 
@@ -19,6 +20,17 @@ class Campanha {
     this.compartilhavel,
     this.descricao,
   });
+
+  static String uriEncode(Campanha campanha) {
+    var data = utf8.encode('${campanha.id}&)${campanha.nomeInternado}');
+    return base64.encode(data);
+  }
+
+  static String uriDecode(String input) {
+    var data = base64.decode(input);
+    var decoded = utf8.decode(data);
+    return decoded.split('&')[0];
+  }
 
   factory Campanha.fromJson(Map<String, dynamic> json) => Campanha(
         id: json['id'],

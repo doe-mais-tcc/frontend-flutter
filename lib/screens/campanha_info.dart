@@ -1,53 +1,62 @@
 import 'package:doe_mais/components/app_frame.dart';
 import 'package:doe_mais/components/hemocentro_card.dart';
 import 'package:doe_mais/models/campanha.dart';
+import 'package:doe_mais/services/campanha_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
 
 class CampanhaInfo extends StatelessWidget {
-  final Campanha campanha;
-  CampanhaInfo(this.campanha);
+  final String campanhaId;
+  CampanhaInfo(this.campanhaId);
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return AppFrame(
       menuIndex: 3,
-      child: Column(
-        children: [
-          Text(
-            'Campanha de ${campanha.nomeInternado}',
-            style: theme.textTheme.headline1,
-          ),
-          SizedBox(height: 40),
-          ResponsiveRow(
-            mainAxisSpacing: 20,
-            crossAxisSpacing: 10,
+      child: FutureBuilder<Campanha>(
+        future: CampanhaDao.getCampanha(campanhaId),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) return Text('erro');
+          if (!snapshot.hasData)
+            return Center(child: CircularProgressIndicator());
+          return Column(
             children: [
-              ResponsiveColumn(
-                width: ColumnWidth(
-                  smDown: 12,
-                  md: 12,
-                  lgUp: 8,
-                ),
-                child: card1(theme),
+              Text(
+                'Campanha de ${snapshot.data.nomeInternado}',
+                style: theme.textTheme.headline1,
               ),
-              ResponsiveColumn(
-                width: ColumnWidth(
-                  smDown: 12,
-                  md: 12,
-                  lgUp: 4,
-                ),
-                child: card2(theme),
+              SizedBox(height: 40),
+              ResponsiveRow(
+                mainAxisSpacing: 20,
+                crossAxisSpacing: 10,
+                children: [
+                  ResponsiveColumn(
+                    width: ColumnWidth(
+                      smDown: 12,
+                      md: 12,
+                      lgUp: 8,
+                    ),
+                    child: card1(snapshot.data, theme),
+                  ),
+                  ResponsiveColumn(
+                    width: ColumnWidth(
+                      smDown: 12,
+                      md: 12,
+                      lgUp: 4,
+                    ),
+                    child: card2(snapshot.data, theme),
+                  ),
+                ],
               ),
             ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 
-  Column card1(ThemeData theme) {
+  Column card1(Campanha campanha, ThemeData theme) {
     return Column(
       children: [
         Text(
@@ -108,7 +117,7 @@ class CampanhaInfo extends StatelessWidget {
     );
   }
 
-  Column card2(ThemeData theme) {
+  Column card2(Campanha campanha, ThemeData theme) {
     return Column(
       children: [
         Text(
