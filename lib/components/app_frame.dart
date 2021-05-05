@@ -67,13 +67,11 @@ class BroadLayout extends StatelessWidget {
             Expanded(
               child: shrink
                   ? Padding(
-                      padding: const EdgeInsets.only(
-                          left: 15, right: 15, bottom: 100),
+                      padding: const EdgeInsets.fromLTRB(15, 20, 15, 50),
                       child: screen,
                     )
                   : SingleChildScrollView(
-                      padding: const EdgeInsets.only(
-                          left: 70, right: 70, bottom: 200),
+                      padding: const EdgeInsets.fromLTRB(70, 20, 70, 200),
                       child: screen,
                     ),
             )
@@ -112,11 +110,11 @@ class NarrowLayout extends StatelessWidget {
       ),
       body: shrink
           ? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.only(right: 15, left: 15, top: 20),
               child: screen,
             )
           : SingleChildScrollView(
-              padding: EdgeInsets.only(right: 15, left: 15, bottom: 200),
+              padding: EdgeInsets.fromLTRB(15, 20, 15, 200),
               child: screen,
             ),
     );

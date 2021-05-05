@@ -1,4 +1,4 @@
-import 'package:doe_mais/components/chat_bubble.dart';
+import 'package:doe_mais/components/custom_chat_bubble.dart';
 import 'package:doe_mais/models/message.dart';
 import 'package:doe_mais/utils/chatbot_list_manager.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +50,7 @@ class _ChatBotState extends State<ChatBot> {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             itemBuilder: (context, index, animation) {
               int i = messages.length - index - 1;
-              return ChatBubble(messages[i]);
+              return CustomChatBubble(messages[i]);
             },
           ),
         ),

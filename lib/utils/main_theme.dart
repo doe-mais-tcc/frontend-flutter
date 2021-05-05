@@ -64,6 +64,9 @@ ThemeData mainTheme() {
         fontWeight: FontWeight.w200,
       ),
     ),
+    textSelectionTheme: TextSelectionThemeData(
+      selectionColor: linkColor,
+    ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -71,7 +74,7 @@ ThemeData mainTheme() {
     ),
     cardTheme: CardTheme(
       elevation: 5,
-      shadowColor: Colors.black45,
+      shadowColor: Colors.black38,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(

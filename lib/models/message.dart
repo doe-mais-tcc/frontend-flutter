@@ -1,6 +1,6 @@
 class Message {
   String text;
-  bool isInput;
+  bool isSender;
 
-  Message({this.text, this.isInput = true});
+  Message({this.text, this.isSender = true});
 }

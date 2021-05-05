@@ -25,10 +25,10 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  bubble: ^1.2.1
   cupertino_icons: ^1.0.2
   datetime_picker_formfield: ^2.0.0
   dialog_flowtter: ^0.3.1
+  flutter_chat_bubble: ^1.0.2
   font_awesome_flutter: ^9.0.0
   http: ^0.13.1
   infinite_carousel: ^1.0.0

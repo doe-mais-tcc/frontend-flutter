@@ -15,7 +15,7 @@ class Duvidas extends StatelessWidget {
               style: Theme.of(context).textTheme.headline1),
           Flexible(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 650),
+              constraints: BoxConstraints(maxWidth: 750),
               child: ChatBot(),
             ),
           ),

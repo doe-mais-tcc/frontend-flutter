@@ -10,7 +10,7 @@ class ChatbotListManager {
   ChatbotListManager({@required this.messages, @required this.listKey});
 
   void newMessage(String text) {
-    var loadingMessage = Message(isInput: false);
+    var loadingMessage = Message(isSender: false);
     _addToList(messages.length, [
       Message(text: text),
       loadingMessage,
@@ -20,7 +20,7 @@ class ChatbotListManager {
   }
 
   void welcomeMessage() {
-    var loadingMessage = Message(isInput: false);
+    var loadingMessage = Message(isSender: false);
     _addToList(0, [loadingMessage]);
     _queryMessage('oi', loadingMessage);
   }
@@ -44,7 +44,7 @@ class ChatbotListManager {
       (error, stackTrace) {
         var message = Message(
           text: errorMessage,
-          isInput: false,
+          isSender: false,
         );
         _replaceMessage(loadingMessage, [message]);
         return;

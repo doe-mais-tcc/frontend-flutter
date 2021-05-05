@@ -39,7 +39,7 @@ class ChatBotService {
     for (var message in response.queryResult.fulfillmentMessages)
       output.add(msg.Message(
         text: message.text.text[0],
-        isInput: false,
+        isSender: false,
       ));
 
     return output;
