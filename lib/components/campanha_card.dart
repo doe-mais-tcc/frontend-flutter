@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:doe_mais/components/card_header.dart';
 import 'package:doe_mais/components/share_button.dart';
 import 'package:doe_mais/models/campanha.dart';
 import 'package:doe_mais/utils/navigation.dart';
@@ -17,12 +20,9 @@ class CampanhaCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Container(
-                height: 150,
-                color: Colors.grey,
-              ),
+            CardHeader(
+              height: 100,
+              imageUrl: campanha.hemocentro.url,
             ),
             Container(
               height: 220,

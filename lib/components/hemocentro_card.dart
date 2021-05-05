@@ -1,3 +1,4 @@
+import 'package:doe_mais/components/card_header.dart';
 import 'package:doe_mais/components/source_box.dart';
 import 'package:doe_mais/models/hemocentro.dart';
 import 'package:flutter/material.dart';
@@ -24,70 +25,55 @@ class _HemocentroCardState extends State<HemocentroCard> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Flexible(
-            flex: 3,
-            child: MouseRegion(
-              onEnter: (_) => setState(() => showSource = true),
-              onExit: (_) => setState(() => showSource = false),
-              child: Stack(
-                alignment: Alignment.bottomLeft,
-                children: [
-                  AspectRatio(
-                    aspectRatio: 1.8,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: widget.hemocentro.url == null
-                          ? _loadingWidget
-                          : Image.network(
-                              widget.hemocentro.url,
-                              fit: BoxFit.cover,
-                              loadingBuilder: (context, child, progress) =>
-                                  progress != null ? _loadingWidget : child,
-                            ),
-                    ),
-                  ),
-                  showSource
-                      ? SourceBox(sourceLink: widget.hemocentro.url)
-                      : Container(),
-                ],
-              ),
+          MouseRegion(
+            onEnter: (_) => setState(() => showSource = true),
+            onExit: (_) => setState(() => showSource = false),
+            child: Stack(
+              alignment: Alignment.bottomLeft,
+              children: [
+                CardHeader(
+                  height: 200,
+                  imageUrl: widget.hemocentro.url,
+                ),
+                showSource
+                    ? SourceBox(sourceLink: widget.hemocentro.url)
+                    : Container(),
+              ],
             ),
           ),
-          Flexible(
-            flex: 2,
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(15, 10, 15, 25),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${widget.hemocentro.nome}',
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.location_city),
-                      SizedBox(width: 8),
-                      Text(
-                        '${widget.hemocentro.cidade}',
+          Container(
+            padding: const EdgeInsets.fromLTRB(15, 10, 15, 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${widget.hemocentro.nome}',
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Icon(Icons.location_city),
+                    SizedBox(width: 8),
+                    Text(
+                      '${widget.hemocentro.cidade}',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.location_on),
+                    SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        '${widget.hemocentro.endereco}',
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.location_on),
-                      SizedBox(width: 8),
-                      Flexible(
-                        child: Text(
-                          '${widget.hemocentro.endereco}',
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],

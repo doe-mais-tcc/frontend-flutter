@@ -43,6 +43,7 @@ ThemeData mainTheme() {
       headline3: TextStyle(
         fontFamily: 'Montserrat',
         color: Colors.black,
+        fontWeight: FontWeight.bold,
         fontSize: 18,
       ),
       bodyText1: TextStyle(

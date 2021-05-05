@@ -1,7 +1,9 @@
 import 'package:doe_mais/components/app_frame.dart';
 import 'package:doe_mais/components/hemocentro_card.dart';
+import 'package:doe_mais/components/share_button.dart';
 import 'package:doe_mais/models/campanha.dart';
 import 'package:doe_mais/services/campanha_dao.dart';
+import 'package:doe_mais/utils/sharer.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
 
@@ -108,6 +110,15 @@ class CampanhaInfo extends StatelessWidget {
                       style: theme.textTheme.bodyText1,
                     ),
                   ),
+                  Text('Compartilhe:', style: theme.textTheme.caption),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: SocialMedia.values
+                        .map((e) =>
+                            ShareButton(socialMedia: e, campanha: campanha))
+                        .toList(),
+                  ),
+                  SizedBox(height: 20),
                 ],
               ),
             ),
