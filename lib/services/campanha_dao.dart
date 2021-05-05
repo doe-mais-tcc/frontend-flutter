@@ -4,13 +4,15 @@ import 'package:doe_mais/models/campanha.dart';
 import 'package:doe_mais/services/dal.dart';
 
 class CampanhaDao {
+  static const String _baseUrl = 'v1/api/campanha';
+
   static Future<List<Campanha>> getCampanhas() async {
-    var response = await DAL.get('v1/api/campanha/recuperar');
+    var response = await DAL.get('$_baseUrl/recuperar');
     return _toList(utf8.decode(response.bodyBytes));
   }
 
   static Future<Campanha> getCampanha(String id) async {
-    var response = await DAL.get('v1/api/campanha/recuperar/$id');
+    var response = await DAL.get('$_baseUrl/recuperar/$id');
     var json = utf8.decode(response.bodyBytes);
     return Campanha.fromJson(jsonDecode(json));
   }
@@ -20,7 +22,7 @@ class CampanhaDao {
     map.remove('id');
 
     var response = await DAL.post(
-      'v1/api/campanha/criar',
+      '$_baseUrl/criar',
       body: jsonEncode(map),
     );
     return response;

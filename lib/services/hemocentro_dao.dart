@@ -3,8 +3,10 @@ import 'package:doe_mais/models/hemocentro.dart';
 import 'package:doe_mais/services/dal.dart';
 
 class HemocentroDao {
+  static const String _baseUrl = 'v1/api/hemocentro';
+
   static Future<List<Hemocentro>> getHemocentros() async {
-    var response = await DAL.get('v1/api/hemocentro/recuperar');
+    var response = await DAL.get('$_baseUrl/recuperar');
     return _toList(utf8.decode(response.bodyBytes));
   }
 

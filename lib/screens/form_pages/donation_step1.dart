@@ -1,8 +1,12 @@
 import 'package:doe_mais/components/custom_elevated_button.dart';
 import 'package:doe_mais/models/doacao.dart';
 import 'package:doe_mais/models/hemocentro.dart';
+import 'package:doe_mais/services/doacao_dao.dart';
 import 'package:doe_mais/services/hemocentro_dao.dart';
+import 'package:doe_mais/utils/custom_bottom_sheet.dart';
+import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:doe_mais/utils/date_time_extension.dart';
 
 class DonationStep1 extends StatefulWidget {
   @override
@@ -10,11 +14,11 @@ class DonationStep1 extends StatefulWidget {
 }
 
 class _DonationStep1State extends State<DonationStep1> {
-  final now = DateTime.now();
-  final doacao = Doacao();
   final formKey = GlobalKey<FormState>();
   final timeController = TextEditingController();
-  List<Hemocentro> hemocentros = [];
+  TimeOfDay doacaoTime = TimeOfDay(hour: 12, minute: 00);
+  DateTime doacaoDate = DateTime.now();
+  Hemocentro doacaoHemocentro;
 
   String _validateField(dynamic data) {
     if (data == null || data.toString().isEmpty) return 'Obrigatório';
@@ -23,10 +27,26 @@ class _DonationStep1State extends State<DonationStep1> {
 
   void _validateForm(BuildContext context) {
     if (!formKey.currentState.validate()) return;
-    Navigator.of(context).pop(doacao);
+
+    var doacao = Doacao(
+      user: SessionManager.currentUser,
+      proximaDoacao: doacaoDate.setTimeOfDay(doacaoTime),
+      hemocentro: doacaoHemocentro,
+    );
+    DoacaoDao.postDoacao(doacao)
+        .then(
+      (result) => Navigator.of(context).pop(),
+    )
+        .onError(
+      (error, stackTrace) {
+        alertBottomSheet(
+            context: context, message: 'Não foi possível criar o lembrete');
+      },
+    );
   }
 
   Widget _calendarStep(ThemeData theme) {
+    var now = DateTime.now();
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -38,7 +58,7 @@ class _DonationStep1State extends State<DonationStep1> {
           initialDate: now,
           firstDate: now,
           lastDate: DateTime(3000),
-          onDateChanged: (date) => doacao.data = date,
+          onDateChanged: (date) => setState(() => doacaoDate = date),
         ),
       ],
     );
@@ -58,10 +78,11 @@ class _DonationStep1State extends State<DonationStep1> {
           decoration: InputDecoration(labelText: 'Insira o horário da doação*'),
           onTap: () => showTimePicker(
             context: context,
-            initialTime: TimeOfDay(hour: 00, minute: 00),
+            initialTime: TimeOfDay(hour: 12, minute: 00),
           ).then(
             (value) {
-              doacao.hora = value;
+              if (value == null) return;
+              doacaoTime = value;
               timeController.text = value.format(context);
             },
           ),
@@ -79,17 +100,21 @@ class _DonationStep1State extends State<DonationStep1> {
           'Selecione o local de doação',
           style: theme.textTheme.headline2,
         ),
-        hemocentros.isEmpty
-            ? DropdownButtonFormField(
-                items: [
-                  DropdownMenuItem(
-                    child: Text('Carregando Hemocentros'),
-                  ),
-                ],
+        FutureBuilder<List<Hemocentro>>(
+          future: HemocentroDao.getHemocentros(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError)
+              return DropdownButtonFormField(
+                items: [],
+                decoration:
+                    InputDecoration(labelText: 'Erro ao carregar hemocentros'),
                 validator: _validateField,
-              )
-            : DropdownButtonFormField<Hemocentro>(
-                items: hemocentros
+              );
+
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData)
+              return DropdownButtonFormField<Hemocentro>(
+                items: snapshot.data
                     .map((e) => DropdownMenuItem(
                           child: Text(e.nome),
                           value: e,
@@ -97,19 +122,20 @@ class _DonationStep1State extends State<DonationStep1> {
                     .toList(),
                 decoration:
                     InputDecoration(labelText: 'Selecione o local da doação*'),
-                onChanged: (value) => doacao.hemocentro = value,
+                onChanged: (value) => doacaoHemocentro = value,
                 validator: _validateField,
-              ),
+              );
+            return DropdownButtonFormField(
+              items: [
+                DropdownMenuItem(
+                  child: Text('Carregando Hemocentros'),
+                ),
+              ],
+              validator: _validateField,
+            );
+          },
+        ),
       ],
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    doacao.data = now;
-    HemocentroDao.getHemocentros().then(
-      (list) => setState(() => hemocentros = list),
     );
   }
 

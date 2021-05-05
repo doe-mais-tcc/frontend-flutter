@@ -3,8 +3,10 @@ import 'package:doe_mais/models/user.dart';
 import 'package:doe_mais/services/dal.dart';
 
 class UserDao {
+  static const String _baseUrl = 'v1/api/usuario';
+
   static Future<List<User>> fetchUsers() async {
-    var response = await DAL.get('v1/api/usuario/recuperar');
+    var response = await DAL.get('$_baseUrl/recuperar');
     return _toList(utf8.decode(response.bodyBytes));
   }
 
@@ -17,8 +19,7 @@ class UserDao {
   }
 
   static Future<User> checkUser(User user) async {
-    var response =
-        await DAL.get('v1/api/usuario/recuperar/email/${user.email}');
+    var response = await DAL.get('$_baseUrl/recuperar/email/${user.email}');
 
     if (response.body.length == 0) throw Exception('No such user');
 
@@ -33,7 +34,7 @@ class UserDao {
   }
 
   static Future<User> getUser(String id) async {
-    var response = await DAL.get('v1/api/usuario/recuperar/$id');
+    var response = await DAL.get('$_baseUrl/recuperar/$id');
 
     if (response.body.length == 0) throw Exception('No such user');
 
