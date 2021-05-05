@@ -1,4 +1,3 @@
-import 'package:doe_mais/components/carousel_controls.dart';
 import 'package:doe_mais/components/hemocentro_card.dart';
 import 'package:doe_mais/components/app_frame.dart';
 import 'package:doe_mais/components/message_card.dart';
@@ -6,7 +5,6 @@ import 'package:doe_mais/models/hemocentro.dart';
 import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:responsively/responsively.dart';
 
 class Inicio extends StatefulWidget {

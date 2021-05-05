@@ -10,7 +10,7 @@ class MessageCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).colorScheme.primary,
       ),
       padding: const EdgeInsets.all(20),
       width: double.infinity,

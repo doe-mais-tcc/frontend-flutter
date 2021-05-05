@@ -92,7 +92,7 @@ class CampanhaInfo extends StatelessWidget {
                       Text(
                         '${campanha.tipoSanguineo}',
                         style: theme.textTheme.bodyText2
-                            .copyWith(color: theme.accentColor),
+                            .copyWith(color: theme.colorScheme.primary),
                       ),
                     ],
                   ),

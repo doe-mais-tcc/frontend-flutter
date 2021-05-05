@@ -72,7 +72,7 @@ class _ChatBotState extends State<ChatBot> {
                 IconButton(
                   icon: Icon(
                     Icons.send,
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                   onPressed: () => sendMessage(textController.text),
                 ),

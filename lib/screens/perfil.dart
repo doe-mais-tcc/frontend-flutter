@@ -1,10 +1,8 @@
 import 'package:doe_mais/components/confirmation_card.dart';
 import 'package:doe_mais/components/app_frame.dart';
 import 'package:doe_mais/components/responsive_row_min.dart';
-import 'package:doe_mais/services/doacao_dao.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/utils/donation_dialog.dart';
-import 'package:doe_mais/utils/navigation.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';

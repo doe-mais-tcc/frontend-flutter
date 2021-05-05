@@ -12,10 +12,6 @@ class HemocentroCard extends StatefulWidget {
 }
 
 class _HemocentroCardState extends State<HemocentroCard> {
-  final Widget _loadingWidget = Container(
-    color: Colors.black26,
-    child: Center(child: CircularProgressIndicator()),
-  );
   bool showSource = false;
 
   @override
