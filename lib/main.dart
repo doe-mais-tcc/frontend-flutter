@@ -36,8 +36,7 @@ class DoeMais extends StatelessWidget {
         '/login': (context) => Login(),
         '/signup': (context) => SignUp(),
         '/inicio': (context) => Inicio(),
-        '/perfil': (context) =>
-            SessionManager.currentUser == null ? Login() : Perfil(),
+        '/perfil': (context) => Perfil(),
         '/duvidas': (context) => Duvidas(),
         '/campanhas': (context) => Campanhas(),
         '/requisitos-doacao': (context) => RequisitosDoacao(),

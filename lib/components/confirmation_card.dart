@@ -44,7 +44,7 @@ class ConfirmationCard extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyText2,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 30),
+            Spacer(),
             CustomElevatedButton(
               label: confirmMessage,
               onPressed: onConfirm,

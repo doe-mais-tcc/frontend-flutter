@@ -23,6 +23,7 @@ class CampanhaCard extends StatelessWidget {
             CardHeader(
               height: 100,
               imageUrl: campanha.hemocentro.url,
+              applyBlur: true,
             ),
             Container(
               height: 220,
