@@ -1,3 +1,4 @@
+import 'dart:io' as io;
 import 'dart:math' show Random;
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:doe_mais/models/message.dart' as msg;
@@ -8,10 +9,15 @@ class ChatBotService {
   static DialogFlowtter _df;
   static Future<DialogFlowtter> get _dialogFlowtter async {
     if (_df == null) {
-      _df = await DialogFlowtter.fromFile(
-        path: path,
-        sessionId: Random().toString(),
-      );
+      if (await io.File(path).exists()) {
+        _df = await DialogFlowtter.fromFile(
+          path: path,
+          sessionId: Random().toString(),
+        );
+      } else {
+        print('[CHATBOT ERROR] chatbot credentials not found');
+        throw Exception();
+      }
     }
     return _df;
   }
