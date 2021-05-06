@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CardHeader extends StatelessWidget {
   final String imageUrl;
@@ -23,6 +24,7 @@ class CardHeader extends StatelessWidget {
           : Container(
               height: height,
               width: double.infinity,
+              color: Theme.of(context).disabledColor,
               child: Image.network(
                 imageUrl,
                 fit: BoxFit.cover,
@@ -35,6 +37,13 @@ class CardHeader extends StatelessWidget {
                     );
                   return child;
                 },
+                errorBuilder: (context, object, stacktrace) => Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.hospital,
+                    color: Colors.white,
+                    size: 45,
+                  ),
+                ),
               ),
             ),
     );
