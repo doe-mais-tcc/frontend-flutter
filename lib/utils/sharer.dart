@@ -60,7 +60,7 @@ class Sharer {
   }
 
   static void shareOnMobile(Campanha campanha) async {
-    if (!kIsWeb) return;
+    if (kIsWeb) return;
     String text = campanha.descricao + '\n' + _getCampanhaUrl(campanha);
     mobile.Share.share(text);
   }
