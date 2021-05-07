@@ -47,8 +47,11 @@ class Perfil extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Este é seu perfil!',
-              style: Theme.of(context).textTheme.headline1),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Text('Este é seu perfil!',
+                style: Theme.of(context).textTheme.headline1),
+          ),
           ResponsiveRowMin(
             mainAxisAlignment: MainAxisResponsiveRowAlignment.center,
             crossAxisAlignment: CrossAxisResponsiveRowAlignment.stretch,

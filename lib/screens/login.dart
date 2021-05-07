@@ -58,11 +58,7 @@ class _LoginState extends State<Login> {
     else
       SessionManager.currentUser = returnedUser;
 
-    //Return
-    if (Navigator.of(context).canPop())
-      Navigator.of(context).pop();
-    else
-      Navigator.of(context).pushReplacementNamed('/inicio');
+    Navigator.of(context).pushReplacementNamed('/inicio');
   }
 
   void _getCredentials() async {

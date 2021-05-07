@@ -42,8 +42,11 @@ class CampanhaForm extends StatelessWidget {
       child: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 600),
-          child: CampanhaStep1(
-            onValidate: (campanha) => _onValidForm(context, campanha),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: CampanhaStep1(
+              onValidate: (campanha) => _onValidForm(context, campanha),
+            ),
           ),
         ),
       ),

@@ -42,7 +42,11 @@ class _CampanhasState extends State<Campanhas> {
       menuIndex: 3,
       child: Column(
         children: [
-          Text('Campanhas', style: Theme.of(context).textTheme.headline1),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child:
+                Text('Campanhas', style: Theme.of(context).textTheme.headline1),
+          ),
           SessionManager.currentUser != null
               ? Column(
                   mainAxisSize: MainAxisSize.min,
@@ -86,13 +90,11 @@ class _CampanhasState extends State<Campanhas> {
                   ],
                 )
               : Container(),
-          Padding(
-            padding: const EdgeInsets.only(top: 40, bottom: 5),
-            child: Text(
-              'Campanhas para ajudar',
-              style: Theme.of(context).textTheme.headline2,
-            ),
+          Text(
+            'Campanhas para ajudar',
+            style: Theme.of(context).textTheme.headline2,
           ),
+          SizedBox(height: 10),
           campanhas.isEmpty
               ? CircularProgressIndicator()
               : ResponsiveRow(

@@ -11,8 +11,11 @@ class Duvidas extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Tire suas Dúvidas!',
-              style: Theme.of(context).textTheme.headline1),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Text('Tire suas Dúvidas!',
+                style: Theme.of(context).textTheme.headline1),
+          ),
           Flexible(
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 750),

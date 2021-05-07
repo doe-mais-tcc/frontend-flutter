@@ -40,8 +40,11 @@ class _InicioState extends State<Inicio> {
       menuIndex: 0,
       child: Column(
         children: [
-          Text('Bem Vindo!', style: Theme.of(context).textTheme.headline1),
-          SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Text('Bem Vindo!',
+                style: Theme.of(context).textTheme.headline1),
+          ),
           // CarouselControls(
           //   height: 300,
           //   infiniteCarousel: InfiniteCarousel.builder(

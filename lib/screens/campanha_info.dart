@@ -65,11 +65,13 @@ class CampanhaInfo extends StatelessWidget {
 
     return Column(
       children: [
-        Text(
-          'Sobre a campanha',
-          style: theme.textTheme.headline1,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Text(
+            'Sobre a campanha',
+            style: theme.textTheme.headline1,
+          ),
         ),
-        SizedBox(height: 20),
         Card(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 30),
