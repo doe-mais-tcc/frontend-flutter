@@ -6,6 +6,7 @@ import 'package:doe_mais/services/campanha_dao.dart';
 import 'package:doe_mais/utils/sharer.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class CampanhaInfo extends StatelessWidget {
   final String campanhaId;
@@ -58,7 +59,10 @@ class CampanhaInfo extends StatelessWidget {
     );
   }
 
-  Column card1(Campanha campanha, ThemeData theme) {
+  Widget card1(Campanha campanha, ThemeData theme) {
+    final shareBtnQty =
+        kIsWeb ? SocialMedia.values.length - 1 : SocialMedia.values.length;
+
     return Column(
       children: [
         Text(
@@ -68,6 +72,7 @@ class CampanhaInfo extends StatelessWidget {
         SizedBox(height: 20),
         Card(
           child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(10),
@@ -110,14 +115,29 @@ class CampanhaInfo extends StatelessWidget {
                       style: theme.textTheme.bodyText1,
                     ),
                   ),
-                  Text('Compartilhe:', style: theme.textTheme.caption),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: SocialMedia.values
-                        .map((e) =>
-                            ShareButton(socialMedia: e, campanha: campanha))
-                        .toList(),
-                  ),
+                  campanha.compartilhavel
+                      ? Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 15, bottom: 10),
+                              child: Text('Compartilhe:',
+                                  style: theme.textTheme.caption),
+                            ),
+                            Wrap(
+                              alignment: WrapAlignment.center,
+                              spacing: 20,
+                              children: List.generate(
+                                  shareBtnQty,
+                                  (i) => ShareButton(
+                                        socialMedia: SocialMedia.values[i],
+                                        campanha: campanha,
+                                      )),
+                            ),
+                          ],
+                        )
+                      : Container(),
                   SizedBox(height: 20),
                 ],
               ),
@@ -128,7 +148,7 @@ class CampanhaInfo extends StatelessWidget {
     );
   }
 
-  Column card2(Campanha campanha, ThemeData theme) {
+  Widget card2(Campanha campanha, ThemeData theme) {
     return Column(
       children: [
         Text(

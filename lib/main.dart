@@ -31,7 +31,7 @@ class DoeMais extends StatelessWidget {
       ],
       title: 'Doe+',
       theme: mainTheme(),
-      initialRoute: '/home',
+      initialRoute: '/inicio',
       routes: {
         '/login': (context) => Login(),
         '/signup': (context) => SignUp(),
