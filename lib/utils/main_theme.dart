@@ -67,8 +67,9 @@ ThemeData mainTheme() {
       selectionColor: linkColor,
     ),
     appBarTheme: AppBarTheme(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
+      backgroundColor: canvas,
+      elevation: 8,
+      shadowColor: Colors.black26,
       iconTheme: IconThemeData(color: normalText),
     ),
     cardTheme: CardTheme(

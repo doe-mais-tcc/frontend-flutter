@@ -45,23 +45,27 @@ class BroadLayout extends StatelessWidget {
         isAlwaysShown: true,
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 70),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 65,
-                    width: 90,
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: Image.asset('assets/images/logo.png'),
+            Material(
+              shadowColor: Colors.black26,
+              elevation: 8,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 70),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 65,
+                      width: 90,
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        child: Image.asset('assets/images/logo.png'),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: HorizontalMenu(currentIndex: currentIndex),
-                  ),
-                ],
+                    Expanded(
+                      child: HorizontalMenu(currentIndex: currentIndex),
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(
