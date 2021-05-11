@@ -29,7 +29,7 @@ class Doacao {
             ? DateFormat('dd-MM-yyyy').parse(json['proxima_doacao'])
             : null,
         quantidadeDoacao: json['quantidade_doacao'],
-        hemocentro: Hemocentro.fromJson(json['hemocentro']),
+        hemocentro: null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -42,6 +42,5 @@ class Doacao {
             ? DateFormat('dd-MM-yyyy').format(this.proximaDoacao)
             : null,
         'quantidade_doacao': this.quantidadeDoacao,
-        'hemocentro': this.hemocentro.toJson(),
       };
 }

@@ -1,18 +1,17 @@
-import 'package:doe_mais/components/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmationCard extends StatelessWidget {
   final String title;
   final String description;
-  final String confirmMessage;
-  final Function onConfirm;
+  final Widget confirmWidget;
   final Widget icon;
+  final String info;
   ConfirmationCard({
     @required this.title,
     @required this.description,
-    @required this.confirmMessage,
-    @required this.onConfirm,
-    @required this.icon,
+    @required this.confirmWidget,
+    this.icon,
+    this.info,
   });
 
   @override
@@ -31,13 +30,35 @@ class ConfirmationCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Image.asset('assets/images/icon_background.png', width: 120),
-                  SizedBox(child: icon, width: 70),
-                ],
-              ),
+              child: info != null
+                  ? Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      width: 120,
+                      height: 120,
+                      child: Center(
+                        child: Text(
+                          info,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    )
+                  : Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset('assets/images/icon_background.png',
+                            width: 120),
+                        SizedBox(child: icon, width: 70),
+                      ],
+                    ),
             ),
             Text(
               description,
@@ -45,10 +66,7 @@ class ConfirmationCard extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             Spacer(),
-            CustomElevatedButton(
-              label: confirmMessage,
-              onPressed: onConfirm,
-            ),
+            confirmWidget,
           ],
         ),
       ),

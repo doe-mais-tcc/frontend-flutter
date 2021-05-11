@@ -17,7 +17,7 @@ class DAL {
       },
       //Get timeout
     ).timeout(
-      Duration(minutes: 1),
+      Duration(minutes: 2),
       onTimeout: () {
         print('[TIMEOUT] http get hit time out');
         return null;
@@ -46,7 +46,7 @@ class DAL {
       },
       //Post timeout
     ).timeout(
-      Duration(minutes: 1),
+      Duration(minutes: 2),
       onTimeout: () {
         print('[TIMEOUT] http set hit time out');
         return null;
@@ -54,6 +54,35 @@ class DAL {
     );
     if (!_handleResponse(response))
       throw Exception('[ERROR]: Null response on set');
+
+    //Returned response is never null
+    return response;
+  }
+
+  static Future<http.Response> delete(String url, {Object body}) async {
+    var response = await http.delete(
+      Uri.http(connectionString, url),
+      body: body,
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json"
+      },
+      //Handle error
+    ).onError(
+      (error, stackTrace) {
+        print('[ERROR] $error: $stackTrace');
+        throw error;
+      },
+      //Post timeout
+    ).timeout(
+      Duration(minutes: 2),
+      onTimeout: () {
+        print('[TIMEOUT] http delete hit time out');
+        return null;
+      },
+    );
+    if (!_handleResponse(response))
+      throw Exception('[ERROR]: Null response on delete');
 
     //Returned response is never null
     return response;

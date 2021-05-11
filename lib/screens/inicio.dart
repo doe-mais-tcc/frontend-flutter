@@ -13,7 +13,6 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
-  List<Hemocentro> hemocentros = [];
   List<Widget> messages = [];
   bool showAllHemocentros = false;
 
@@ -27,11 +26,6 @@ class _InicioState extends State<Inicio> {
             'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages',
       ),
     );
-    HemocentroDao.getHemocentros()
-        .then(
-          (list) => setState(() => hemocentros = list),
-        )
-        .onError((error, stackTrace) => null);
   }
 
   @override
@@ -82,16 +76,17 @@ class _InicioState extends State<Inicio> {
                   : Container(),
             ],
           ),
-          Builder(
-            builder: (context) {
-              List<Hemocentro> list;
+          FutureBuilder(
+            future: HemocentroDao.getHemocentros(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return CircularProgressIndicator();
+
+              List<Hemocentro> list = snapshot.data;
               if (SessionManager.currentUser != null && !showAllHemocentros)
-                list = hemocentros
+                list = snapshot.data
                     .where((e) => e.cidade == SessionManager.currentUser.cidade)
                     .toList();
-              else
-                list = hemocentros;
-              if (list == null) return CircularProgressIndicator();
+
               return ResponsiveRow(
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,

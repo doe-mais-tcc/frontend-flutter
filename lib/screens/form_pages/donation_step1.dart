@@ -35,7 +35,7 @@ class _DonationStep1State extends State<DonationStep1> {
     );
     DoacaoDao.postDoacao(doacao)
         .then(
-      (result) => Navigator.of(context).pop(),
+      (result) => Navigator.of(context).pop(doacao),
     )
         .onError(
       (error, stackTrace) {
@@ -60,6 +60,7 @@ class _DonationStep1State extends State<DonationStep1> {
           lastDate: DateTime(3000),
           onDateChanged: (date) => setState(() => doacaoDate = date),
         ),
+        SizedBox(height: 20),
       ],
     );
   }

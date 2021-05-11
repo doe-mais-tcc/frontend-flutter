@@ -1,42 +1,34 @@
 import 'package:doe_mais/components/confirmation_card.dart';
 import 'package:doe_mais/components/app_frame.dart';
+import 'package:doe_mais/components/custom_elevated_button.dart';
+import 'package:doe_mais/components/hemocentro_card.dart';
+import 'package:doe_mais/components/lembrete_card.dart';
 import 'package:doe_mais/components/responsive_row_min.dart';
-import 'package:doe_mais/utils/custom_bottom_sheet.dart';
-import 'package:doe_mais/utils/donation_dialog.dart';
+import 'package:doe_mais/models/doacao.dart';
+import 'package:doe_mais/models/hemocentro.dart';
+import 'package:doe_mais/services/doacao_dao.dart';
+import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
 
-class Perfil extends StatelessWidget {
+class Perfil extends StatefulWidget {
+  @override
+  _PerfilState createState() => _PerfilState();
+}
+
+class _PerfilState extends State<Perfil> {
+  Doacao doacao;
+
   Widget _requisitosCard(BuildContext context) {
     return ConfirmationCard(
       title: 'Requisitos para a doação de sangue',
       description: 'Entenda as recomendações necessárias para doar sangue',
-      confirmMessage: 'Ver requisitos',
       icon: Image.asset('assets/images/icon_test.png'),
-      onConfirm: () => Navigator.of(context).pushNamed('/requisitos-doacao'),
-    );
-  }
-
-  Widget _lembreteCard(BuildContext context) {
-    return ConfirmationCard(
-      title: 'Lembrete de doação',
-      description: 'Você não tem nenhum lembrete de doação marcado. Marque um!',
-      confirmMessage: 'Marcar lembrete',
-      icon: Image.asset('assets/images/icon_calendar.png'),
-      onConfirm: () {
-        if (SessionManager.currentUser == null) {
-          Navigator.of(context).pushNamed('/login');
-          return null;
-        }
-        donationDialog(context).then(
-          (doacao) {
-            messageBottomSheet(
-                context: context,
-                message: 'Parabéns! Você criou um lembrete de doação');
-          },
-        );
-      },
+      confirmWidget: CustomElevatedButton(
+        label: 'Ver requisitos',
+        onPressed: () => Navigator.of(context).pushNamed('/requisitos-doacao'),
+      ),
     );
   }
 
@@ -64,13 +56,47 @@ class Perfil extends StatelessWidget {
             ),
             children: [
               _requisitosCard(context),
-              _lembreteCard(context),
+              FutureBuilder<Doacao>(
+                future: DoacaoDao.getDoacaoUser(SessionManager.currentUser),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    doacao = snapshot.data;
+                    return LembreteCard(
+                      doacao: doacao,
+                      onModify: (_doacao) => setState(() => doacao = _doacao),
+                    );
+                  } else
+                    return CircularProgressIndicator();
+                },
+              ),
             ],
           ),
-          Text(
-            'Todos os Hemocentros na região',
-            style: Theme.of(context).textTheme.headline2,
+          Padding(
+            padding: const EdgeInsets.only(top: 20, bottom: 15),
+            child: Text(
+              'Hemocentros perto de você',
+              style: Theme.of(context).textTheme.headline2,
+            ),
           ),
+          FutureBuilder<List<Hemocentro>>(
+              future: HemocentroDao.getHemocentros(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return CircularProgressIndicator();
+                return ResponsiveRowMin(
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  columnWidth: ColumnWidth(
+                    smDown: 12,
+                    md: 6,
+                    lgUp: 4,
+                  ),
+                  children: snapshot.data
+                      .where(
+                          (e) => e.cidade == SessionManager.currentUser.cidade)
+                      .map((e) => HemocentroCard(e))
+                      .toList(),
+                );
+              }),
         ],
       ),
     );
