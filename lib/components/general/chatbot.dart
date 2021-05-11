@@ -1,4 +1,4 @@
-import 'package:doe_mais/components/custom_chat_bubble.dart';
+import 'package:doe_mais/components/general/custom_chat_bubble.dart';
 import 'package:doe_mais/models/message.dart';
 import 'package:doe_mais/utils/chatbot_list_manager.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,6 @@
-import 'package:doe_mais/components/custom_back_button.dart';
+import 'package:doe_mais/components/buttons/custom_back_button.dart';
+import 'package:doe_mais/components/buttons/custom_elevated_button.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
-import 'package:doe_mais/components/custom_elevated_button.dart';
 import 'package:doe_mais/models/user.dart';
 import 'package:doe_mais/services/user_dao.dart';
 import 'package:doe_mais/utils/session_manager.dart';

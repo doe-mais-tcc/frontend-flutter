@@ -1,4 +1,4 @@
-import 'package:doe_mais/components/form_step.dart';
+import 'package:doe_mais/components/utils/form_step.dart';
 import 'package:doe_mais/models/data_holder.dart';
 import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:flutter/material.dart';

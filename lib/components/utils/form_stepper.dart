@@ -1,6 +1,6 @@
-import 'package:doe_mais/components/custom_elevated_button.dart';
-import 'package:doe_mais/components/custom_outlined_button.dart';
-import 'package:doe_mais/components/form_step.dart';
+import 'package:doe_mais/components/buttons/custom_elevated_button.dart';
+import 'package:doe_mais/components/buttons/custom_outlined_button.dart';
+import 'package:doe_mais/components/utils/form_step.dart';
 import 'package:doe_mais/utils/themed_steps_indicator.dart';
 import 'package:flutter/material.dart';
 

@@ -1,9 +1,9 @@
-import 'package:doe_mais/components/confirmation_card.dart';
-import 'package:doe_mais/components/app_frame.dart';
-import 'package:doe_mais/components/custom_elevated_button.dart';
-import 'package:doe_mais/components/hemocentro_card.dart';
-import 'package:doe_mais/components/lembrete_card.dart';
-import 'package:doe_mais/components/responsive_row_min.dart';
+import 'package:doe_mais/components/buttons/custom_elevated_button.dart';
+import 'package:doe_mais/components/cards/confirmation_card.dart';
+import 'package:doe_mais/components/cards/hemocentro_card.dart';
+import 'package:doe_mais/components/general/app_frame.dart';
+import 'package:doe_mais/components/cards/lembrete_card.dart';
+import 'package:doe_mais/components/utils/responsive_row_min.dart';
 import 'package:doe_mais/models/doacao.dart';
 import 'package:doe_mais/models/hemocentro.dart';
 import 'package:doe_mais/services/doacao_dao.dart';

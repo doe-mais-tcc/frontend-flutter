@@ -1,5 +1,5 @@
-import 'package:doe_mais/components/menu_button.dart';
-import 'package:doe_mais/components/user_tile.dart';
+import 'package:doe_mais/components/buttons/menu_button.dart';
+import 'package:doe_mais/components/buttons/user_tile.dart';
 import 'package:doe_mais/utils/navigation.dart';
 import 'package:flutter/material.dart';
 

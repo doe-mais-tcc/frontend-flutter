@@ -1,5 +1,5 @@
-import 'package:doe_mais/components/hamburger_menu.dart';
-import 'package:doe_mais/components/horizontal_menu.dart';
+import 'package:doe_mais/components/general/hamburger_menu.dart';
+import 'package:doe_mais/components/general/horizontal_menu.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
-import 'package:doe_mais/components/custom_elevated_button.dart';
-import 'package:doe_mais/components/custom_outlined_button.dart';
+import 'package:doe_mais/components/buttons/custom_elevated_button.dart';
+import 'package:doe_mais/components/buttons/custom_outlined_button.dart';
 import 'package:flutter/material.dart';
 
 Future<bool> confirmDialog({

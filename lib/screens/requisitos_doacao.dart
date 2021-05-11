@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:doe_mais/components/app_frame.dart';
-import 'package:doe_mais/components/info_card.dart';
+import 'package:doe_mais/components/cards/info_card.dart';
+import 'package:doe_mais/components/general/app_frame.dart';
 import 'package:doe_mais/models/info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

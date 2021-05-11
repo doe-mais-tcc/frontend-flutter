@@ -1,5 +1,5 @@
-import 'package:doe_mais/components/app_frame.dart';
-import 'package:doe_mais/components/chatbot.dart';
+import 'package:doe_mais/components/general/app_frame.dart';
+import 'package:doe_mais/components/general/chatbot.dart';
 import 'package:flutter/material.dart';
 
 class Duvidas extends StatelessWidget {

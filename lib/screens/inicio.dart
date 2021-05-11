@@ -1,6 +1,6 @@
-import 'package:doe_mais/components/hemocentro_card.dart';
-import 'package:doe_mais/components/app_frame.dart';
-import 'package:doe_mais/components/message_card.dart';
+import 'package:doe_mais/components/cards/hemocentro_card.dart';
+import 'package:doe_mais/components/cards/message_card.dart';
+import 'package:doe_mais/components/general/app_frame.dart';
 import 'package:doe_mais/models/hemocentro.dart';
 import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:doe_mais/utils/session_manager.dart';

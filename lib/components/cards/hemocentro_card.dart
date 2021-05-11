@@ -1,5 +1,5 @@
-import 'package:doe_mais/components/card_header.dart';
-import 'package:doe_mais/components/source_box.dart';
+import 'package:doe_mais/components/cards/card_header.dart';
+import 'package:doe_mais/components/general/source_box.dart';
 import 'package:doe_mais/models/hemocentro.dart';
 import 'package:flutter/material.dart';
 

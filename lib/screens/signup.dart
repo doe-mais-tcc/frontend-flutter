@@ -1,6 +1,6 @@
-import 'package:doe_mais/components/custom_back_button.dart';
-import 'package:doe_mais/components/form_step.dart';
-import 'package:doe_mais/components/form_stepper.dart';
+import 'package:doe_mais/components/buttons/custom_back_button.dart';
+import 'package:doe_mais/components/utils/form_step.dart';
+import 'package:doe_mais/components/utils/form_stepper.dart';
 import 'package:doe_mais/models/user.dart';
 import 'package:doe_mais/screens/form_pages/signup_step1.dart';
 import 'package:doe_mais/screens/form_pages/signup_step2.dart';

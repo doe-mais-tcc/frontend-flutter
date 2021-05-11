@@ -1,15 +1,13 @@
-import 'package:doe_mais/components/confirmation_card.dart';
-import 'package:doe_mais/components/custom_outlined_button.dart';
+import 'package:doe_mais/components/buttons/custom_elevated_button.dart';
+import 'package:doe_mais/components/buttons/custom_outlined_button.dart';
+import 'package:doe_mais/components/cards/confirmation_card.dart';
 import 'package:doe_mais/models/doacao.dart';
 import 'package:doe_mais/services/doacao_dao.dart';
 import 'package:doe_mais/utils/confirm_dialog.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
-import 'package:doe_mais/utils/custom_dialog.dart';
 import 'package:doe_mais/utils/donation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import 'custom_elevated_button.dart';
 
 class LembreteCard extends StatelessWidget {
   final Doacao doacao;

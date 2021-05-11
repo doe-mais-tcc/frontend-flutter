@@ -1,6 +1,6 @@
-import 'package:doe_mais/components/app_frame.dart';
-import 'package:doe_mais/components/hemocentro_card.dart';
-import 'package:doe_mais/components/share_button.dart';
+import 'package:doe_mais/components/cards/hemocentro_card.dart';
+import 'package:doe_mais/components/general/app_frame.dart';
+import 'package:doe_mais/components/buttons/share_button.dart';
 import 'package:doe_mais/models/campanha.dart';
 import 'package:doe_mais/services/campanha_dao.dart';
 import 'package:doe_mais/utils/sharer.dart';

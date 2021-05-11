@@ -1,6 +1,6 @@
-import 'package:doe_mais/components/checkbox_form_field.dart';
-import 'package:doe_mais/components/form_step.dart';
-import 'package:doe_mais/components/modal.dart';
+import 'package:doe_mais/components/general/checkbox_form_field.dart';
+import 'package:doe_mais/components/utils/form_step.dart';
+import 'package:doe_mais/components/general/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:password_credential/credentials.dart';

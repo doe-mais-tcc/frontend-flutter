@@ -1,7 +1,7 @@
-import 'package:doe_mais/components/app_frame.dart';
-import 'package:doe_mais/components/campanha_card.dart';
-import 'package:doe_mais/components/carousel_controls.dart';
-import 'package:doe_mais/components/custom_elevated_button.dart';
+import 'package:doe_mais/components/buttons/custom_elevated_button.dart';
+import 'package:doe_mais/components/cards/campanha_card.dart';
+import 'package:doe_mais/components/general/app_frame.dart';
+import 'package:doe_mais/components/buttons/carousel_controls.dart';
 import 'package:doe_mais/models/campanha.dart';
 import 'package:doe_mais/services/campanha_dao.dart';
 import 'package:doe_mais/utils/session_manager.dart';
