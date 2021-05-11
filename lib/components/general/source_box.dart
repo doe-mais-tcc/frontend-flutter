@@ -8,28 +8,25 @@ class SourceBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 20,
       margin: const EdgeInsets.only(right: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(15),
         ),
       ),
-      child: TextButton(
-        onPressed: () async {
+      child: InkWell(
+        onTap: () async {
           if (await canLaunch(sourceLink)) launch(sourceLink);
         },
         child: RichText(
           maxLines: 1,
-          softWrap: true,
-          textWidthBasis: TextWidthBasis.longestLine,
-          overflow: TextOverflow.ellipsis,
+          softWrap: false,
+          overflow: TextOverflow.fade,
           text: TextSpan(
-            style: TextStyle(color: Colors.blue, fontSize: 10),
-            text: 'Fonte: ',
-            children: [TextSpan(text: '$sourceLink')],
+            style: TextStyle(color: Colors.blue, fontSize: 12),
+            text: 'Fonte: $sourceLink',
           ),
         ),
       ),

@@ -21,20 +21,23 @@ class _HemocentroCardState extends State<HemocentroCard> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          MouseRegion(
-            onEnter: (_) => setState(() => showSource = true),
-            onExit: (_) => setState(() => showSource = false),
-            child: Stack(
-              alignment: Alignment.bottomLeft,
-              children: [
-                CardHeader(
-                  height: 200,
-                  imageUrl: widget.hemocentro.url,
-                ),
-                showSource
-                    ? SourceBox(sourceLink: widget.hemocentro.url)
-                    : Container(),
-              ],
+          GestureDetector(
+            onLongPress: () => setState(() => showSource = !showSource),
+            child: MouseRegion(
+              onEnter: (_) => setState(() => showSource = true),
+              onExit: (_) => setState(() => showSource = false),
+              child: Stack(
+                alignment: Alignment.bottomLeft,
+                children: [
+                  CardHeader(
+                    height: 200,
+                    imageUrl: widget.hemocentro.url,
+                  ),
+                  showSource
+                      ? SourceBox(sourceLink: widget.hemocentro.url)
+                      : Container(),
+                ],
+              ),
             ),
           ),
           Container(
