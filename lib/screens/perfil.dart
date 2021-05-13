@@ -2,7 +2,7 @@ import 'package:doe_mais/components/buttons/custom_elevated_button.dart';
 import 'package:doe_mais/components/cards/confirmation_card.dart';
 import 'package:doe_mais/components/cards/hemocentro_card.dart';
 import 'package:doe_mais/components/general/app_frame.dart';
-import 'package:doe_mais/components/cards/lembrete_card.dart';
+import 'package:doe_mais/components/cards/doacao_card.dart';
 import 'package:doe_mais/components/utils/responsive_row_min.dart';
 import 'package:doe_mais/models/doacao.dart';
 import 'package:doe_mais/models/hemocentro.dart';
@@ -61,7 +61,7 @@ class _PerfilState extends State<Perfil> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     doacao = snapshot.data;
-                    return LembreteCard(
+                    return DoacaoCard(
                       doacao: doacao,
                       onModify: (_doacao) => setState(() => doacao = _doacao),
                     );

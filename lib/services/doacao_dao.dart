@@ -40,8 +40,19 @@ class DoacaoDao {
     return null;
   }
 
+  static Future<void> updateDoacao(Doacao doacao) async {
+    var map = doacao.toJson();
+    var response = await DAL.update(
+      '$_baseUrl/atualizar/${doacao.id}',
+      body: jsonEncode(map),
+    );
+    var json = utf8.decode(response.bodyBytes);
+    return Doacao.fromJson(jsonDecode(json));
+  }
+
   static List<Doacao> _toList(String response) {
-    var aaaaaa = (jsonDecode(response) as List);
-    return aaaaaa.map<Doacao>((e) => Doacao.fromJson(e)).toList();
+    return (jsonDecode(response) as List)
+        .map<Doacao>((e) => Doacao.fromJson(e))
+        .toList();
   }
 }

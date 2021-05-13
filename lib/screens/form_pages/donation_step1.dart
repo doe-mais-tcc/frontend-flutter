@@ -9,6 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:doe_mais/utils/date_time_extension.dart';
 
 class DonationStep1 extends StatefulWidget {
+  final Doacao editDoacao;
+  DonationStep1({this.editDoacao});
+
   @override
   _DonationStep1State createState() => _DonationStep1State();
 }
@@ -16,8 +19,9 @@ class DonationStep1 extends StatefulWidget {
 class _DonationStep1State extends State<DonationStep1> {
   final formKey = GlobalKey<FormState>();
   final timeController = TextEditingController();
-  TimeOfDay doacaoTime = TimeOfDay(hour: 12, minute: 00);
   DateTime doacaoDate = DateTime.now();
+  TimeOfDay doacaoTime;
+  List<Hemocentro> hemocentroList = [];
   Hemocentro doacaoHemocentro;
 
   String _validateField(dynamic data) {
@@ -28,23 +32,30 @@ class _DonationStep1State extends State<DonationStep1> {
   void _validateForm(BuildContext context) {
     if (!formKey.currentState.validate()) return;
 
-    var doacao = Doacao(
-      user: SessionManager.currentUser,
-      proximaDoacao: doacaoDate.setTimeOfDay(doacaoTime),
-      hemocentro: doacaoHemocentro,
-    );
-    DoacaoDao.postDoacao(doacao)
-        .then(
-      (result) => Navigator.of(context).pop(doacao),
-    )
-        .onError(
-      (error, stackTrace) {
+    // Update properties from given doação or new doação
+    Doacao doacao = widget.editDoacao ?? Doacao()
+      ..user = SessionManager.currentUser
+      ..proximaDoacao = doacaoDate.setTimeOfDay(doacaoTime)
+      ..hemocentro = doacaoHemocentro;
+
+    // Update if given a doação, else post new doação
+    if (widget.editDoacao == null)
+      DoacaoDao.postDoacao(doacao)
+          .then((result) => Navigator.of(context).pop(result))
+          .onError((error, stackTrace) {
         alertBottomSheet(
             context: context, message: 'Não foi possível criar o lembrete');
-      },
-    );
+      });
+    else
+      DoacaoDao.updateDoacao(doacao)
+          .then((result) => Navigator.of(context).pop(result))
+          .onError((error, stackTrace) {
+        alertBottomSheet(
+            context: context, message: 'Não foi possível atualizar o lembrete');
+      });
   }
 
+  // Calendar Widget
   Widget _calendarStep(ThemeData theme) {
     var now = DateTime.now();
     return Column(
@@ -55,7 +66,7 @@ class _DonationStep1State extends State<DonationStep1> {
           style: theme.textTheme.headline2,
         ),
         CalendarDatePicker(
-          initialDate: now,
+          initialDate: doacaoDate.isBefore(now) ? now : doacaoDate,
           firstDate: now,
           lastDate: DateTime(3000),
           onDateChanged: (date) => setState(() => doacaoDate = date),
@@ -65,7 +76,9 @@ class _DonationStep1State extends State<DonationStep1> {
     );
   }
 
+  // Time Widget
   Widget _timeStep(ThemeData theme) {
+    if (doacaoTime != null) timeController.text = doacaoTime.format(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -79,7 +92,7 @@ class _DonationStep1State extends State<DonationStep1> {
           decoration: InputDecoration(labelText: 'Insira o horário da doação*'),
           onTap: () => showTimePicker(
             context: context,
-            initialTime: TimeOfDay(hour: 12, minute: 00),
+            initialTime: doacaoTime ?? TimeOfDay(hour: 12, minute: 0),
           ).then(
             (value) {
               if (value == null) return;
@@ -93,6 +106,7 @@ class _DonationStep1State extends State<DonationStep1> {
     );
   }
 
+  // Hemocentro Widget
   Widget _hemocentroStep(ThemeData theme) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -101,21 +115,18 @@ class _DonationStep1State extends State<DonationStep1> {
           'Selecione o local de doação',
           style: theme.textTheme.headline2,
         ),
-        FutureBuilder<List<Hemocentro>>(
-          future: HemocentroDao.getHemocentros(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError)
-              return DropdownButtonFormField(
-                items: [],
-                decoration:
-                    InputDecoration(labelText: 'Erro ao carregar hemocentros'),
+        hemocentroList.isEmpty
+            ? DropdownButtonFormField(
+                items: [
+                  DropdownMenuItem(
+                    child: Text('Carregando Hemocentros'),
+                  ),
+                ],
                 validator: _validateField,
-              );
-
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData)
-              return DropdownButtonFormField<Hemocentro>(
-                items: snapshot.data
+              )
+            : DropdownButtonFormField<Hemocentro>(
+                value: doacaoHemocentro,
+                items: hemocentroList
                     .map((e) => DropdownMenuItem(
                           child: Text(e.nome),
                           value: e,
@@ -125,19 +136,27 @@ class _DonationStep1State extends State<DonationStep1> {
                     InputDecoration(labelText: 'Selecione o local da doação*'),
                 onChanged: (value) => doacaoHemocentro = value,
                 validator: _validateField,
-              );
-            return DropdownButtonFormField(
-              items: [
-                DropdownMenuItem(
-                  child: Text('Carregando Hemocentros'),
-                ),
-              ],
-              validator: _validateField,
-            );
-          },
-        ),
+              ),
       ],
     );
+  }
+
+  @override
+  void initState() {
+    // Get editDoacao data
+    if (widget.editDoacao != null)
+      setState(() {
+        var _date = widget.editDoacao.proximaDoacao;
+        doacaoDate = _date;
+        doacaoTime = _date.extractTimeOfDay();
+        doacaoHemocentro = widget.editDoacao.hemocentro;
+      });
+
+    // Get hemocentro list
+    HemocentroDao.getHemocentros()
+        .then((value) => setState(() => hemocentroList = value));
+
+    super.initState();
   }
 
   @override
@@ -179,7 +198,9 @@ class _DonationStep1State extends State<DonationStep1> {
             width: 250,
             child: CustomElevatedButton(
               label: 'Marcar Lembrete',
-              onPressed: () => _validateForm(context),
+              onPressed: () {
+                _validateForm(context);
+              },
             ),
           ),
         ],

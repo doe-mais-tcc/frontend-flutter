@@ -9,10 +9,10 @@ import 'package:doe_mais/utils/donation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class LembreteCard extends StatelessWidget {
+class DoacaoCard extends StatelessWidget {
   final Doacao doacao;
   final Function(Doacao) onModify;
-  LembreteCard({@required this.doacao, @required this.onModify});
+  DoacaoCard({@required this.doacao, @required this.onModify});
 
   String _contentString() {
     Duration diff = doacao.proximaDoacao.difference(DateTime.now());
@@ -79,7 +79,16 @@ class LembreteCard extends StatelessWidget {
             Flexible(
               child: CustomElevatedButton(
                 label: 'Editar',
-                onPressed: () {},
+                onPressed: () => donationDialog(context, doacao).then(
+                  (donation) {
+                    if (donation != null) {
+                      messageBottomSheet(
+                          context: context,
+                          message: 'Lembrete de doação de sangue editado!');
+                      onModify(donation);
+                    }
+                  },
+                ),
               ),
             ),
           ],

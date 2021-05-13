@@ -19,7 +19,6 @@ ThemeData mainTheme() {
       background: canvas,
     ),
     primaryColor: primary,
-    buttonColor: primary,
     hoverColor: hoverColor,
     disabledColor: disabled,
     errorColor: primary,

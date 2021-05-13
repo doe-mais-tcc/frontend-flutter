@@ -10,4 +10,11 @@ extension DateTimeExtension on DateTime {
       timeOfDay.minute,
     );
   }
+
+  TimeOfDay extractTimeOfDay() {
+    return TimeOfDay(
+      hour: this.hour,
+      minute: this.minute,
+    );
+  }
 }

@@ -114,6 +114,7 @@ class _LoginState extends State<Login> {
                                 InputDecoration(labelText: 'Insira seu email'),
                             validator: (data) =>
                                 data.isEmpty ? 'Obrigatório' : null,
+                            autofocus: true,
                           ),
                           TextFormField(
                             controller: _pwdController,

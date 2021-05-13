@@ -88,6 +88,35 @@ class DAL {
     return response;
   }
 
+  static Future<http.Response> update(String url, {Object body}) async {
+    var response = await http.put(
+      Uri.http(connectionString, url),
+      body: body,
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json"
+      },
+      //Handle error
+    ).onError(
+      (error, stackTrace) {
+        print('[ERROR] $error: $stackTrace');
+        throw error;
+      },
+      //Post timeout
+    ).timeout(
+      Duration(minutes: 2),
+      onTimeout: () {
+        print('[TIMEOUT] http put hit time out');
+        return null;
+      },
+    );
+    if (!_handleResponse(response))
+      throw Exception('[ERROR]: Null response on put');
+
+    //Returned response is never null
+    return response;
+  }
+
   static String encode(String input) {
     return base64.encode(utf8.encode(input));
   }

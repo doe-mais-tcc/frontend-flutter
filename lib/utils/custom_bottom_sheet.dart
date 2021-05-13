@@ -13,9 +13,6 @@ Future<dynamic> alertBottomSheet(
           '$message',
           style: TextStyle(color: Colors.white),
         )),
-  ).timeout(
-    Duration(seconds: timeLimit ?? 10),
-    onTimeout: () => Navigator.of(context).pop(),
   );
 }
 
@@ -26,15 +23,14 @@ Future<dynamic> messageBottomSheet(
     isDismissible: true,
     backgroundColor: Theme.of(context).disabledColor,
     barrierColor: Colors.transparent,
-    builder: (context) => _customBottomSheet(
-        context,
-        Text(
-          '$message',
-          style: TextStyle(color: Colors.white),
-        )),
-  ).timeout(
-    Duration(seconds: timeLimit ?? 10),
-    onTimeout: () => Navigator.of(context).pop(),
+    builder: (context) {
+      return _customBottomSheet(
+          context,
+          Text(
+            '$message',
+            style: TextStyle(color: Colors.white),
+          ));
+    },
   );
 }
 
