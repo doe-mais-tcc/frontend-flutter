@@ -1,12 +1,13 @@
 import 'package:doe_mais/components/utils/form_step.dart';
 import 'package:doe_mais/models/data_holder.dart';
+import 'package:doe_mais/models/user.dart';
 import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
 
-class SignupStep1 extends StatefulWidget implements FormStep {
+class UserFormStep1 extends StatefulWidget implements FormStep {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _cityController = TextEditingController();
@@ -15,7 +16,11 @@ class SignupStep1 extends StatefulWidget implements FormStep {
   final _birthDate = DataHolder();
 
   @override
-  _SignupStep1State createState() => _SignupStep1State();
+  final User editObject;
+  UserFormStep1(this.editObject);
+
+  @override
+  _UserFormStep1State createState() => _UserFormStep1State();
 
   @override
   dynamic returnData() {
@@ -35,7 +40,7 @@ class SignupStep1 extends StatefulWidget implements FormStep {
   }
 }
 
-class _SignupStep1State extends State<SignupStep1> {
+class _UserFormStep1State extends State<UserFormStep1> {
   List<String> cidades = [];
 
   String _validateField(dynamic data) {
@@ -56,14 +61,33 @@ class _SignupStep1State extends State<SignupStep1> {
         .toList();
   }
 
+  void updateFields() {
+    if (widget.editObject == null) {
+      widget._sexController.text = 'M';
+      widget._bloodController.text = _bloodValues[0];
+    } else {
+      widget._nameController.text = widget.editObject.nome;
+      widget._bloodController.text = widget.editObject.sangue;
+      widget._birthDate.data = widget.editObject.nascimento;
+      widget._sexController.text = widget.editObject.sexo;
+      widget._cityController.text = widget.editObject.cidade;
+    }
+  }
+
   @override
   void initState() {
+    updateFields();
+
     super.initState();
 
-    widget._sexController.text = 'M';
-
     HemocentroDao.getCidades().then(
-      (result) => setState(() => cidades = result),
+      (result) => setState(() {
+        cidades = result;
+        if (widget.editObject != null)
+          widget._cityController.text = widget.editObject.cidade;
+        else
+          widget._cityController.text = cidades[0];
+      }),
     );
   }
 
@@ -92,7 +116,10 @@ class _SignupStep1State extends State<SignupStep1> {
           DropdownButtonFormField(
             items: _bloodDropdownItems(),
             decoration: InputDecoration(labelText: 'Selecione seu sangue*'),
-            onChanged: (value) => widget._bloodController.text = value,
+            onChanged: (value) {
+              widget._bloodController.text = value;
+            },
+            value: widget._bloodController.text,
             validator: _validateField,
           ),
           cidades.isEmpty
@@ -112,6 +139,7 @@ class _SignupStep1State extends State<SignupStep1> {
                   decoration:
                       InputDecoration(labelText: 'Selecione sua cidade*'),
                   onChanged: (value) => widget._cityController.text = value,
+                  value: widget._cityController.text,
                   validator: _validateField,
                 ),
           DateTimeField(

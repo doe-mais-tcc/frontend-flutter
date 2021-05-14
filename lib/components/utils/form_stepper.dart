@@ -21,12 +21,14 @@ class _FormStepperState extends State<FormStepper> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        themedStepsIndicator(
-          context: context,
-          nbSteps: widget.steps.length,
-          selectedStep: currentStep,
-          lineLength: 180,
-        ),
+        widget.steps.length > 1
+            ? themedStepsIndicator(
+                context: context,
+                nbSteps: widget.steps.length,
+                selectedStep: currentStep,
+                lineLength: 180,
+              )
+            : SizedBox(),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 30),
           child: widget.steps[currentStep],

@@ -6,11 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:password_credential/credentials.dart';
 import 'package:password_credential/entity/mediation.dart';
 
-class SignupStep2 extends StatefulWidget implements FormStep {
+class UserFormStep2 extends StatefulWidget implements FormStep {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _pwd1Controller = TextEditingController();
   final _pwd2Controller = TextEditingController();
+
+  @override
+  final dynamic editObject = null;
 
   bool validate() {
     if (!_formKey.currentState.validate()) return false;
@@ -33,10 +36,10 @@ class SignupStep2 extends StatefulWidget implements FormStep {
   }
 
   @override
-  _SignupStep2State createState() => _SignupStep2State();
+  _UserFormStep2State createState() => _UserFormStep2State();
 }
 
-class _SignupStep2State extends State<SignupStep2> {
+class _UserFormStep2State extends State<UserFormStep2> {
   bool _termsCheckbox = false;
 
   String _validateField(dynamic data) {

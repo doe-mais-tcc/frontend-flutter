@@ -5,7 +5,7 @@ import 'package:doe_mais/screens/duvidas.dart';
 import 'package:doe_mais/screens/inicio.dart';
 import 'package:doe_mais/screens/login.dart';
 import 'package:doe_mais/screens/perfil.dart';
-import 'package:doe_mais/screens/signup.dart';
+import 'package:doe_mais/screens/user_form.dart';
 import 'package:doe_mais/utils/main_theme.dart';
 import 'package:doe_mais/utils/navigation.dart';
 import 'package:doe_mais/utils/session_manager.dart';
@@ -34,7 +34,7 @@ class DoeMais extends StatelessWidget {
       initialRoute: '/inicio',
       routes: {
         '/login': (context) => Login(),
-        '/signup': (context) => SignUp(),
+        '/signup': (context) => UserForm(null),
         '/inicio': (context) => Inicio(),
         '/perfil': (context) =>
             SessionManager.currentUser == null ? Login() : Perfil(),
@@ -43,6 +43,9 @@ class DoeMais extends StatelessWidget {
         '/requisitos-doacao': (context) => RequisitosDoacao(),
         '/campanhas/criar': (context) =>
             SessionManager.currentUser == null ? Login() : CampanhaForm(),
+        '/perfil/editar-perfil': (context) => SessionManager.currentUser == null
+            ? Login()
+            : UserForm(SessionManager.currentUser),
       },
       onGenerateRoute: Navigation.generateRoutes,
     );

@@ -50,4 +50,18 @@ class User {
         'sexo': this.sexo,
         'pontuacao': this.pontuacao,
       };
+
+  // Replace non null parameters from object
+  inject(User user) {
+    this.id = user.id ?? this.id;
+    this.nome = user.nome ?? this.nome;
+    this.nome = user.nome ?? this.nome;
+    this.email = user.email ?? this.email;
+    this.senha = user.senha ?? this.senha;
+    this.cidade = user.cidade ?? this.cidade;
+    this.sangue = user.sangue ?? this.sangue;
+    this.nascimento = user.nascimento ?? this.nascimento;
+    this.sexo = user.sexo ?? this.sexo;
+    this.pontuacao = user.pontuacao ?? this.pontuacao;
+  }
 }

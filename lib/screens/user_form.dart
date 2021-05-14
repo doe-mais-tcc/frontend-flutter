@@ -2,21 +2,23 @@ import 'package:doe_mais/components/buttons/custom_back_button.dart';
 import 'package:doe_mais/components/utils/form_step.dart';
 import 'package:doe_mais/components/utils/form_stepper.dart';
 import 'package:doe_mais/models/user.dart';
-import 'package:doe_mais/screens/form_pages/signup_step1.dart';
-import 'package:doe_mais/screens/form_pages/signup_step2.dart';
+import 'package:doe_mais/screens/form_pages/user_form_step1.dart';
+import 'package:doe_mais/screens/form_pages/user_form_step2.dart';
 import 'package:doe_mais/services/user_dao.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 
-class SignUp extends StatelessWidget {
-  final List<FormStep> steps = [
-    SignupStep1(),
-    SignupStep2(),
-  ];
+class UserForm extends StatelessWidget {
+  final User editUser;
+  UserForm(this.editUser);
 
   @override
   Widget build(BuildContext context) {
+    final List<FormStep> steps = editUser == null
+        ? [UserFormStep1(null), UserFormStep2()]
+        : [UserFormStep1(editUser)];
+
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -42,7 +44,9 @@ class SignUp extends StatelessWidget {
                       width: 80,
                     ),
                     Text(
-                      'Cadastro de usuário',
+                      editUser == null
+                          ? 'Cadastro de usuário'
+                          : 'Edite seu perfil',
                       style: Theme.of(context).textTheme.headline1,
                     ),
                     SizedBox(height: 20),
@@ -51,19 +55,31 @@ class SignUp extends StatelessWidget {
                       onSubmit: (data) {
                         var user = User.fromJson(data);
 
-                        UserDao.postUser(user).then(
-                          (response) {
-                            SessionManager.saveSession(user);
-                            Navigator.of(context).pushNamed('/inicio');
-                          },
-                        ).onError(
-                          (error, stackTrace) {
+                        if (editUser == null)
+                          UserDao.postUser(user).then(
+                            (response) {
+                              SessionManager.saveSession(user);
+                              Navigator.of(context).pushNamed('/inicio');
+                            },
+                          ).onError((error, stackTrace) {
                             alertBottomSheet(
                               context: context,
                               message: 'Não foi possível concluir o cadastro',
                             );
-                          },
-                        );
+                          });
+                        else {
+                          editUser.inject(user);
+                          UserDao.updateUser(editUser).then(
+                            (response) {
+                              Navigator.of(context).pushNamed('/perfil');
+                            },
+                          ).onError((error, stackTrace) {
+                            alertBottomSheet(
+                              context: context,
+                              message: 'Não foi possível editar o perfil',
+                            );
+                          });
+                        }
                       },
                     ),
                   ],

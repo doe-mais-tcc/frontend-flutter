@@ -60,6 +60,13 @@ class UserDao {
     return await DAL.delete('$_baseUrl/deletar/${user.id}');
   }
 
+  static Future<void> updateUser(User user) async {
+    return await DAL.update(
+      '$_baseUrl/atualizar/${user.id}',
+      body: jsonEncode(user.toJson()),
+    );
+  }
+
   static List<User> _toList(String response) {
     return (jsonDecode(response) as List)
         .map<User>((e) => User.fromJson(e))
