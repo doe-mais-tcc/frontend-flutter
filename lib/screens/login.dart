@@ -50,7 +50,7 @@ class _LoginState extends State<Login> {
     Credentials().store(
       _emailController.text,
       _pwdController.text,
-      Mediation.Optional,
+      mediation: Mediation.Optional,
     );
     //Saves session if required, otherwise just sets temp user
     if (_saveSession)
@@ -62,7 +62,7 @@ class _LoginState extends State<Login> {
   }
 
   void _getCredentials() async {
-    var credentials = await Credentials().get(Mediation.Optional);
+    var credentials = await Credentials().get(mediation: Mediation.Optional);
     if (credentials == null) return;
     _emailController.text = credentials.name;
     _pwdController.text = credentials.password;

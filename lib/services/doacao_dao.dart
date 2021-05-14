@@ -32,12 +32,7 @@ class DoacaoDao {
   }
 
   static Future<void> deleteDoacao(Doacao doacao) async {
-    var map = doacao.toJson();
-    await DAL.delete(
-      '$_baseUrl/deletar/${doacao.id}',
-      body: jsonEncode(map),
-    );
-    return null;
+    return await DAL.delete('$_baseUrl/deletar/${doacao.id}');
   }
 
   static Future<void> updateDoacao(Doacao doacao) async {

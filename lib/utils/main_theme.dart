@@ -43,6 +43,12 @@ ThemeData mainTheme() {
         fontWeight: FontWeight.bold,
         fontSize: 18,
       ),
+      headline4: TextStyle(
+        fontFamily: 'Montserrat',
+        color: disabled,
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+      ),
       bodyText1: TextStyle(
         color: normalText,
         fontSize: 16,

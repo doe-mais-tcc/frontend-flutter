@@ -3,6 +3,7 @@ import 'package:doe_mais/components/cards/confirmation_card.dart';
 import 'package:doe_mais/components/cards/hemocentro_card.dart';
 import 'package:doe_mais/components/general/app_frame.dart';
 import 'package:doe_mais/components/cards/doacao_card.dart';
+import 'package:doe_mais/components/general/profile_panel.dart';
 import 'package:doe_mais/components/utils/responsive_row_min.dart';
 import 'package:doe_mais/models/doacao.dart';
 import 'package:doe_mais/models/hemocentro.dart';
@@ -36,68 +37,75 @@ class _PerfilState extends State<Perfil> {
   Widget build(BuildContext context) {
     return AppFrame(
       menuIndex: 1,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Text('Este é seu perfil!',
-                style: Theme.of(context).textTheme.headline1),
-          ),
-          ResponsiveRowMin(
-            mainAxisAlignment: MainAxisResponsiveRowAlignment.center,
-            crossAxisAlignment: CrossAxisResponsiveRowAlignment.stretch,
-            mainAxisSpacing: 20,
-            height: 370,
-            columnWidth: ColumnWidth(
-              lgUp: 5,
-              md: 6,
-              smDown: 12,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 1200),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Text('Este é seu perfil!',
+                  style: Theme.of(context).textTheme.headline1),
             ),
-            children: [
-              _requisitosCard(context),
-              FutureBuilder<Doacao>(
-                future: DoacaoDao.getDoacaoUser(SessionManager.currentUser),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    doacao = snapshot.data;
-                    return DoacaoCard(
-                      doacao: doacao,
-                      onModify: (_doacao) => setState(() => doacao = _doacao),
-                    );
-                  } else
-                    return CircularProgressIndicator();
-                },
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 1000),
+              child: ProfilePanel(SessionManager.currentUser),
+            ),
+            ResponsiveRowMin(
+              mainAxisAlignment: MainAxisResponsiveRowAlignment.center,
+              crossAxisAlignment: CrossAxisResponsiveRowAlignment.stretch,
+              mainAxisSpacing: 20,
+              height: 370,
+              columnWidth: ColumnWidth(
+                lgUp: 5,
+                md: 6,
+                smDown: 12,
               ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 15),
-            child: Text(
-              'Hemocentros perto de você',
-              style: Theme.of(context).textTheme.headline2,
+              children: [
+                _requisitosCard(context),
+                FutureBuilder<Doacao>(
+                  future: DoacaoDao.getDoacaoUser(SessionManager.currentUser),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      doacao = snapshot.data;
+                      return DoacaoCard(
+                        doacao: doacao,
+                        onModify: (_doacao) => setState(() => doacao = _doacao),
+                      );
+                    } else
+                      return CircularProgressIndicator();
+                  },
+                ),
+              ],
             ),
-          ),
-          FutureBuilder<List<Hemocentro>>(
-              future: HemocentroDao.getHemocentros(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return CircularProgressIndicator();
-                return ResponsiveRowMin(
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  columnWidth: ColumnWidth(
-                    smDown: 12,
-                    md: 6,
-                    lgUp: 4,
-                  ),
-                  children: snapshot.data
-                      .where(
-                          (e) => e.cidade == SessionManager.currentUser.cidade)
-                      .map((e) => HemocentroCard(e))
-                      .toList(),
-                );
-              }),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 15),
+              child: Text(
+                'Hemocentros perto de você',
+                style: Theme.of(context).textTheme.headline2,
+              ),
+            ),
+            FutureBuilder<List<Hemocentro>>(
+                future: HemocentroDao.getHemocentros(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return CircularProgressIndicator();
+                  return ResponsiveRowMin(
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    columnWidth: ColumnWidth(
+                      smDown: 12,
+                      md: 6,
+                      lgUp: 4,
+                    ),
+                    children: snapshot.data
+                        .where((e) =>
+                            e.cidade == SessionManager.currentUser.cidade)
+                        .map((e) => HemocentroCard(e))
+                        .toList(),
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }

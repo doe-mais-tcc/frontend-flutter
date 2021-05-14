@@ -7,8 +7,6 @@ Future<bool> confirmDialog({
   String message,
   String yesLabel,
   String noLabel,
-  Function yesAction,
-  Function noAction,
 }) async {
   return await showDialog(
     context: context,
@@ -33,14 +31,14 @@ Future<bool> confirmDialog({
                   Flexible(
                     child: CustomOutlinedButton(
                       label: noLabel,
-                      onPressed: noAction,
+                      onPressed: () => Navigator.of(context).pop(false),
                     ),
                   ),
                   SizedBox(width: 20),
                   Flexible(
                     child: CustomElevatedButton(
                       label: yesLabel,
-                      onPressed: yesAction,
+                      onPressed: () => Navigator.of(context).pop(true),
                     ),
                   ),
                 ],

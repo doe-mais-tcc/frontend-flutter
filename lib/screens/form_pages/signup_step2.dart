@@ -20,7 +20,7 @@ class SignupStep2 extends StatefulWidget implements FormStep {
     Credentials().store(
       _emailController.text,
       _pwd1Controller.text,
-      Mediation.Optional,
+      mediation: Mediation.Optional,
     );
     return true;
   }

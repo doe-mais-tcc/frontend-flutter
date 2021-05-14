@@ -28,6 +28,10 @@ class CampanhaDao {
     return response;
   }
 
+  static Future<void> deleteCampanha(Campanha campanha) async {
+    return await DAL.delete('$_baseUrl/deletar/${campanha.id}');
+  }
+
   static List<Campanha> _toList(String response) {
     return (jsonDecode(response) as List)
         .map<Campanha>((e) => Campanha.fromJson(e))

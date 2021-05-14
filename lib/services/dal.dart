@@ -6,9 +6,17 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class DAL {
   static const String connectionString =
       kIsWeb ? 'localhost:8080' : '10.0.2.2:8080';
+  static const _header = {
+    "Accept": "application/json",
+    "content-type": "application/json"
+  };
 
   static Future<http.Response> get(String url) async {
-    var response = await http.get(Uri.http(connectionString, url))
+    var response = await http
+        .get(
+      Uri.http(connectionString, url),
+      headers: _header,
+    )
         //Handle get error
         .onError(
       (error, stackTrace) {
@@ -31,15 +39,14 @@ class DAL {
   }
 
   static Future<http.Response> post(String url, {Object body}) async {
-    var response = await http.post(
+    var response = await http
+        .post(
       Uri.http(connectionString, url),
       body: body,
-      headers: {
-        "Accept": "application/json",
-        "content-type": "application/json"
-      },
+      headers: _header,
       //Handle error
-    ).onError(
+    )
+        .onError(
       (error, stackTrace) {
         print('[ERROR] $error: $stackTrace');
         throw error;
@@ -59,16 +66,14 @@ class DAL {
     return response;
   }
 
-  static Future<http.Response> delete(String url, {Object body}) async {
-    var response = await http.delete(
+  static Future<http.Response> delete(String url) async {
+    var response = await http
+        .delete(
       Uri.http(connectionString, url),
-      body: body,
-      headers: {
-        "Accept": "application/json",
-        "content-type": "application/json"
-      },
+      headers: _header,
       //Handle error
-    ).onError(
+    )
+        .onError(
       (error, stackTrace) {
         print('[ERROR] $error: $stackTrace');
         throw error;
@@ -89,15 +94,14 @@ class DAL {
   }
 
   static Future<http.Response> update(String url, {Object body}) async {
-    var response = await http.put(
+    var response = await http
+        .put(
       Uri.http(connectionString, url),
       body: body,
-      headers: {
-        "Accept": "application/json",
-        "content-type": "application/json"
-      },
+      headers: _header,
       //Handle error
-    ).onError(
+    )
+        .onError(
       (error, stackTrace) {
         print('[ERROR] $error: $stackTrace');
         throw error;

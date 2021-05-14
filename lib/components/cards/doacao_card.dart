@@ -25,9 +25,7 @@ class DoacaoCard extends StatelessWidget {
       context: context,
       message: 'Apagar lembrete de doação?',
       yesLabel: 'Apagar',
-      yesAction: () => Navigator.of(context).pop(true),
       noLabel: 'Cancelar',
-      noAction: () => Navigator.of(context).pop(false),
     );
   }
 
