@@ -1,7 +1,5 @@
 import 'package:intl/intl.dart';
 
-enum Sexo { Masculino, Feminino }
-
 class User {
   int id;
   String nome;
@@ -10,7 +8,8 @@ class User {
   String cidade;
   String sangue;
   DateTime nascimento;
-  Sexo sexo;
+  String sexo;
+  int pontuacao;
 
   User({
     this.id,
@@ -21,6 +20,7 @@ class User {
     this.sangue,
     this.nascimento,
     this.sexo,
+    this.pontuacao,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -33,7 +33,8 @@ class User {
         nascimento: json['data_nascimento'] != null
             ? DateFormat('dd-MM-yyyy').parse(json['data_nascimento'])
             : null,
-        sexo: json['sexo'] == 'M' ? Sexo.Masculino : Sexo.Feminino,
+        sexo: json['sexo'],
+        pontuacao: json['pontuacao'] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,6 +47,7 @@ class User {
         'data_nascimento': this.nascimento != null
             ? DateFormat('dd-MM-yyyy').format(this.nascimento)
             : null,
-        'sexo': this.sexo == Sexo.Masculino ? 'M' : 'F',
+        'sexo': this.sexo,
+        'pontuacao': this.pontuacao,
       };
 }

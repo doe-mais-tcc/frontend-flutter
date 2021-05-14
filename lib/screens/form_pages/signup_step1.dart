@@ -1,6 +1,5 @@
 import 'package:doe_mais/components/utils/form_step.dart';
 import 'package:doe_mais/models/data_holder.dart';
-import 'package:doe_mais/models/user.dart';
 import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,20 +11,21 @@ class SignupStep1 extends StatefulWidget implements FormStep {
   final _nameController = TextEditingController();
   final _cityController = TextEditingController();
   final _bloodController = TextEditingController();
+  final _sexController = TextEditingController();
   final _birthDate = DataHolder();
-  final _sexo = DataHolder<Sexo>();
 
   @override
   _SignupStep1State createState() => _SignupStep1State();
 
   @override
   dynamic returnData() {
+    _nameController.text = _nameController.text.trim();
     return {
       'nome': _nameController.text,
       'cidade': _cityController.text,
       'tipo_sanguineo': _bloodController.text,
       'data_nascimento': DateFormat('dd-MM-yyyy').format(_birthDate.data),
-      'sexo': _sexo,
+      'sexo': _sexController.text,
     };
   }
 
@@ -39,7 +39,9 @@ class _SignupStep1State extends State<SignupStep1> {
   List<String> cidades = [];
 
   String _validateField(dynamic data) {
-    if (data == null || data.toString().isEmpty) return 'Obrigatório';
+    if (data == null ||
+        data.toString().isEmpty ||
+        (data is String && data.trim().isEmpty)) return 'Obrigatório';
     return null;
   }
 
@@ -57,12 +59,11 @@ class _SignupStep1State extends State<SignupStep1> {
   @override
   void initState() {
     super.initState();
-    widget._sexo.data = Sexo.Masculino;
+
+    widget._sexController.text = 'M';
+
     HemocentroDao.getCidades().then(
-      (result) => setState(() {
-        cidades = result;
-        widget._bloodController.text = cidades[0];
-      }),
+      (result) => setState(() => cidades = result),
     );
   }
 
@@ -110,7 +111,6 @@ class _SignupStep1State extends State<SignupStep1> {
                       .toList(),
                   decoration:
                       InputDecoration(labelText: 'Selecione sua cidade*'),
-                  value: widget._bloodController.text,
                   onChanged: (value) => widget._cityController.text = value,
                   validator: _validateField,
                 ),
@@ -138,17 +138,19 @@ class _SignupStep1State extends State<SignupStep1> {
             'Selecione seu sexo biológico:*',
             style: TextStyle(color: Theme.of(context).indicatorColor),
           ),
-          RadioListTile<Sexo>(
+          RadioListTile<String>(
             title: Text('Masculino'),
-            value: Sexo.Masculino,
-            groupValue: widget._sexo.data,
-            onChanged: (value) => setState(() => widget._sexo.data = value),
+            value: 'M',
+            groupValue: widget._sexController.text,
+            onChanged: (value) =>
+                setState(() => widget._sexController.text = value),
           ),
-          RadioListTile<Sexo>(
+          RadioListTile<String>(
             title: Text('Feminino'),
-            value: Sexo.Feminino,
-            groupValue: widget._sexo.data,
-            onChanged: (value) => setState(() => widget._sexo.data = value),
+            value: 'F',
+            groupValue: widget._sexController.text,
+            onChanged: (value) =>
+                setState(() => widget._sexController.text = value),
           ),
         ],
       ),

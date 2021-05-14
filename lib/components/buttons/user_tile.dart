@@ -1,4 +1,3 @@
-import 'package:doe_mais/models/user.dart';
 import 'package:doe_mais/utils/custom_theme.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +16,10 @@ class UserTile extends StatelessWidget {
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               text: TextSpan(
-                  text: 'Bem vind${user.sexo == Sexo.Masculino ? 'o' : 'a'}'
-                      '\n${SessionManager.currentUser.nome}'),
+                style: Theme.of(context).textTheme.bodyText2,
+                text: 'Bem vind${user.sexo == 'M' ? 'o' : 'a'}'
+                    '\n${SessionManager.currentUser.nome}',
+              ),
             )
           : TextButton(
               child: Padding(

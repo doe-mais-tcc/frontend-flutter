@@ -79,9 +79,18 @@ class _SignupStep2State extends State<SignupStep2> {
           TextFormField(
             controller: widget._pwd1Controller,
             obscureText: true,
-            decoration: InputDecoration(labelText: 'Insira sua senha*'),
+            decoration: InputDecoration(
+              labelText: 'Insira sua senha*',
+              hintText: 'Pelo menos 5 dígitos',
+            ),
             autofillHints: [AutofillHints.password],
-            validator: _validateField,
+            validator: (data) {
+              var valid = _validateField(data);
+              if (valid != null) return valid;
+              if (data.length < 5)
+                return 'Crie uma senha de pelos menos 5 dígitos';
+              return null;
+            },
           ),
           TextFormField(
             controller: widget._pwd2Controller,

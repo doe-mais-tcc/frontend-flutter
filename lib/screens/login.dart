@@ -28,23 +28,24 @@ class _LoginState extends State<Login> {
       senha: _pwdController.text,
     );
     //Returns user on success and null on fail
-    var returnedUser = await UserDao.checkUser(user)
-        //For internet error or no match user
-        .onError(
-      (error, stackTrace) {
-        alertBottomSheet(
-            context: context, message: 'Não foi possível realizar o login');
-        return;
-      },
-    );
-    if (returnedUser == null) {
+    var returnedUser = await UserDao.checkUser(user).then((data) {
+      if (data != null) return data;
       alertBottomSheet(
         context: context,
         message: 'Email ou senha incorretos',
         timeLimit: 5,
       );
-      return;
-    }
+    },
+        // For internet error or no user match
+        onError: (error) {
+      alertBottomSheet(
+        context: context,
+        message: 'Não foi possível fazer login',
+        timeLimit: 5,
+      );
+      return null;
+    });
+    if (returnedUser == null) return;
 
     //Requests user to save credentials
     Credentials().store(
