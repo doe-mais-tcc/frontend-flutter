@@ -69,7 +69,12 @@ class _SignupStep2State extends State<SignupStep2> {
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(labelText: 'Insira seu email*'),
             autofillHints: [AutofillHints.username, AutofillHints.email],
-            validator: _validateField,
+            validator: (data) {
+              var valid = _validateField(data);
+              if (valid != null) return valid;
+              if (!data.contains('@')) return 'Insira um email valido';
+              return null;
+            },
           ),
           TextFormField(
             controller: widget._pwd1Controller,
