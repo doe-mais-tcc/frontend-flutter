@@ -1,32 +1,27 @@
 import 'package:doe_mais/components/general/hamburger_menu.dart';
 import 'package:doe_mais/components/general/horizontal_menu.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
+import 'package:doe_mais/utils/navigation.dart' show Pages;
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 
-class AppFrame extends StatefulWidget {
+class AppFrame extends StatelessWidget {
   final Widget child;
-  final int menuIndex;
+  final Pages page;
   final bool shrink;
   AppFrame({
     this.child,
-    this.menuIndex,
+    this.page,
     this.shrink = false,
   });
 
   @override
-  _AppFrameState createState() => _AppFrameState();
-}
-
-class _AppFrameState extends State<AppFrame> {
-  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > 700)
-          return BroadLayout(widget.child, widget.menuIndex, widget.shrink);
-        else
-          return NarrowLayout(widget.child, widget.menuIndex, widget.shrink);
+        return constraints.maxWidth < 750
+            ? NarrowLayout(child, page.index, shrink)
+            : BroadLayout(child, page.index, shrink);
       },
     );
   }

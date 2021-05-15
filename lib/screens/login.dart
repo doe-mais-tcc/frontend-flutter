@@ -53,12 +53,8 @@ class _LoginState extends State<Login> {
       _pwdController.text,
       mediation: Mediation.Optional,
     );
-    //Saves session if required, otherwise just sets temp user
-    if (_saveSession)
-      SessionManager.saveSession(returnedUser);
-    else
-      SessionManager.currentUser = returnedUser;
 
+    await SessionManager.createSession(returnedUser, _saveSession);
     Navigator.of(context).pushReplacementNamed('/inicio');
   }
 

@@ -12,9 +12,9 @@ import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
+void main() async {
+  await SessionManager.retrieveLocal();
   runApp(DoeMais());
-  SessionManager.returnSession();
 }
 
 class DoeMais extends StatelessWidget {
@@ -30,22 +30,22 @@ class DoeMais extends StatelessWidget {
         const Locale('pt', 'BR'),
       ],
       title: 'Doe+',
+      debugShowCheckedModeBanner: false,
       theme: mainTheme(),
       initialRoute: '/inicio',
       routes: {
         '/login': (context) => Login(),
         '/signup': (context) => UserForm(null),
         '/inicio': (context) => Inicio(),
-        '/perfil': (context) =>
-            SessionManager.currentUser == null ? Login() : Perfil(),
+        '/perfil': (context) => SessionManager.isLogged ? Perfil() : Login(),
         '/duvidas': (context) => Duvidas(),
         '/campanhas': (context) => Campanhas(),
         '/requisitos-doacao': (context) => RequisitosDoacao(),
         '/campanhas/criar': (context) =>
-            SessionManager.currentUser == null ? Login() : CampanhaForm(),
-        '/perfil/editar-perfil': (context) => SessionManager.currentUser == null
-            ? Login()
-            : UserForm(SessionManager.currentUser),
+            SessionManager.isLogged ? CampanhaForm() : Login(),
+        '/perfil/editar-perfil': (context) => SessionManager.isLogged
+            ? UserForm(SessionManager.currentUser)
+            : Login(),
       },
       onGenerateRoute: Navigation.generateRoutes,
     );
