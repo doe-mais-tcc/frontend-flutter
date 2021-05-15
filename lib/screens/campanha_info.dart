@@ -3,10 +3,12 @@ import 'package:doe_mais/components/general/app_frame.dart';
 import 'package:doe_mais/components/buttons/share_button.dart';
 import 'package:doe_mais/models/campanha.dart';
 import 'package:doe_mais/services/campanha_dao.dart';
+import 'package:doe_mais/utils/navigation.dart';
 import 'package:doe_mais/utils/sharer.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:doe_mais/utils/navigation.dart' show Pages;
 
 class CampanhaInfo extends StatelessWidget {
   final String campanhaId;
@@ -16,7 +18,7 @@ class CampanhaInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return AppFrame(
-      menuIndex: 3,
+      page: Pages.Campanhas,
       child: FutureBuilder<Campanha>(
         future: CampanhaDao.getCampanha(campanhaId),
         builder: (context, snapshot) {

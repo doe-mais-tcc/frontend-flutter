@@ -4,10 +4,12 @@ import 'package:doe_mais/components/general/app_frame.dart';
 import 'package:doe_mais/components/buttons/carousel_controls.dart';
 import 'package:doe_mais/models/campanha.dart';
 import 'package:doe_mais/services/campanha_dao.dart';
+import 'package:doe_mais/utils/navigation.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
+import 'package:doe_mais/utils/navigation.dart' show Pages;
 
 class Campanhas extends StatefulWidget {
   @override
@@ -27,7 +29,7 @@ class _CampanhasState extends State<Campanhas> {
           (list) => setState(() {
             if (list == null) return;
             campanhas = list;
-            if (SessionManager.currentUser != null)
+            if (SessionManager.isLogged)
               campanhasUser = campanhas
                   .where((e) => e.user.id == SessionManager.currentUser.id)
                   .toList();
@@ -39,7 +41,7 @@ class _CampanhasState extends State<Campanhas> {
   @override
   Widget build(BuildContext context) {
     return AppFrame(
-      menuIndex: 3,
+      page: Pages.Campanhas,
       child: Column(
         children: [
           Padding(
@@ -47,7 +49,7 @@ class _CampanhasState extends State<Campanhas> {
             child:
                 Text('Campanhas', style: Theme.of(context).textTheme.headline1),
           ),
-          SessionManager.currentUser != null
+          SessionManager.isLogged
               ? Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

@@ -1,12 +1,13 @@
 import 'package:doe_mais/components/general/app_frame.dart';
 import 'package:doe_mais/components/general/chatbot.dart';
 import 'package:flutter/material.dart';
+import 'package:doe_mais/utils/navigation.dart' show Pages;
 
 class Duvidas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppFrame(
-      menuIndex: 2,
+      page: Pages.Duvidas,
       shrink: true,
       child: Column(
         mainAxisSize: MainAxisSize.min,

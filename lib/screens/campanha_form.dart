@@ -7,6 +7,7 @@ import 'package:doe_mais/services/campanha_dao.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:doe_mais/utils/navigation.dart' show Pages;
 
 class CampanhaForm extends StatelessWidget {
   void _onValidForm(BuildContext context, Campanha campanha) {
@@ -39,6 +40,7 @@ class CampanhaForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppFrame(
+      page: Pages.Campanhas,
       child: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 600),

@@ -6,6 +6,7 @@ import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
+import 'package:doe_mais/utils/navigation.dart' show Pages;
 
 class Inicio extends StatefulWidget {
   @override
@@ -31,7 +32,7 @@ class _InicioState extends State<Inicio> {
   @override
   Widget build(BuildContext context) {
     return AppFrame(
-      menuIndex: 0,
+      page: Pages.Inicio,
       child: Column(
         children: [
           Padding(
@@ -61,13 +62,13 @@ class _InicioState extends State<Inicio> {
                   style: Theme.of(context).textTheme.headline2,
                 ),
               ),
-              SessionManager.currentUser != null
+              SessionManager.isLogged
                   ? Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: TextButton(
                         child: Text(
                             showAllHemocentros ? '(ver menos)' : '(ver todos)'),
-                        onPressed: () => SessionManager.currentUser != null
+                        onPressed: () => SessionManager.isLogged
                             ? setState(
                                 () => showAllHemocentros = !showAllHemocentros)
                             : null,
@@ -82,7 +83,7 @@ class _InicioState extends State<Inicio> {
               if (!snapshot.hasData) return CircularProgressIndicator();
 
               List<Hemocentro> list = snapshot.data;
-              if (SessionManager.currentUser != null && !showAllHemocentros)
+              if (SessionManager.isLogged && !showAllHemocentros)
                 list = snapshot.data
                     .where((e) => e.cidade == SessionManager.currentUser.cidade)
                     .toList();
