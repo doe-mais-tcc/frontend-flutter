@@ -43,7 +43,7 @@ class CampanhaForm extends StatelessWidget {
       page: Pages.Campanhas,
       child: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 600),
+          constraints: BoxConstraints(maxWidth: 500),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: CampanhaStep1(

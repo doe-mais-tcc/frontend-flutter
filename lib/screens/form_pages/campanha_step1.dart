@@ -1,6 +1,7 @@
 import 'package:doe_mais/components/buttons/custom_button_bar.dart';
 import 'package:doe_mais/components/buttons/custom_elevated_button.dart';
 import 'package:doe_mais/components/buttons/custom_outlined_button.dart';
+import 'package:doe_mais/components/general/checkbox_form_field.dart';
 import 'package:doe_mais/components/utils/form_frame.dart';
 import 'package:doe_mais/models/campanha.dart';
 import 'package:doe_mais/models/hemocentro.dart';
@@ -9,32 +10,35 @@ import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 
 class CampanhaStep1 extends StatefulWidget {
+  final Campanha editCampanha;
   final Function(Campanha) onValidate;
-  CampanhaStep1({this.onValidate});
+  CampanhaStep1({this.editCampanha, this.onValidate});
 
   @override
   _CampanhaStep1State createState() => _CampanhaStep1State();
 }
 
 class _CampanhaStep1State extends State<CampanhaStep1> {
-  final _formKey = GlobalKey<FormState>();
-  final _nomeController = TextEditingController();
-  final _tipoSanguineoController = TextEditingController();
-  final _descricaoController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final nomeController = TextEditingController();
+  final tipoSanguineoController = TextEditingController();
+  final descricaoController = TextEditingController();
   List<Hemocentro> hemocentroList = [];
-  int hemocentroIndex;
+  Hemocentro hemocentro;
   bool compartilhavel = false;
+  bool consentimento = false;
 
   void _validateForm() {
-    if (!_formKey.currentState.validate()) return;
-    var campanha = Campanha(
-      nomeInternado: _nomeController.text,
-      tipoSanguineo: _tipoSanguineoController.text,
-      descricao: _descricaoController.text,
-      compartilhavel: compartilhavel,
-      user: SessionManager.currentUser,
-      hemocentro: hemocentroList[hemocentroIndex],
-    );
+    if (!formKey.currentState.validate()) return;
+
+    var campanha = widget.editCampanha ?? Campanha()
+      ..nomeInternado = nomeController.text
+      ..tipoSanguineo = tipoSanguineoController.text
+      ..descricao = descricaoController.text
+      ..compartilhavel = compartilhavel
+      ..user = SessionManager.currentUser
+      ..hemocentro = hemocentro;
+
     widget.onValidate(campanha);
   }
 
@@ -52,17 +56,34 @@ class _CampanhaStep1State extends State<CampanhaStep1> {
           .toList();
 
   @override
+  void initState() {
+    super.initState();
+    HemocentroDao.getHemocentros().then(
+      (value) => setState(() => hemocentroList = value),
+    );
+
+    if (widget.editCampanha != null)
+      setState(() {
+        nomeController.text = widget.editCampanha.nomeInternado;
+        descricaoController.text = widget.editCampanha.descricao;
+        tipoSanguineoController.text = widget.editCampanha.tipoSanguineo;
+        compartilhavel = widget.editCampanha.compartilhavel;
+        hemocentro = widget.editCampanha.hemocentro;
+      });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FormFrame(
-      formKey: _formKey,
+      formKey: formKey,
       title: 'Preencha os dados da pessoa que necessita da doação',
       children: [
         ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 400),
+          constraints: BoxConstraints(maxWidth: 500),
           child: Column(
             children: [
               TextFormField(
-                controller: _nomeController,
+                controller: nomeController,
                 keyboardType: TextInputType.name,
                 decoration:
                     InputDecoration(hintText: 'Insira o nome do internado*'),
@@ -72,44 +93,47 @@ class _CampanhaStep1State extends State<CampanhaStep1> {
                 items: _bloodDropdownItems(),
                 decoration: InputDecoration(
                     labelText: 'Selecione o sangue preferencial*'),
-                onChanged: (value) => _tipoSanguineoController.text = value,
+                onChanged: (value) => tipoSanguineoController.text = value,
                 validator: _validateField,
               ),
-              FutureBuilder<List<Hemocentro>>(
-                future: HemocentroDao.getHemocentros(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData)
-                    return DropdownButtonFormField(
+              hemocentroList.isEmpty
+                  ? DropdownButtonFormField(
                       items: [
                         DropdownMenuItem(child: Text('Carregando Hemocentros')),
                       ],
                       validator: _validateField,
-                    );
-
-                  hemocentroList = snapshot.data;
-                  return DropdownButtonFormField(
-                    items: List.generate(
-                        hemocentroList.length,
-                        (index) => DropdownMenuItem(
-                              child: Text(hemocentroList[index].nome),
-                              value: index,
-                            )),
-                    decoration: InputDecoration(
-                        labelText: 'Selecione o local de internação*'),
-                    onChanged: (value) => hemocentroIndex = value,
-                    validator: _validateField,
-                  );
-                },
-              ),
-              TextFormField(
-                controller: _descricaoController,
-                keyboardType: TextInputType.text,
-                decoration:
-                    InputDecoration(hintText: 'Insira o texto da campanha'),
-                maxLines: 5,
+                    )
+                  : DropdownButtonFormField<Hemocentro>(
+                      items: List.generate(
+                          hemocentroList.length,
+                          (index) => DropdownMenuItem(
+                                child: Text(hemocentroList[index].nome),
+                                value: hemocentroList[index],
+                              )),
+                      decoration: InputDecoration(
+                          labelText: 'Selecione o local de internação*'),
+                      onChanged: (value) => hemocentro = value,
+                      validator: _validateField,
+                    ),
+              Scrollbar(
+                isAlwaysShown: true,
+                child: TextFormField(
+                  controller: descricaoController,
+                  keyboardType: TextInputType.multiline,
+                  decoration: InputDecoration(
+                      hintText: 'Insira uma mensagem para a campanha'),
+                  maxLines: 8,
+                  maxLength: 1000,
+                ),
               ),
             ],
           ),
+        ),
+        CheckboxFormField(
+          title: Text(
+              'Eu confirmo que os dados inseridos são legítimos e que tenho o consentimento do indivíduo*'),
+          onSaved: (value) => setState(() => consentimento = value),
+          validator: (value) => !value ? 'Obrigatório' : null,
         ),
         CheckboxListTile(
           title: Text(
