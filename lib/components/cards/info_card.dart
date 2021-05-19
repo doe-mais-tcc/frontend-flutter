@@ -1,9 +1,8 @@
-import 'package:doe_mais/models/info.dart';
 import 'package:flutter/material.dart';
 
 class InfoCard extends StatelessWidget {
-  final Info info;
-  InfoCard(this.info);
+  final Map<String, dynamic> json;
+  InfoCard(this.json);
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +16,19 @@ class InfoCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: Text(
-                info.title,
+                '${json['title']}',
                 style: themeData.textTheme.headline2,
               ),
             ),
             Column(
-              children: info.items
+              children: (json['items'] as List)
                   .map((e) => ListTile(
                         leading: Icon(
                           Icons.brightness_1,
                           color: themeData.primaryColor,
                           size: 15,
                         ),
-                        title: Text(e, style: themeData.textTheme.bodyText1),
+                        title: Text('$e', style: themeData.textTheme.bodyText1),
                       ))
                   .toList(),
             ),
