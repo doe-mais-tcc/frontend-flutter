@@ -1,14 +1,14 @@
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:doe_mais/components/buttons/custom_elevated_button.dart';
 import 'package:doe_mais/components/cards/campanha_card.dart';
 import 'package:doe_mais/components/general/app_frame.dart';
-import 'package:doe_mais/components/buttons/carousel_controls.dart';
 import 'package:doe_mais/models/campanha.dart';
 import 'package:doe_mais/services/campanha_dao.dart';
 import 'package:doe_mais/utils/navigation.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
-import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:doe_mais/utils/navigation.dart' show Pages;
 
 class Campanhas extends StatefulWidget {
@@ -17,6 +17,7 @@ class Campanhas extends StatefulWidget {
 }
 
 class _CampanhasState extends State<Campanhas> {
+  final carouselController = CarouselController();
   List<Campanha> campanhas = [];
   List<Campanha> campanhasUser = [];
 
@@ -72,31 +73,35 @@ class _CampanhasState extends State<Campanhas> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 20),
                     campanhasUser.isEmpty
                         ? Container()
-                        : CarouselControls(
-                            height: 420,
-                            infiniteCarousel: InfiniteCarousel.builder(
-                              controller: InfiniteScrollController(),
+                        : SizedBox(
+                            height: 350,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
                               itemCount: campanhasUser.length,
-                              itemExtent: 400,
-                              center: false,
-                              loop: false,
-                              itemBuilder: (_, index, __) => Padding(
+                              physics: BouncingScrollPhysics(),
+                              itemBuilder: (context, index) => Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
-                                child: CampanhaCard(campanhasUser[index]),
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: CampanhaCard(
+                                  campanhasUser[index],
+                                ),
                               ),
                             ),
                           ),
                   ],
                 )
               : Container(),
-          Text(
-            'Campanhas para ajudar',
-            style: Theme.of(context).textTheme.headline2,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Text(
+              'Campanhas para ajudar',
+              style: Theme.of(context).textTheme.headline2,
+            ),
           ),
-          SizedBox(height: 10),
           campanhas.isEmpty
               ? CircularProgressIndicator()
               : ResponsiveRow(

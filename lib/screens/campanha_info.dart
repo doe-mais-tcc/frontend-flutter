@@ -27,11 +27,13 @@ class CampanhaInfo extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           return Column(
             children: [
-              Text(
-                'Campanha de ${snapshot.data.nomeInternado}',
-                style: theme.textTheme.headline1,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Text(
+                  'Campanha de ${snapshot.data.nomeInternado}',
+                  style: theme.textTheme.headline1,
+                ),
               ),
-              SizedBox(height: 40),
               ResponsiveRow(
                 mainAxisSpacing: 20,
                 crossAxisSpacing: 10,

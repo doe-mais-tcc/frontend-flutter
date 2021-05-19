@@ -1,9 +1,10 @@
 import 'package:doe_mais/models/campanha.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart' as mobile;
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-enum SocialMedia { Facebook, Twitter, Whatsapp, Mobile }
+enum SocialMedia { Facebook, Twitter, Whatsapp, Other }
 
 class Sharer {
   static const String authority = 'doemais-924bf.web.app';
@@ -16,8 +17,8 @@ class Sharer {
         return shareOnTwitter(campanha);
       case SocialMedia.Whatsapp:
         return shareOnWhatsapp(campanha);
-      case SocialMedia.Mobile:
-        return shareOnMobile(campanha);
+      case SocialMedia.Other:
+        return shareOther(campanha);
     }
   }
 
@@ -59,10 +60,13 @@ class Sharer {
     if (await canLaunch(url)) launch(url);
   }
 
-  static void shareOnMobile(Campanha campanha) async {
-    if (kIsWeb) return;
+  static void shareOther(Campanha campanha) async {
     String text = campanha.descricao + '\n' + _getCampanhaUrl(campanha);
-    mobile.Share.share(text);
+
+    if (kIsWeb)
+      Clipboard.setData(ClipboardData(text: text));
+    else
+      mobile.Share.share(text);
   }
 
   static String _getCampanhaUrl(Campanha campanha) {

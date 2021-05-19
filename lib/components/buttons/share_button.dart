@@ -31,7 +31,7 @@ class ShareButton extends StatelessWidget {
             icon = FontAwesomeIcons.whatsapp;
             color = _whatsappColor;
             break;
-          case SocialMedia.Mobile:
+          case SocialMedia.Other:
             icon = Icons.more_horiz;
             color = Theme.of(context).disabledColor;
         }

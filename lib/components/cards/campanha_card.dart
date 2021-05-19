@@ -4,7 +4,6 @@ import 'package:doe_mais/models/campanha.dart';
 import 'package:doe_mais/utils/navigation.dart';
 import 'package:doe_mais/utils/sharer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class CampanhaCard extends StatelessWidget {
   final Campanha campanha;
@@ -13,13 +12,11 @@ class CampanhaCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final shareBtnQty =
-        kIsWeb ? SocialMedia.values.length - 1 : SocialMedia.values.length;
 
     return InkWell(
       hoverColor: Colors.transparent,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: 300),
+      child: SizedBox(
+        width: 380,
         child: Card(
           margin: const EdgeInsets.only(bottom: 15),
           child: Column(
@@ -77,12 +74,12 @@ class CampanhaCard extends StatelessWidget {
                               Wrap(
                                 alignment: WrapAlignment.center,
                                 spacing: 20,
-                                children: List.generate(
-                                    shareBtnQty,
-                                    (i) => ShareButton(
-                                          socialMedia: SocialMedia.values[i],
+                                children: SocialMedia.values
+                                    .map((e) => ShareButton(
+                                          socialMedia: e,
                                           campanha: campanha,
-                                        )),
+                                        ))
+                                    .toList(),
                               ),
                             ],
                           )

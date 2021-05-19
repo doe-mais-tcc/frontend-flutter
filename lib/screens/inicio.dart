@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:doe_mais/components/cards/hemocentro_card.dart';
 import 'package:doe_mais/components/cards/message_card.dart';
 import 'package:doe_mais/components/general/app_frame.dart';
-import 'package:doe_mais/components/general/carousel_frame.dart';
+import 'package:doe_mais/components/general/custom_carousel.dart';
 import 'package:doe_mais/models/hemocentro.dart';
 import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:doe_mais/utils/session_manager.dart';
