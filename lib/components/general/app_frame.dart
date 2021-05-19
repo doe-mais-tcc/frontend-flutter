@@ -20,8 +20,8 @@ class AppFrame extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return constraints.maxWidth < 750
-            ? NarrowLayout(child, page.index, shrink)
-            : BroadLayout(child, page.index, shrink);
+            ? NarrowLayout(child, page?.index, shrink)
+            : BroadLayout(child, page?.index, shrink);
       },
     );
   }
