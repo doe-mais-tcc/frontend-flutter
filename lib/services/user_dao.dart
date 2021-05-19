@@ -44,6 +44,14 @@ class UserDao {
     return User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   }
 
+  static Future<User> getUserByEmail(String email) async {
+    var response = await DAL.get('$_baseUrl/recuperar/email/$email');
+
+    if (response.body.length == 0) throw Exception('No such user');
+
+    return User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+  }
+
   static Future<void> deleteUser(User user) async {
     SessionManager.endSession();
 

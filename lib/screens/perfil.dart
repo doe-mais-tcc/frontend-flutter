@@ -1,6 +1,7 @@
 import 'package:doe_mais/components/buttons/custom_elevated_button.dart';
 import 'package:doe_mais/components/cards/confirmation_card.dart';
 import 'package:doe_mais/components/cards/hemocentro_card.dart';
+import 'package:doe_mais/components/cards/score_card.dart';
 import 'package:doe_mais/components/general/app_frame.dart';
 import 'package:doe_mais/components/cards/doacao_card.dart';
 import 'package:doe_mais/components/general/profile_panel.dart';
@@ -12,6 +13,7 @@ import 'package:doe_mais/services/hemocentro_dao.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
+import 'package:doe_mais/utils/navigation.dart' show Pages;
 
 class Perfil extends StatefulWidget {
   @override
@@ -36,7 +38,7 @@ class _PerfilState extends State<Perfil> {
   @override
   Widget build(BuildContext context) {
     return AppFrame(
-      menuIndex: 1,
+      page: Pages.Perfil,
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 1200),
         child: Column(
@@ -51,7 +53,12 @@ class _PerfilState extends State<Perfil> {
               constraints: BoxConstraints(maxWidth: 1000),
               child: ProfilePanel(SessionManager.currentUser),
             ),
-            ResponsiveRowMin(
+            Container(
+              constraints: BoxConstraints(maxWidth: 1000),
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: ScoreCard(SessionManager.currentUser),
+            ),
+            responsiveRowMin(
               mainAxisAlignment: MainAxisResponsiveRowAlignment.center,
               crossAxisAlignment: CrossAxisResponsiveRowAlignment.stretch,
               mainAxisSpacing: 20,
@@ -86,24 +93,22 @@ class _PerfilState extends State<Perfil> {
               ),
             ),
             FutureBuilder<List<Hemocentro>>(
-                future: HemocentroDao.getHemocentros(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return CircularProgressIndicator();
-                  return ResponsiveRowMin(
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    columnWidth: ColumnWidth(
-                      smDown: 12,
-                      md: 6,
-                      lgUp: 4,
-                    ),
-                    children: snapshot.data
-                        .where((e) =>
-                            e.cidade == SessionManager.currentUser.cidade)
-                        .map((e) => HemocentroCard(e))
-                        .toList(),
-                  );
-                }),
+              future: HemocentroDao.getHemocentros(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return CircularProgressIndicator();
+                return ResponsiveRow(
+                  mainAxisSpacing: 20,
+                  children: snapshot.data
+                      .where(
+                          (e) => e.cidade == SessionManager.currentUser.cidade)
+                      .map((e) => ResponsiveColumn(
+                            width: ColumnWidth(smDown: 12, md: 6, lgUp: 4),
+                            child: HemocentroCard(e),
+                          ))
+                      .toList(),
+                );
+              },
+            ),
           ],
         ),
       ),

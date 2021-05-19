@@ -3,21 +3,21 @@ import 'package:doe_mais/screens/campanha_info.dart';
 import 'package:doe_mais/screens/inicio.dart';
 import 'package:flutter/material.dart';
 
-enum Pages { Inicio, Duvidas, Campanhas, Perfil }
+enum Pages { Inicio, Perfil, Duvidas, Campanhas }
 
 class Navigation {
   static const titles = [
     'Inicio',
+    'Perfil',
     'Tire suas dúvidas',
     'Campanhas',
-    'Perfil',
   ];
 
   static const routes = [
     '/inicio',
+    '/perfil',
     '/duvidas',
     '/campanhas',
-    '/perfil',
   ];
 
   static String getCampanhaRoute(Campanha campanha) {

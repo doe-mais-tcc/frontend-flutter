@@ -4,36 +4,53 @@ import 'package:doe_mais/utils/confirm_dialog.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePanel extends StatelessWidget {
+class ProfilePanel extends StatefulWidget {
   final User user;
   ProfilePanel(this.user);
 
+  @override
+  _ProfilePanelState createState() => _ProfilePanelState();
+}
+
+class _ProfilePanelState extends State<ProfilePanel> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Row(
       children: [
-        Icon(
-          Icons.account_circle,
-          size: 100,
-          color: theme.disabledColor,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(360),
+          child: Container(
+            height: 100,
+            width: 100,
+            color: Colors.grey[350],
+            padding: const EdgeInsets.only(top: 20),
+            child: Image.asset(
+              'assets/images/avatar_${widget.user.sexo}.png',
+            ),
+          ),
         ),
-        SizedBox(width: 20),
+        SizedBox(width: 10),
         Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SelectableText(
-              user.nome,
-              style:
-                  theme.textTheme.headline2.copyWith(color: theme.primaryColor),
+            RichText(
+              text: TextSpan(
+                text: widget.user.nome,
+                style: theme.textTheme.headline2
+                    .copyWith(color: theme.primaryColor),
+              ),
+              softWrap: true,
+              maxLines: 2,
+              overflow: TextOverflow.fade,
             ),
             SelectableText(
-              user.cidade,
+              widget.user.cidade,
               style: theme.textTheme.headline4,
             ),
             SelectableText(
-              'Sangue ' + user.sangue,
+              'Sangue ' + widget.user.sangue,
               style: theme.textTheme.headline4,
             ),
           ],
@@ -44,7 +61,8 @@ class ProfilePanel extends StatelessWidget {
           children: [
             TextButton(
               child: Text('Editar Perfil'),
-              onPressed: () {},
+              onPressed: () =>
+                  Navigator.of(context).pushNamed('/perfil/editar-perfil'),
             ),
             TextButton(
               child: Text('Excluir Conta'),
@@ -57,7 +75,7 @@ class ProfilePanel extends StatelessWidget {
                   noLabel: 'Cancelar',
                 );
                 if (action) {
-                  UserDao.deleteUser(user);
+                  UserDao.deleteUser(widget.user);
                   Navigator.of(context).pushNamed('/inicio');
                 }
               },
