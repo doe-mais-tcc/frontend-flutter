@@ -114,9 +114,12 @@ class NarrowLayout extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: screen,
             )
-          : SingleChildScrollView(
-              padding: const EdgeInsets.only(right: 15, left: 15, bottom: 200),
-              child: screen,
+          : Scrollbar(
+              child: SingleChildScrollView(
+                padding:
+                    const EdgeInsets.only(right: 15, left: 15, bottom: 100),
+                child: screen,
+              ),
             ),
     );
   }

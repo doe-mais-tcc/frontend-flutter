@@ -11,19 +11,20 @@ class MessageCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            runAlignment: WrapAlignment.center,
-            children: [
-              json['asset'] != null
-                  ? Image.asset(json['asset'], width: 70)
-                  : SizedBox(),
-              Expanded(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minWidth: 300),
+        child: SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              runAlignment: WrapAlignment.center,
+              children: [
+                if (json['asset'] != null)
+                  Image.asset(json['asset'], width: 60),
+                Container(
+                  constraints: BoxConstraints(minWidth: 300, maxWidth: 500),
+                  width: double.infinity,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -63,8 +64,8 @@ class MessageCard extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

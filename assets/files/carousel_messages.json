@@ -6,7 +6,7 @@
     },
     {
         "title": "Converse com o nosso chatbot",
-        "message": "Você sabia que o Doe+ tem um robô que exclarece todas as suas dúvidas? Pergunte para ele sobre o processo de doação de sangue ou sobre nosso próprio sistema!",
+        "message": "Você sabia que o Doe+ tem um robô que exclarece suas dúvidas? Pergunte para ele sobre doações ou nosso sistema!",
         "asset": "assets/images/blood.png",
         "button": "Conversar",
         "route": "/duvidas"
