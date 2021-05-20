@@ -1,32 +1,27 @@
-import 'dart:io' as io;
+import 'dart:convert';
 import 'dart:math' show Random;
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:doe_mais/models/message.dart' as msg;
+import 'package:flutter/services.dart' show rootBundle;
 
 class ChatBotService {
-  static const String path = 'assets/files/chatbot_credentials.json';
+  static const String _path = 'assets/files/chatbot_credentials.json';
+  Map<String, dynamic> _chatbotCredentials;
 
-  static DialogFlowtter _df;
-  static Future<DialogFlowtter> get _dialogFlowtter async {
-    if (_df == null) {
-      if (await io.File(path).exists()) {
-        _df = await DialogFlowtter.fromFile(
-          path: path,
-          sessionId: Random().toString(),
-        );
-      } else {
-        print('[CHATBOT ERROR] chatbot credentials not found');
-        throw Exception();
-      }
-    }
-    return _df;
-  }
+  final String _sessionId;
+  ChatBotService() : this._sessionId = Random().toString();
 
-  static Future<List<msg.Message>> queryInput(String query) async {
+  Future<List<msg.Message>> queryInput(String query) async {
     var queryInput =
         QueryInput(text: TextInput(text: query, languageCode: 'pt-Br'));
 
-    var dialogFlowtter = await _dialogFlowtter;
+    var dialogFlowtter = await _getDialogFlowtter().onError(
+      (error, stackTrace) {
+        print('[CHATBOT ERROR] $error: $stackTrace');
+        throw error;
+      },
+    );
+
     var response =
         await dialogFlowtter.detectIntent(queryInput: queryInput).onError(
       (error, stackTrace) {
@@ -49,5 +44,14 @@ class ChatBotService {
       ));
 
     return output;
+  }
+
+  Future<DialogFlowtter> _getDialogFlowtter() async {
+    if (_chatbotCredentials == null) {
+      String fileText = await rootBundle.loadString(_path);
+      _chatbotCredentials = jsonDecode(fileText);
+    }
+
+    return DialogFlowtter.fromJson(_chatbotCredentials, sessionId: _sessionId);
   }
 }

@@ -4,8 +4,6 @@ import 'package:doe_mais/utils/chatbot_list_manager.dart';
 import 'package:flutter/material.dart';
 
 class ChatBot extends StatefulWidget {
-  final listKey = GlobalKey<AnimatedListState>();
-
   @override
   _ChatBotState createState() => _ChatBotState();
 }
@@ -16,26 +14,30 @@ class _ChatBotState extends State<ChatBot> {
   final List<Message> messages = [];
   ChatbotListManager chatbotListManager;
 
-  void initialize() {
-    chatbotListManager = ChatbotListManager(
-      messages: messages,
-      listKey: widget.listKey,
-    );
-    chatbotListManager.welcomeMessage();
-  }
-
   void sendMessage(String text) {
     if (text.isEmpty) return;
 
     textController.clear();
     textFieldFocus.requestFocus();
+
     chatbotListManager.newMessage(text);
+  }
+
+  void updateList(List<Message> newMessages, [Message replacement]) {
+    if (replacement == null)
+      setState(() => messages.addAll(newMessages));
+    else
+      setState(() {
+        var index = messages.indexOf(replacement);
+        messages.removeAt(index);
+        messages.insertAll(index, newMessages);
+      });
   }
 
   @override
   void initState() {
+    chatbotListManager = ChatbotListManager(updateList);
     super.initState();
-    Future.delayed(Duration.zero, initialize);
   }
 
   @override
@@ -44,11 +46,11 @@ class _ChatBotState extends State<ChatBot> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Flexible(
-          child: AnimatedList(
-            key: widget.listKey,
+          child: ListView.builder(
             reverse: true,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            itemBuilder: (context, index, animation) {
+            itemCount: messages.length,
+            itemBuilder: (context, index) {
               int i = messages.length - index - 1;
               return CustomChatBubble(messages[i]);
             },
