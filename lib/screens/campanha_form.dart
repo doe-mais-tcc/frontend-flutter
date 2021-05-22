@@ -6,6 +6,7 @@ import 'package:doe_mais/screens/form_pages/campanha_step1.dart';
 import 'package:doe_mais/services/campanha_dao.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/utils/custom_dialog.dart';
+import 'package:doe_mais/utils/score_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:doe_mais/utils/navigation.dart' show Pages;
 
@@ -29,6 +30,7 @@ class CampanhaForm extends StatelessWidget {
   void _createCampanha(BuildContext context, Campanha campanha) {
     CampanhaDao.postCampanha(campanha).then(
       (response) {
+        ScoreManager.addScore(10);
         _dialog(context, 'Parabéns, você criou uma campanha de doação!');
       },
     ).onError(

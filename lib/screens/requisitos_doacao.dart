@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:doe_mais/components/cards/info_card.dart';
 import 'package:doe_mais/components/general/app_frame.dart';
+import 'package:doe_mais/utils/score_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,6 +18,7 @@ class RequisitosDoacao extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScoreManager.addScore(1);
     return AppFrame(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 800),

@@ -6,6 +6,7 @@ import 'package:doe_mais/services/doacao_dao.dart';
 import 'package:doe_mais/utils/confirm_dialog.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/utils/donation_dialog.dart';
+import 'package:doe_mais/utils/score_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -41,6 +42,7 @@ class DoacaoCard extends StatelessWidget {
           onPressed: () => donationDialog(context).then(
             (donation) {
               if (donation != null) {
+                ScoreManager.addScore(3);
                 messageBottomSheet(
                     context: context,
                     message: 'Lembrete de doação de sangue marcado!');

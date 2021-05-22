@@ -1,12 +1,9 @@
 import 'package:doe_mais/components/general/bullet_point_text.dart';
-import 'package:doe_mais/models/user.dart';
+import 'package:doe_mais/utils/score_manager.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' show pi;
 
 class ScoreCard extends StatelessWidget {
-  final User user;
-  ScoreCard(this.user);
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -36,7 +33,7 @@ class ScoreCard extends StatelessWidget {
                             backgroundColor: Colors.grey[400],
                             valueColor: AlwaysStoppedAnimation<Color>(
                                 theme.primaryColor),
-                            value: user.pontuacao % 10 / 10,
+                            value: ScoreManager.percentage,
                             strokeWidth: 6,
                           ),
                         ),
@@ -55,7 +52,7 @@ class ScoreCard extends StatelessWidget {
                           style: theme.textTheme.headline1,
                         ),
                         TextSpan(
-                          text: '${user.pontuacao % 10}\n\n',
+                          text: '${ScoreManager.level}\n\n',
                           style: TextStyle(
                               color: theme.colorScheme.primary,
                               fontWeight: FontWeight.bold,
@@ -66,7 +63,7 @@ class ScoreCard extends StatelessWidget {
                           style: theme.textTheme.headline2,
                         ),
                         TextSpan(
-                          text: '${user.pontuacao % 10} / 10\n\n',
+                          text: '${ScoreManager.points} / 10\n\n',
                           style: theme.textTheme.headline2
                               .copyWith(color: theme.primaryColor),
                         ),
@@ -79,11 +76,20 @@ class ScoreCard extends StatelessWidget {
             Text('Faça missões para ajudar pessoas e ganhar pontos!\n',
                 style: theme.textTheme.headline3),
             SizedBox(height: 20),
-            BulletPointText('Compartilhe uma campanha no Facebook'),
-            BulletPointText(
-                'Crie uma campanha para alguem que necessita de sangue'),
-            BulletPointText('Crie um lembrete para uma doação de sangue'),
-            BulletPointText('Compartilhe uma campanha no Whatsapp'),
+            FutureBuilder<List<String>>(
+              future: ScoreManager.getMisisons(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return SizedBox();
+
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: List.generate(
+                    4,
+                    (i) => BulletPointText(snapshot.data[i]),
+                  ).toList(),
+                );
+              },
+            ),
           ],
         ),
       ),

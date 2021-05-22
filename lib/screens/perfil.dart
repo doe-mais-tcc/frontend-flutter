@@ -56,7 +56,7 @@ class _PerfilState extends State<Perfil> {
             Container(
               constraints: BoxConstraints(maxWidth: 1000),
               padding: const EdgeInsets.symmetric(vertical: 20),
-              child: ScoreCard(SessionManager.currentUser),
+              child: ScoreCard(),
             ),
             responsiveRowMin(
               mainAxisAlignment: MainAxisResponsiveRowAlignment.center,

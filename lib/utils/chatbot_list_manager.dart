@@ -17,6 +17,13 @@ class ChatbotListManager {
     _queryMessage(text, loadingMessage);
   }
 
+  void welcomeMessage() async {
+    var loadingMessage = Message(isSender: false);
+
+    updateList([loadingMessage]);
+    _queryMessage('oi', loadingMessage);
+  }
+
   void _queryMessage(String text, Message loadingMessage) async {
     var response = await chatbotService.queryInput(text).onError(
       (error, stackTrace) {

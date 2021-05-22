@@ -1,4 +1,5 @@
 import 'package:doe_mais/models/campanha.dart';
+import 'package:doe_mais/utils/score_manager.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart' as mobile;
@@ -12,14 +13,19 @@ class Sharer {
   static void share(SocialMedia socialMedia, Campanha campanha) {
     switch (socialMedia) {
       case SocialMedia.Facebook:
-        return shareOnFacebook(campanha);
+        shareOnFacebook(campanha);
+        break;
       case SocialMedia.Twitter:
-        return shareOnTwitter(campanha);
+        shareOnTwitter(campanha);
+        break;
       case SocialMedia.Whatsapp:
-        return shareOnWhatsapp(campanha);
+        shareOnWhatsapp(campanha);
+        break;
       case SocialMedia.Other:
-        return shareOther(campanha);
+        shareOther(campanha);
+        break;
     }
+    ScoreManager.addScore(3);
   }
 
   static void shareOnFacebook(Campanha campanha) async {

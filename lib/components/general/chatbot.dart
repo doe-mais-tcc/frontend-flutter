@@ -1,6 +1,7 @@
 import 'package:doe_mais/components/general/custom_chat_bubble.dart';
 import 'package:doe_mais/models/message.dart';
 import 'package:doe_mais/utils/chatbot_list_manager.dart';
+import 'package:doe_mais/utils/score_manager.dart';
 import 'package:flutter/material.dart';
 
 class ChatBot extends StatefulWidget {
@@ -13,9 +14,14 @@ class _ChatBotState extends State<ChatBot> {
   final textFieldFocus = FocusNode();
   final List<Message> messages = [];
   ChatbotListManager chatbotListManager;
+  bool started = false;
 
   void sendMessage(String text) {
     if (text.isEmpty) return;
+    if (!started) {
+      ScoreManager.addScore(2);
+      started = true;
+    }
 
     textController.clear();
     textFieldFocus.requestFocus();
@@ -37,6 +43,10 @@ class _ChatBotState extends State<ChatBot> {
   @override
   void initState() {
     chatbotListManager = ChatbotListManager(updateList);
+    Future.delayed(Duration.zero).then(
+      (value) => chatbotListManager.welcomeMessage(),
+    );
+
     super.initState();
   }
 
