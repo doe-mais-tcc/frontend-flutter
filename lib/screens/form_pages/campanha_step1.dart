@@ -10,9 +10,8 @@ import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 
 class CampanhaStep1 extends StatefulWidget {
-  final Campanha editCampanha;
-  final Function(Campanha) onValidate;
-  CampanhaStep1({this.editCampanha, this.onValidate});
+  final Function(Campanha) onValid;
+  CampanhaStep1({this.onValid});
 
   @override
   _CampanhaStep1State createState() => _CampanhaStep1State();
@@ -24,22 +23,23 @@ class _CampanhaStep1State extends State<CampanhaStep1> {
   final tipoSanguineoController = TextEditingController();
   final descricaoController = TextEditingController();
   List<Hemocentro> hemocentroList = [];
-  Hemocentro hemocentro;
+  int hemocentroIndex;
   bool compartilhavel = false;
   bool consentimento = false;
 
   void _validateForm() {
     if (!formKey.currentState.validate()) return;
 
-    var campanha = widget.editCampanha ?? Campanha()
-      ..nomeInternado = nomeController.text
-      ..tipoSanguineo = tipoSanguineoController.text
-      ..descricao = descricaoController.text
-      ..compartilhavel = compartilhavel
-      ..user = SessionManager.currentUser
-      ..hemocentro = hemocentro;
+    var campanha = Campanha(
+      compartilhavel: compartilhavel,
+      descricao: descricaoController.text,
+      hemocentro: hemocentroList[hemocentroIndex],
+      nomeInternado: nomeController.text,
+      tipoSanguineo: tipoSanguineoController.text,
+      user: SessionManager.currentUser,
+    );
 
-    widget.onValidate(campanha);
+    widget.onValid(campanha);
   }
 
   String _validateField(dynamic data) {
@@ -51,25 +51,17 @@ class _CampanhaStep1State extends State<CampanhaStep1> {
       ['Qualquer tipo', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
           .map((e) => DropdownMenuItem(
                 child: Text('$e'),
-                value: '$e',
+                value: e,
               ))
           .toList();
 
   @override
   void initState() {
-    super.initState();
     HemocentroDao.getHemocentros().then(
       (value) => setState(() => hemocentroList = value),
     );
 
-    if (widget.editCampanha != null)
-      setState(() {
-        nomeController.text = widget.editCampanha.nomeInternado;
-        descricaoController.text = widget.editCampanha.descricao;
-        tipoSanguineoController.text = widget.editCampanha.tipoSanguineo;
-        compartilhavel = widget.editCampanha.compartilhavel;
-        hemocentro = widget.editCampanha.hemocentro;
-      });
+    super.initState();
   }
 
   @override
@@ -93,7 +85,11 @@ class _CampanhaStep1State extends State<CampanhaStep1> {
                 items: _bloodDropdownItems(),
                 decoration: InputDecoration(
                     labelText: 'Selecione o sangue preferencial*'),
-                onChanged: (value) => tipoSanguineoController.text = value,
+                onChanged: (dynamic value) =>
+                    tipoSanguineoController.text = value,
+                value: tipoSanguineoController.text.isEmpty
+                    ? null
+                    : tipoSanguineoController.text,
                 validator: _validateField,
               ),
               hemocentroList.isEmpty
@@ -103,17 +99,18 @@ class _CampanhaStep1State extends State<CampanhaStep1> {
                       ],
                       validator: _validateField,
                     )
-                  : DropdownButtonFormField<Hemocentro>(
+                  : DropdownButtonFormField<int>(
                       items: List.generate(
                           hemocentroList.length,
                           (index) => DropdownMenuItem(
                                 child: Text(hemocentroList[index].nome),
-                                value: hemocentroList[index],
+                                value: index,
                               )),
                       decoration: InputDecoration(
                           labelText: 'Selecione o local de internação*'),
-                      onChanged: (value) => hemocentro = value,
+                      onChanged: (value) => hemocentroIndex = value,
                       validator: _validateField,
+                      value: hemocentroIndex,
                     ),
               Scrollbar(
                 isAlwaysShown: true,

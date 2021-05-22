@@ -36,7 +36,7 @@ class _CampanhasState extends State<Campanhas> {
                   .toList();
           }),
         )
-        .onError((error, stackTrace) => null);
+        .onError((dynamic error, stackTrace) => null);
   }
 
   @override
@@ -53,6 +53,7 @@ class _CampanhasState extends State<Campanhas> {
           SessionManager.isLogged
               ? Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,6 +89,7 @@ class _CampanhasState extends State<Campanhas> {
                                     const EdgeInsets.symmetric(horizontal: 10),
                                 child: CampanhaCard(
                                   campanhasUser[index],
+                                  editable: true,
                                 ),
                               ),
                             ),

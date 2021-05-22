@@ -7,7 +7,6 @@ import 'package:doe_mais/utils/navigation.dart';
 import 'package:doe_mais/utils/sharer.dart';
 import 'package:flutter/material.dart';
 import 'package:responsively/responsively.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:doe_mais/utils/navigation.dart' show Pages;
 
 class CampanhaInfo extends StatelessWidget {
@@ -64,9 +63,6 @@ class CampanhaInfo extends StatelessWidget {
   }
 
   Widget card1(Campanha campanha, ThemeData theme) {
-    final shareBtnQty =
-        kIsWeb ? SocialMedia.values.length - 1 : SocialMedia.values.length;
-
     return Column(
       children: [
         Padding(
@@ -135,7 +131,7 @@ class CampanhaInfo extends StatelessWidget {
                               alignment: WrapAlignment.center,
                               spacing: 20,
                               children: List.generate(
-                                  shareBtnQty,
+                                  SocialMedia.values.length,
                                   (i) => ShareButton(
                                         socialMedia: SocialMedia.values[i],
                                         campanha: campanha,

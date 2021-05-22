@@ -58,7 +58,7 @@ class UserForm extends StatelessWidget {
                         if (editUser == null)
                           UserDao.postUser(user).then(
                             (response) {
-                              SessionManager.saveSession(user);
+                              SessionManager.createSession(user, false);
                               Navigator.of(context).pushNamed('/inicio');
                             },
                           ).onError((error, stackTrace) {

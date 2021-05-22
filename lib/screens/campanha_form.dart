@@ -10,26 +10,30 @@ import 'package:flutter/material.dart';
 import 'package:doe_mais/utils/navigation.dart' show Pages;
 
 class CampanhaForm extends StatelessWidget {
-  void _onValidForm(BuildContext context, Campanha campanha) {
+  void _dialog(BuildContext context, String text) {
+    customDialog(
+      context: context,
+      title: '$text',
+      message: 'Você também pode compartilhar essa campanha nas redes sociais',
+      secondaryButton: CustomOutlinedButton(
+        label: 'Ir para campanhas',
+        onPressed: () => Navigator.of(context).pushNamed('/campanhas'),
+      ),
+      primaryButton: CustomElevatedButton(
+        label: 'Compartilhar',
+        onPressed: () {},
+      ),
+    );
+  }
+
+  void _createCampanha(BuildContext context, Campanha campanha) {
     CampanhaDao.postCampanha(campanha).then(
       (response) {
-        customDialog(
-          context: context,
-          title: 'Parabéns! Você cirou uma campanha de doação!',
-          message: 'Você também pode compartilhar essa campanha no facebook =D',
-          secondaryButton: CustomOutlinedButton(
-            label: 'Ir para campanhas',
-            onPressed: () => Navigator.of(context).pushNamed('/campanhas'),
-          ),
-          primaryButton: CustomElevatedButton(
-            label: 'Compartilhar',
-            onPressed: () {},
-          ),
-        );
+        _dialog(context, 'Parabéns, você criou uma campanha de doação!');
       },
     ).onError(
-      (error, stackTrace) {
-        return alertBottomSheet(
+      (dynamic error, stackTrace) {
+        alertBottomSheet(
           context: context,
           message: 'Não foi possível criar a campanha',
         );
@@ -47,7 +51,7 @@ class CampanhaForm extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: CampanhaStep1(
-              onValidate: (campanha) => _onValidForm(context, campanha),
+              onValid: (campanha) => _createCampanha(context, campanha),
             ),
           ),
         ),
