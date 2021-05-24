@@ -34,7 +34,7 @@ class ConfirmationCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: info != null
                   ? Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
                       decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.circular(20),

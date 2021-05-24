@@ -1,9 +1,11 @@
 import 'package:doe_mais/components/buttons/custom_back_button.dart';
 import 'package:doe_mais/components/utils/form_step.dart';
 import 'package:doe_mais/components/utils/form_stepper.dart';
+import 'package:doe_mais/models/doacao.dart';
 import 'package:doe_mais/models/user.dart';
 import 'package:doe_mais/screens/form_pages/user_form_step1.dart';
 import 'package:doe_mais/screens/form_pages/user_form_step2.dart';
+import 'package:doe_mais/services/doacao_dao.dart';
 import 'package:doe_mais/services/user_dao.dart';
 import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/utils/session_manager.dart';
@@ -12,6 +14,20 @@ import 'package:flutter/material.dart';
 class UserForm extends StatelessWidget {
   final User editUser;
   UserForm(this.editUser);
+
+  Future<void> _createUser(BuildContext context, User user) async {
+    var responseUser = await UserDao.postUser(user);
+    var doacao = Doacao(user: responseUser);
+    await DoacaoDao.postDoacao(doacao);
+
+    SessionManager.createSession(user, false);
+    Navigator.of(context).pushNamed('/inicio');
+  }
+
+  Future<void> _editUser(BuildContext context, User user) async {
+    await UserDao.updateUser(user);
+    Navigator.of(context).pushNamed('/inicio');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,30 +72,20 @@ class UserForm extends StatelessWidget {
                         var user = User.fromJson(data);
 
                         if (editUser == null)
-                          UserDao.postUser(user).then(
-                            (response) {
-                              SessionManager.createSession(response, false);
-                              Navigator.of(context).pushNamed('/inicio');
-                            },
-                          ).onError((error, stackTrace) {
+                          _createUser(context, user)
+                              .onError((error, stackTrace) {
                             alertBottomSheet(
                               context: context,
                               message: 'Não foi possível concluir o cadastro',
                             );
                           });
-                        else {
-                          editUser.inject(user);
-                          UserDao.updateUser(editUser).then(
-                            (response) {
-                              Navigator.of(context).pushNamed('/perfil');
-                            },
-                          ).onError((error, stackTrace) {
+                        else
+                          _editUser(context, user).onError((error, stackTrace) {
                             alertBottomSheet(
                               context: context,
-                              message: 'Não foi possível editar o perfil',
+                              message: 'Não foi possível concluir o cadastro',
                             );
                           });
-                        }
                       },
                     ),
                   ],
