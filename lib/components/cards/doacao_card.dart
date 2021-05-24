@@ -15,12 +15,6 @@ class DoacaoCard extends StatelessWidget {
   final Function(Doacao) onModify;
   DoacaoCard({@required this.doacao, @required this.onModify});
 
-  String _contentString() {
-    Duration diff = doacao.proximaDoacao.difference(DateTime.now());
-    if (diff.isNegative) return '0 dias';
-    return '${diff.inDays} dias';
-  }
-
   Future<bool> _confirmDialog(BuildContext context) async {
     return await confirmDialog(
       context: context,
@@ -32,6 +26,7 @@ class DoacaoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final diff = doacao?.proximaDoacao?.difference(DateTime.now())?.inDays;
     if (doacao == null)
       return ConfirmationCard(
         title: 'Lembrete de doação',
@@ -39,17 +34,16 @@ class DoacaoCard extends StatelessWidget {
         icon: Image.asset('assets/images/icon_calendar.png'),
         confirmWidget: CustomElevatedButton(
           label: 'Marcar um lembrete',
-          onPressed: () => donationDialog(context).then(
-            (donation) {
-              if (donation != null) {
-                ScoreManager.addScore(3);
-                messageBottomSheet(
-                    context: context,
-                    message: 'Lembrete de doação de sangue marcado!');
-                onModify(donation);
-              }
-            },
-          ),
+          onPressed: () async {
+            var donation = await donationDialog(context);
+            if (donation == null) return;
+
+            ScoreManager.addScore(3);
+            onModify(donation);
+            messageBottomSheet(
+                context: context,
+                message: 'Lembrete de doação de sangue marcado!');
+          },
         ),
       );
     else
@@ -57,7 +51,8 @@ class DoacaoCard extends StatelessWidget {
         title: 'Lembrete de doação',
         description:
             'Seu lembrete de doação está marcado para\n${DateFormat("dd/MM/yyyy 'as' hh:mm").format(doacao.proximaDoacao)}',
-        info: _contentString(),
+        info: diff.isNegative ? 'Concluido' : '$diff dias',
+        fontSize: diff.isNegative ? 20 : 30,
         confirmWidget: Row(
           children: [
             Flexible(
@@ -65,13 +60,12 @@ class DoacaoCard extends StatelessWidget {
                 label: 'Apagar',
                 onPressed: () async {
                   bool result = await _confirmDialog(context);
+                  if (!result) return;
 
-                  if (result) {
-                    await DoacaoDao.deleteDoacao(doacao);
-                    messageBottomSheet(
-                        context: context, message: 'Seu lembrete foi apagado');
-                    onModify(null);
-                  }
+                  await DoacaoDao.deleteDoacao(doacao);
+                  onModify(null);
+                  messageBottomSheet(
+                      context: context, message: 'Seu lembrete foi apagado');
                 },
               ),
             ),
@@ -79,16 +73,15 @@ class DoacaoCard extends StatelessWidget {
             Flexible(
               child: CustomElevatedButton(
                 label: 'Editar',
-                onPressed: () => donationDialog(context, doacao).then(
-                  (donation) {
-                    if (donation != null) {
-                      messageBottomSheet(
-                          context: context,
-                          message: 'Lembrete de doação de sangue editado!');
-                      onModify(donation);
-                    }
-                  },
-                ),
+                onPressed: () async {
+                  var donation = await donationDialog(context, doacao);
+                  if (donation == null) return;
+                  await DoacaoDao.updateDoacao(donation);
+                  onModify(donation);
+                  messageBottomSheet(
+                      context: context,
+                      message: 'Lembrete de doação de sangue editado!');
+                },
               ),
             ),
           ],

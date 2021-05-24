@@ -113,7 +113,6 @@ class _CampanhaStep1State extends State<CampanhaStep1> {
                       value: hemocentroIndex,
                     ),
               Scrollbar(
-                isAlwaysShown: true,
                 child: TextFormField(
                   controller: descricaoController,
                   keyboardType: TextInputType.multiline,

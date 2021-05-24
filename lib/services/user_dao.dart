@@ -18,7 +18,9 @@ class UserDao {
       'v1/api/usuario/criar',
       body: jsonEncode(user.toJson()),
     );
-    return response;
+
+    var json = jsonDecode(utf8.decode(response.bodyBytes));
+    return User.fromJson(json);
   }
 
   static Future<User> checkUser(User user) async {

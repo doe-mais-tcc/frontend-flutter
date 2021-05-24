@@ -81,12 +81,16 @@ class ScoreCard extends StatelessWidget {
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return SizedBox();
 
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: List.generate(
-                    4,
-                    (i) => BulletPointText(snapshot.data[i]),
-                  ).toList(),
+                return ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 900),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(
+                      4,
+                      (i) => BulletPointText(snapshot.data[i]),
+                    ).toList(),
+                  ),
                 );
               },
             ),

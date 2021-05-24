@@ -4,6 +4,7 @@ class ConfirmationCard extends StatelessWidget {
   final String title;
   final String description;
   final Widget confirmWidget;
+  final int fontSize;
   final Widget icon;
   final String info;
   ConfirmationCard({
@@ -12,6 +13,7 @@ class ConfirmationCard extends StatelessWidget {
     @required this.confirmWidget,
     this.icon,
     this.info,
+    this.fontSize,
   });
 
   @override
@@ -44,7 +46,7 @@ class ConfirmationCard extends StatelessWidget {
                           info,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 30,
+                            fontSize: fontSize ?? 30,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),

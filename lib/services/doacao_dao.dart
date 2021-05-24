@@ -28,7 +28,8 @@ class DoacaoDao {
       '$_baseUrl/criar',
       body: jsonEncode(map),
     );
-    return response;
+    var json = jsonDecode(utf8.decode(response.bodyBytes));
+    return Doacao.fromJson(json);
   }
 
   static Future<void> deleteDoacao(Doacao doacao) async {

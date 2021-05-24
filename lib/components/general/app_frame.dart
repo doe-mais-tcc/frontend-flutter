@@ -37,7 +37,6 @@ class BroadLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Scrollbar(
-        isAlwaysShown: true,
         child: Column(
           children: [
             Material(
