@@ -40,7 +40,7 @@ Future<dynamic> customDialog({
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Row(
+                  child: Column(
                     children: [
                       Flexible(
                         flex: 1,
