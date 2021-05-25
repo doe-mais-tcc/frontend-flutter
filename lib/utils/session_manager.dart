@@ -3,14 +3,14 @@ import 'package:doe_mais/services/user_dao.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:html' show window;
+import 'package:universal_html/html.dart' show window;
 
 class SessionManager {
   static const String _keyName = 'doemais_user_id';
   static User _currentUser;
 
-  static get currentUser => _currentUser;
-  static get isLogged => currentUser != null;
+  static User get currentUser => _currentUser;
+  static bool get isLogged => currentUser != null;
 
   // Create local session
   static Future<void> createSession(User user, bool saveSession) async {
@@ -25,8 +25,9 @@ class SessionManager {
     String id;
 
     if (!kIsWeb) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      id = prefs.getInt(_keyName).toString();
+      SharedPreferences prefs = await SharedPreferences.getInstance()
+          .onError((error, stackTrace) => null);
+      id = prefs?.getInt(_keyName)?.toString();
     } else
       id = window.localStorage[_keyName];
 
