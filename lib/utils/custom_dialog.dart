@@ -40,14 +40,13 @@ Future<dynamic> customDialog({
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Wrap(
-                    spacing: 20,
-                    runSpacing: 20,
+                  child: Row(
                     children: [
                       Flexible(
                         flex: 1,
                         child: secondaryButton,
                       ),
+                      SizedBox(height: 20),
                       Flexible(
                         flex: 1,
                         child: primaryButton,

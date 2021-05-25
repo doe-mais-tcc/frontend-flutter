@@ -8,10 +8,10 @@ import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/utils/custom_dialog.dart';
 import 'package:doe_mais/utils/score_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:doe_mais/utils/navigation.dart' show Pages;
+import 'package:doe_mais/utils/navigation.dart' show Navigation, Pages;
 
 class CampanhaForm extends StatelessWidget {
-  void _dialog(BuildContext context, String text) {
+  void _dialog(BuildContext context, String text, Campanha campanha) {
     customDialog(
       context: context,
       title: '$text',
@@ -22,7 +22,8 @@ class CampanhaForm extends StatelessWidget {
       ),
       primaryButton: CustomElevatedButton(
         label: 'Compartilhar',
-        onPressed: () {},
+        onPressed: () => Navigator.of(context)
+            .pushNamed(Navigation.getCampanhaRoute(campanha)),
       ),
     );
   }
@@ -31,7 +32,11 @@ class CampanhaForm extends StatelessWidget {
     CampanhaDao.postCampanha(campanha).then(
       (response) {
         ScoreManager.addScore(10);
-        _dialog(context, 'Parabéns, você criou uma campanha de doação!');
+        _dialog(
+          context,
+          'Parabéns, você criou uma campanha de doação!',
+          response,
+        );
       },
     ).onError(
       (dynamic error, stackTrace) {

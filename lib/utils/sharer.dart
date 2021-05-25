@@ -1,5 +1,7 @@
 import 'package:doe_mais/models/campanha.dart';
+import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/utils/score_manager.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart' as mobile;
@@ -10,7 +12,8 @@ enum SocialMedia { Facebook, Twitter, Whatsapp, Other }
 class Sharer {
   static const String authority = 'doemais-924bf.web.app';
 
-  static void share(SocialMedia socialMedia, Campanha campanha) {
+  static void share(SocialMedia socialMedia, Campanha campanha,
+      [BuildContext context]) {
     switch (socialMedia) {
       case SocialMedia.Facebook:
         shareOnFacebook(campanha);
@@ -22,7 +25,7 @@ class Sharer {
         shareOnWhatsapp(campanha);
         break;
       case SocialMedia.Other:
-        shareOther(campanha);
+        shareOther(campanha, context);
         break;
     }
     ScoreManager.addScore(3);
@@ -66,19 +69,20 @@ class Sharer {
     if (await canLaunch(url)) launch(url);
   }
 
-  static void shareOther(Campanha campanha) async {
-    String text = campanha.descricao + '\n' + _getCampanhaUrl(campanha);
+  static void shareOther(Campanha campanha, BuildContext context) async {
+    String url = _getCampanhaUrl(campanha);
 
-    if (kIsWeb)
-      Clipboard.setData(ClipboardData(text: text));
-    else
-      mobile.Share.share(text);
+    if (kIsWeb) {
+      Clipboard.setData(ClipboardData(text: url));
+      messageBottomSheet(context: context, message: 'Link da campanha copiado');
+    } else
+      mobile.Share.share(campanha.descricao + '\n' + url);
   }
 
   static String _getCampanhaUrl(Campanha campanha) {
     var uri = Uri.https(
       authority,
-      'campanhas/campanha',
+      '#/campanhas/campanha',
       {'id': Campanha.uriEncode(campanha)},
     );
     return uri.toString();

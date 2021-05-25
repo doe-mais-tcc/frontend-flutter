@@ -48,7 +48,7 @@ class ShareButton extends StatelessWidget {
         );
       }(),
       padding: const EdgeInsets.all(0),
-      onPressed: () => Sharer.share(socialMedia, campanha),
+      onPressed: () => Sharer.share(socialMedia, campanha, context),
       color: Colors.white,
     );
   }

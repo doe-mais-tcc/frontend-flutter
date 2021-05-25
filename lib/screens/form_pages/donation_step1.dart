@@ -7,6 +7,7 @@ import 'package:doe_mais/utils/custom_bottom_sheet.dart';
 import 'package:doe_mais/utils/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:doe_mais/utils/date_time_extension.dart';
+import 'package:intl/intl.dart';
 
 class DonationStep1 extends StatefulWidget {
   final Doacao editDoacao;
@@ -23,6 +24,7 @@ class _DonationStep1State extends State<DonationStep1> {
   TimeOfDay doacaoTime;
   List<Hemocentro> hemocentroList = [];
   Hemocentro doacaoHemocentro;
+  DateTime lastDonationDate;
 
   String _validateField(dynamic data) {
     if (data == null || data.toString().isEmpty) return 'Obrigatório';
@@ -58,6 +60,7 @@ class _DonationStep1State extends State<DonationStep1> {
   // Calendar Widget
   Widget _calendarStep(ThemeData theme) {
     var now = DateTime.now();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -65,6 +68,16 @@ class _DonationStep1State extends State<DonationStep1> {
           'Selecione o dia',
           style: theme.textTheme.headline2,
         ),
+        if (lastDonationDate != null)
+          Text(
+            'Você estará apto para doar novamente em'
+            ' ${DateFormat('dd/MM/yyyy').format(lastDonationDate)}',
+            textAlign: TextAlign.center,
+            style: Theme.of(context)
+                .textTheme
+                .bodyText2
+                .copyWith(color: Colors.red),
+          ),
         CalendarDatePicker(
           initialDate: doacaoDate.isBefore(now) ? now : doacaoDate,
           firstDate: now,
@@ -141,6 +154,20 @@ class _DonationStep1State extends State<DonationStep1> {
     );
   }
 
+  void _checkLastDonation() async {
+    var user = SessionManager.currentUser;
+    if (user == null) return;
+
+    var lastDonation = await DoacaoDao.getDoacaoUser(user);
+    if (lastDonation.ultimaDoacao == null) return;
+
+    setState(() {
+      lastDonationDate = lastDonation.ultimaDoacao.add(
+        Duration(days: user.sexo == 'M' ? 60 : 90),
+      );
+    });
+  }
+
   @override
   void initState() {
     // Get editDoacao data
@@ -151,6 +178,9 @@ class _DonationStep1State extends State<DonationStep1> {
         doacaoTime = _date.extractTimeOfDay();
         doacaoHemocentro = widget.editDoacao.hemocentro;
       });
+
+    // Check last donation
+    _checkLastDonation();
 
     // Get hemocentro list
     HemocentroDao.getHemocentros()

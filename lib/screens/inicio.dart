@@ -71,7 +71,7 @@ class _InicioState extends State<Inicio> {
           ),
           DotsIndicator(
             dotsCount: messages.length == 0 ? 1 : messages.length,
-            position: carouselIndex ?? 0 as double,
+            position: (carouselIndex ?? 0).toDouble(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
