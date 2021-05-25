@@ -1,6 +1,7 @@
 import 'package:doe_mais/components/buttons/custom_button_bar.dart';
 import 'package:doe_mais/components/buttons/custom_elevated_button.dart';
 import 'package:doe_mais/components/buttons/custom_outlined_button.dart';
+import 'package:doe_mais/components/cards/checkbox_dialog.dart';
 import 'package:doe_mais/components/general/checkbox_form_field.dart';
 import 'package:doe_mais/components/utils/form_frame.dart';
 import 'package:doe_mais/models/campanha.dart';
@@ -47,13 +48,15 @@ class _CampanhaStep1State extends State<CampanhaStep1> {
     return null;
   }
 
-  List<DropdownMenuItem<String>> _bloodDropdownItems() =>
-      ['Qualquer tipo', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
-          .map((e) => DropdownMenuItem(
-                child: Text('$e'),
-                value: e,
-              ))
-          .toList();
+  void _showBloodOptions(BuildContext context) async {
+    var text = await showDialog(
+      context: context,
+      builder: (context) => BloodDialog(),
+    );
+    if (text == null) return;
+
+    setState(() => tipoSanguineoController.text = text);
+  }
 
   @override
   void initState() {
@@ -81,15 +84,12 @@ class _CampanhaStep1State extends State<CampanhaStep1> {
                     InputDecoration(hintText: 'Insira o nome do internado*'),
                 validator: _validateField,
               ),
-              DropdownButtonFormField(
-                items: _bloodDropdownItems(),
+              TextFormField(
+                controller: tipoSanguineoController,
+                readOnly: true,
                 decoration: InputDecoration(
-                    labelText: 'Selecione o sangue preferencial*'),
-                onChanged: (dynamic value) =>
-                    tipoSanguineoController.text = value,
-                value: tipoSanguineoController.text.isEmpty
-                    ? null
-                    : tipoSanguineoController.text,
+                    hintText: 'Selecione o sangue preferencial*'),
+                onTap: () => _showBloodOptions(context),
                 validator: _validateField,
               ),
               hemocentroList.isEmpty
