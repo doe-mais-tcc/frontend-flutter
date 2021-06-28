@@ -12,7 +12,8 @@ class ScoreCard extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            Row(
+            Wrap(
+              runAlignment: WrapAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -27,8 +28,8 @@ class ScoreCard extends StatelessWidget {
                         transform: Matrix4.rotationY(pi),
                         alignment: Alignment.center,
                         child: SizedBox(
-                          height: 90,
-                          width: 90,
+                          height: 80,
+                          width: 80,
                           child: CircularProgressIndicator(
                             backgroundColor: Colors.grey[400],
                             valueColor: AlwaysStoppedAnimation<Color>(
@@ -41,7 +42,8 @@ class ScoreCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(
+                ConstrainedBox(
+                  constraints: BoxConstraints(minWidth: 300),
                   child: RichText(
                     softWrap: true,
                     textAlign: TextAlign.center,

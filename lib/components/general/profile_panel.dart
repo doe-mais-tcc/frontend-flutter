@@ -16,46 +16,51 @@ class _ProfilePanelState extends State<ProfilePanel> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
+    return Wrap(
+      alignment: WrapAlignment.spaceBetween,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(360),
-          child: Container(
-            height: 100,
-            width: 100,
-            color: Colors.grey[350],
-            padding: const EdgeInsets.only(top: 20),
-            child: Image.asset(
-              'assets/images/avatar_${widget.user.sexo}.png',
-            ),
-          ),
-        ),
-        SizedBox(width: 10),
-        Column(
+        Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RichText(
-              text: TextSpan(
-                text: widget.user.nome,
-                style: theme.textTheme.headline2
-                    .copyWith(color: theme.primaryColor),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(360),
+              child: Container(
+                height: 100,
+                width: 100,
+                color: Colors.grey[350],
+                padding: const EdgeInsets.only(top: 20),
+                child: Image.asset(
+                  'assets/images/avatar_${widget.user.sexo}.png',
+                ),
               ),
-              softWrap: true,
-              maxLines: 2,
-              overflow: TextOverflow.fade,
             ),
-            SelectableText(
-              widget.user.cidade,
-              style: theme.textTheme.headline4,
-            ),
-            SelectableText(
-              'Sangue ' + widget.user.sangue,
-              style: theme.textTheme.headline4,
+            SizedBox(width: 10),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: widget.user.nome,
+                    style: theme.textTheme.headline2
+                        .copyWith(color: theme.primaryColor),
+                  ),
+                  softWrap: true,
+                  maxLines: 2,
+                  overflow: TextOverflow.fade,
+                ),
+                SelectableText(
+                  widget.user.cidade,
+                  style: theme.textTheme.headline4,
+                ),
+                SelectableText(
+                  'Sangue ' + widget.user.sangue,
+                  style: theme.textTheme.headline4,
+                ),
+              ],
             ),
           ],
         ),
-        Spacer(),
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -62,7 +62,7 @@ class _PerfilState extends State<Perfil> {
               mainAxisAlignment: MainAxisResponsiveRowAlignment.center,
               crossAxisAlignment: CrossAxisResponsiveRowAlignment.stretch,
               mainAxisSpacing: 20,
-              height: 370,
+              height: 400,
               columnWidth: ColumnWidth(
                 lgUp: 5,
                 md: 6,

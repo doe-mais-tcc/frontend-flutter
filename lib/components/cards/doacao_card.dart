@@ -95,16 +95,18 @@ class DoacaoCard extends StatelessWidget {
             'Você realizou sua doação em \n${DateFormat("dd/MM/yyyy 'as' hh:mm").format(doacao.proximaDoacao)}?',
         info: 'Concluido',
         fontSize: 18,
-        confirmWidget: Row(
+        confirmWidget: Wrap(
           children: [
-            Flexible(
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 150),
               child: CustomOutlinedButton(
                 label: 'Remarcar',
                 onPressed: () => _editDoacao(context),
               ),
             ),
             SizedBox(width: 10),
-            Flexible(
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 150),
               child: CustomElevatedButton(
                 label: 'Confirmar',
                 onPressed: () => _confirmDoacao(context),
