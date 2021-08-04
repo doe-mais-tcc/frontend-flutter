@@ -1,12 +1,18 @@
+Projeto desenvolvido como entrega de trabalho de conclusão de curso da Universidade Santa Cecília em 2020. Desenvolvido utilizando o framework Flutter.
+
 # Doe+
 
-Projeto desenvolvido como entrega de trabalho de conclusão de curso da Universidade Santa Cecília.
-![Tela inicial do sistema no modo Desktop](https://user-images.githubusercontent.com/48059049/128094311-9da18b0-024c-4a58-b813-453e24946260.png)
-![Tela inicial do sistema no modo Mobile](https://user-images.githubusercontent.com/48059049/128094604-36d81c24-53f5-4d5e-bde5-4cd26babded0.png)
-![Menu lateral do sistema no modo Mobile![9](https://user-images.githubusercontent.com/48059049/128094741-dc80ceea-5fce-4f53-bf05-618c321dc7fb.png)
-![Página de criação de lembrete de doação](https://user-images.githubusercontent.com/48059049/128094763-19b48b26-3140-411f-ba09-dd90c0f8e2d2.png)
-![Página com os requisitos minimos para doação de sangue](https://user-images.githubusercontent.com/48059049/128094772-8eadfbc2-ce09-4f6e-86c7-099d79cc3ed9.png)
+![Tela inicial do Doe Mais no modo desktop](https://user-images.githubusercontent.com/48059049/128246364-5bff5495-a7b2-48a0-9128-31a913671648.png)
 
-Doe+ foi desenvolvido com a intenção de fornecer uma plataforma que auxilie pessoas no processo de doação de sangue, exclarecendo dúvidas e guiando doadores em potencial como também ajudando pessoas que necessitam de doações a encontrar mais doadores.
+Doe+ é um sistema capaz de auxiliar pessoas no processo de doação de sangue. O projeto se originou apartir de uma deficiência no mercado de sistemas que proporcionassem esse auxilio na doação de uma forma mais prática. Dessa forma, deu-se início ao projeto com o intuito de focar em exclarecer dúvidas e guiar doadores em potencial e também ajudar pessoas que necessitam de doações a encontrar mais doadores.
 
-Este projeto trata-se do desenvolvimento front-end do sistema, utilizando o framework flutter.
+O sistema apresenta funções como criar lembretes de doações, criar campanhas de doação para o usuário ou uma pessoa internada, compartilhamento de campnhas e um chatbot customizado capaz de responder dúvidas sobre o processo de doação ou sobre o próprio sistema.
+
+![Tela inicial do sistema no modo mobile](https://user-images.githubusercontent.com/48059049/128246367-4741d0e3-5c09-41b2-a11c-6c462e1782fd.png)
+![Menu lateral do sistema no modo mobile](https://user-images.githubusercontent.com/48059049/128246368-e99cd5e8-41f0-40bc-a63e-27cf1dcb641f.png)
+![Tela de agendamento de lembretes](https://user-images.githubusercontent.com/48059049/128246370-2bbf2262-53b0-43a1-a8e9-92ed8d880ced.png)
+![Tela de requisitos mínimos para a doação de sangue](https://user-images.githubusercontent.com/48059049/128246372-08fac529-f2e6-42e3-9e55-734d8b345785.png)
+
+
+
+
